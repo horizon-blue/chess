@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="junit:junit:5.0-SNAPSHOT" type="repository">
+    <properties include-transitive-deps="false" maven-id="junit:junit:5.0-SNAPSHOT" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/junit/junit/5.0-SNAPSHOT/junit-5.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/junit/junit/5.0-SNAPSHOT/junit-5.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
