@@ -1,4 +1,4 @@
-package piece;
+package model.piece;
 
 public abstract class Piece {
     private String name;
