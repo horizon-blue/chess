@@ -6,9 +6,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     @Test
-    void playerRandomName() {
-        Player randName = new Player();
-        
+    void defaultName() {
+        Player player = new Player(Color.BLACK);
+        assertNotNull(player.getName());
+    }
+
+    @Test
+    void specifiedName() {
+        Player player = new Player("foo", Color.BLACK);
+        assertEquals("foo", player.getName());
     }
 
 }
