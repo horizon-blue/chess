@@ -1,23 +1,27 @@
 package model;
 
 import com.github.javafaker.Faker;
+import controller.Game;
+import controller.Session;
 
 public class Player {
-    private String name;
-    private Color color;
+    public String name;
+    public int score;
+    public Session session;
 
-    public Player(Color color) {
-        this(new Faker().name().firstName(), color);
+    public Player() {
+        this(new Faker().name().firstName());
     }
 
-    public Player(String name, Color color) {
+    public Player(String name) {
         this.name = name;
-        this.color = color;
+        score = 0;
     }
 
-    public String getName() {
-        return name;
+    public boolean isWhite() {
+        return session != null && session.isWhite(this);
     }
+
 
     @Override
     public String toString() {

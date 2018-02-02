@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     @Test
     void defaultName() {
-        Player player = new Player(Color.BLACK);
-        assertNotNull(player.getName());
+        Player player = new Player();
+        assertNotNull(player.name);
     }
 
     @Test
     void specifiedName() {
-        Player player = new Player("foo", Color.BLACK);
-        assertEquals("foo", player.getName());
+        Player player = new Player("foo");
+        assertEquals("foo", player.name);
     }
 
 }

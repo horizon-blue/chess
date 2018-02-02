@@ -1,8 +1,9 @@
 package model.piece;
 
-public class Bishop extends Piece {
-    public Bishop() {
-        super("Bishop");
-    }
+import model.Player;
 
+public class Bishop extends Piece {
+    public Bishop(Player owner) {
+        super(owner, "Bishop", "♗", "♝");
+    }
 }

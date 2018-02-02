@@ -1,5 +1,9 @@
+import controller.Session;
+import model.Player;
+
 public class ChessGame {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Session chessGame = new Session(new Player(), new Player());
+        chessGame.start();
     }
 }

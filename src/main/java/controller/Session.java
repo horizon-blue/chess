@@ -1,30 +1,47 @@
 package controller;
 
-import model.Board;
 import model.Player;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 
 public class Session {
-    private final int PLAYER_COUNT = 2;
+    private Player whitePlayer;
+    private Player blackPlayer;
+    private int gameCount;
+    private Game game;
 
-    private Board board;
-    private final Player[] players;
 
-    public Session(Player... players) {
-        if (players.length == PLAYER_COUNT) {
-            this.players = players;
+    public Session(Player playerA, Player playerB) {
+        gameCount = 0;
+        playerA.session = this;
+        playerB.session = this;
+
+        // randomly select the player for white piece
+        if (Math.random() > 0.5) {
+            whitePlayer = playerA;
+            blackPlayer = playerB;
         } else {
-            throw new IllegalArgumentException("Expected " + PLAYER_COUNT
-                    + " players, got " + players.length + ".");
+            whitePlayer = playerB;
+            blackPlayer = playerA;
         }
+        game = new Game(whitePlayer, blackPlayer);
     }
 
-    public void 
+    public void start() {
+        game.initBoard();
+    }
+
+    private void swapPlayer() {
+        Player prevWhitePlayer = whitePlayer;
+        whitePlayer = blackPlayer;
+        blackPlayer = prevWhitePlayer;
+    }
+
+    public boolean isWhite(Player player) {
+        return player == whitePlayer;
+    }
 
     @Override
     public String toString() {
-        return StringUtils.join(players, ", ");
+        return whitePlayer.name + blackPlayer.name;
     }
 }
