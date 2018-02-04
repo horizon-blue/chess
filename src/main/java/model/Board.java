@@ -6,33 +6,37 @@ public class Board {
     public final int HEIGHT;
     public final int WIDTH;
 
-    private final Piece[][] board;
+    private final Space[][] board;
 
     public Board() {
         this(8, 8);
     }
 
     public Board(int maxRow, int maxCol) {
-        if (maxRow < 4 || maxCol < 8)
-            throw new IllegalArgumentException("Board size must be at least 4 x 8.");
-        this.HEIGHT = maxRow;
-        this.WIDTH = maxCol;
-        board = new Piece[this.HEIGHT][this.WIDTH];
+        HEIGHT = maxRow;
+        WIDTH = maxCol;
+        board = new Space[HEIGHT][WIDTH];
+        // initialize spaces
+        for (int row = 0; row < HEIGHT; ++row)
+            for (int col = 0; col < WIDTH; ++col)
+                board[row][col] = new Space();
+
     }
 
     public void setPiece(Piece piece, int row, int col) {
         if (isValid(row, col)) {
-            board[row][col] = piece;
             if (piece != null) {
                 piece.board = this;
                 piece.x = row;
                 piece.y = col;
             }
+            board[row][col].setPiece(piece);
         }
     }
 
     public void clearPiece(int row, int col) {
-        setPiece(null, row, col);
+        if (isValid(row, col))
+            board[row][col].clearPiece();
     }
 
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
@@ -43,7 +47,7 @@ public class Board {
 
     public Piece getPiece(int row, int col) {
         if (isValid(row, col))
-            return board[row][col];
+            return board[row][col].getPiece();
         else
             return null;
     }
@@ -53,18 +57,56 @@ public class Board {
     }
 
     public boolean isOccupied(int row, int col) {
-        return isValid(row, col) && board[row][col] != null;
+        return isValid(row, col) && board[row][col].isOccupied();
     }
 
-    public void printBoard() {
-        for (Piece[] row : board) {
-            for (Piece entry : row) {
-                if (entry != null)
-                    System.out.printf(entry + " ");
-                else
-                    System.out.printf("  ");
+    @Override
+    public String toString() {
+        StringBuilder boardString = new StringBuilder();
+        for (int row = HEIGHT; row > 0; --row) {
+            // print row number
+            boardString.append(row);
+            // print each space
+            for (Space space : board[row - 1]) {
+                boardString.append(' ');
+                boardString.append(space);
             }
-            System.out.println();
+            boardString.append('\n');
+        }
+        // print column number (using alphabet)
+        boardString.append(' ');
+        for (int col = 0; col < WIDTH; ++col) {
+            boardString.append(' ');
+            boardString.append((char) (col + 'a'));
+        }
+        return boardString.toString();
+    }
+
+    /**
+     * A inner class to store pieces
+     */
+    private class Space {
+        private Piece piece;
+
+        public Piece getPiece() {
+            return piece;
+        }
+
+        public void setPiece(Piece piece) {
+            this.piece = piece;
+        }
+
+        public boolean isOccupied() {
+            return piece != null;
+        }
+
+        public void clearPiece() {
+            piece = null;
+        }
+
+        @Override
+        public String toString() {
+            return piece == null ? " " : piece.toString();
         }
     }
 }

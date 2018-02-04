@@ -46,7 +46,7 @@ public class Game {
             board.setPiece(new Pawn(blackPlayer), board.HEIGHT - 2, col);
         }
 
-        board.printBoard(); // debug
+        System.out.println(board); // debug
     }
 
     public void nextRound() {
