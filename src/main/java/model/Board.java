@@ -34,15 +34,27 @@ public class Board {
         }
     }
 
+    public void setPiece(Piece piece, Position pos) {
+        setPiece(piece, pos.row, pos.col);
+    }
+
     public void clearPiece(int row, int col) {
         if (isValid(row, col))
             board[row][col].clearPiece();
+    }
+
+    public void clearPiece(Position pos) {
+        clearPiece(pos.row, pos.col);
     }
 
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         Piece selected = getPiece(fromRow, fromCol);
         clearPiece(fromRow, fromCol);
         setPiece(selected, toRow, toCol);
+    }
+
+    public void movePiece(Position from, Position to) {
+        movePiece(from.row, from.col, to.row, to.col);
     }
 
     public Piece getPiece(int row, int col) {
@@ -52,12 +64,20 @@ public class Board {
             return null;
     }
 
+    public Piece getPiece(Position pos) {
+        return getPiece(pos.row, pos.col);
+    }
+
     public boolean isValid(int row, int col) {
         return row >= 0 && col >= 0 && row < HEIGHT && col < WIDTH;
     }
 
     public boolean isOccupied(int row, int col) {
         return isValid(row, col) && board[row][col].isOccupied();
+    }
+
+    public boolean isOccupied(Position pos) {
+        return isOccupied(pos.row, pos.col)
     }
 
     @Override
