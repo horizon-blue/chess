@@ -3,7 +3,7 @@ package model.piece;
 import model.Player;
 import model.Position;
 
-import java.util.List;
+import java.util.Set;
 
 public class Rook extends Piece {
     public Rook(Player owner) {
@@ -11,7 +11,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    public List<Position> getAvailablePosition(boolean isWhiteRound) {
+    public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         return null;
     }
 }

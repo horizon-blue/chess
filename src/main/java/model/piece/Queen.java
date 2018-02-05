@@ -3,8 +3,8 @@ package model.piece;
 import model.Player;
 import model.Position;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Queen extends Piece {
     public Queen(Player owner) {
@@ -12,8 +12,8 @@ public class Queen extends Piece {
     }
 
     @Override
-    public List<Position> getAvailablePosition(boolean isWhiteRound) {
-        List<Position> availablePos = new ArrayList<>();
+    public Set<Position> getAvailablePosition(boolean isWhiteRound) {
+        Set<Position> availablePos = new HashSet<>();
         // no available position if piece isn't in its own round
         if (isWhiteRound != isWhite())
             return null;

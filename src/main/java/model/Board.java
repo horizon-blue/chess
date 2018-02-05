@@ -144,6 +144,8 @@ public class Board {
     }
 
     public boolean isChecked(Player owner) {
+        if (owner.king == null)
+            return false;
         Position kingPos = new Position(owner.king.x, owner.king.y);
         for (Piece piece : pieces) {
             if (piece.getAvailablePosition(!owner.isWhite()).contains(kingPos))

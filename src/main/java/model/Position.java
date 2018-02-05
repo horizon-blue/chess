@@ -1,6 +1,8 @@
 package model;
 
 public class Position implements Comparable<Position> {
+    private static final int MAX_POS = 128;
+
     public int row;
     public int col;
 
@@ -28,7 +30,12 @@ public class Position implements Comparable<Position> {
     }
 
     @Override
+    public int hashCode() {
+        return MAX_POS * row + col;
+    }
+
+    @Override
     public String toString() {
-        return "( " + row + ", " + col + ")";
+        return "(" + row + ", " + col + ")";
     }
 }

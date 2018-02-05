@@ -3,7 +3,7 @@ package model.piece;
 import model.Player;
 import model.Position;
 
-import java.util.List;
+import java.util.Set;
 
 public class Pawn extends Piece {
     public boolean hasMoved = false;
@@ -13,7 +13,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Position> getAvailablePosition(boolean isWhiteRound) {
+    public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         return null;
     }
 }
