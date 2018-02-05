@@ -198,7 +198,6 @@ class BoardTest {
         Piece queen = new Queen(player);
         // highlighting won't affect block content
         board.addPiece(queen, 3, 5);
-        System.out.println(board);
         String chessBoard = "8                \n" +
                 "7                \n" +
                 "6                \n" +

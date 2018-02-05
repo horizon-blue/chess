@@ -11,7 +11,7 @@ public class King extends Piece {
         super(owner, "King", "♔", "♚");
         owner.king = this;
     }
-
+    
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();

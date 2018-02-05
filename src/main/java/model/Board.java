@@ -7,18 +7,32 @@ import utils.printUtils;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Board - the model for chess board, which has method for
+ * piece movements, end-game status check, etc.
+ */
 public class Board {
     public final int HEIGHT;
     public final int WIDTH;
 
     private final Space[][] board;
+    // sets of all black/white pieces that have appeared on the board once
     private Set<Piece> blackPieces = new HashSet<>();
     private Set<Piece> whitePieces = new HashSet<>();
 
+    /**
+     * generate a board of default size (8 x 8)
+     */
     public Board() {
         this(8, 8);
     }
 
+    /**
+     * generate a board with given (maxRow x maxCol) size
+     *
+     * @param maxRow height of the board
+     * @param maxCol width of the board
+     */
     public Board(int maxRow, int maxCol) {
         HEIGHT = maxRow;
         WIDTH = maxCol;
@@ -30,17 +44,37 @@ public class Board {
 
     }
 
-
+    /**
+     * remove the piece from board at given (row, col) position
+     * have no effect if no piece is presented in (row, col) or
+     * (row, col) is invalid for the board
+     *
+     * @param row row position of the piece to remove
+     * @param col col position of the piece to remove
+     */
     public void clearPiece(int row, int col) {
         if (isValid(row, col)) {
             board[row][col].clearPiece();
         }
     }
 
+    /**
+     * equivalent to clearPiece(pos.row, pos.col)
+     *
+     * @param pos position of the piece to remove
+     */
     public void clearPiece(Position pos) {
         clearPiece(pos.row, pos.col);
     }
 
+    /**
+     * Move the piece from (fromRow, fromCol) to (toRow, toCol).
+     *
+     * @param fromRow original row position of the piece
+     * @param fromCol original column position of the piece
+     * @param toRow   new row position of the piece
+     * @param toCol   new column position of the piece
+     */
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         Piece selected = getPiece(fromRow, fromCol);
         clearPiece(fromRow, fromCol);
@@ -48,20 +82,48 @@ public class Board {
         setPiece(selected, toRow, toCol);
     }
 
+    /**
+     * equivalent to movePiece(from.row, from.col, to.row, to.col)
+     *
+     * @param from original position of the piece
+     * @param to   new position of the piece
+     */
     public void movePiece(Position from, Position to) {
         movePiece(from.row, from.col, to.row, to.col);
     }
 
+    /**
+     * equivalent to movePiece(piece.x, piece.y, row, col). Have no effect if piece does
+     * not belong to current board
+     *
+     * @param piece piece to move
+     * @param row   target row position
+     * @param col   target column position
+     */
     public void movePiece(Piece piece, int row, int col) {
         if (piece.board != this)
             return;
         movePiece(piece.x, piece.y, row, col);
     }
 
+    /**
+     * equivalent to movePiece(piece, pos.row, pos.col)
+     *
+     * @param piece piece to move
+     * @param pos   target position
+     */
     public void movePiece(Piece piece, Position pos) {
         movePiece(piece, pos.row, pos.col);
     }
 
+    /**
+     * get the piece (if any) at the given (row, col) position
+     *
+     * @param row row position of the piece
+     * @param col column position of the piece
+     * @return the piece at given position, if any; null otherwise. Also return null
+     * if the position is invalid
+     */
     public Piece getPiece(int row, int col) {
         if (isValid(row, col))
             return board[row][col].getPiece();
@@ -69,22 +131,57 @@ public class Board {
             return null;
     }
 
+    /**
+     * equivalent to getPiece(pos.row, pos.col)
+     *
+     * @param pos position of the piece
+     * @return the piece at given position, if any; null otherwise. Also return null
+     * if the position is invalid
+     */
     public Piece getPiece(Position pos) {
         return getPiece(pos.row, pos.col);
     }
 
+    /**
+     * check if given (row, col) is valid on the board (within board boundary)
+     *
+     * @param row row position to check
+     * @param col column position to check
+     * @return true if (row, col) is valid, false otherwise
+     */
     public boolean isValid(int row, int col) {
         return row >= 0 && col >= 0 && row < HEIGHT && col < WIDTH;
     }
 
+    /**
+     * equivalent to isValid(pos.row, pos.col)
+     *
+     * @param pos position to check
+     * @return true if pos is valid, false otherwise
+     */
     public boolean isValid(Position pos) {
         return isValid(pos.row, pos.col);
     }
 
+    /**
+     * check if any piece (either color) occupies the given (row, col) position
+     *
+     * @param row row position to check
+     * @param col column position to check
+     * @return true if there is one piece of any color that occupies (row, col),
+     * false otherwise
+     */
     public boolean isOccupied(int row, int col) {
         return isValid(row, col) && board[row][col].isOccupied();
     }
 
+    /**
+     * equivalent to isOccupied(pos.row, pos.col)
+     *
+     * @param pos position to check
+     * @return true if there is one piece of any color that occupies (row, col),
+     * false otherwise
+     */
     public boolean isOccupied(Position pos) {
         return isOccupied(pos.row, pos.col);
     }
@@ -284,27 +381,53 @@ public class Board {
     }
 
     /**
-     * A inner class to store pieces
+     * Space - A inner class to store pieces
      */
     private class Space {
+        // the piece (or null) that occupies the space
         private Piece piece;
 
+        /**
+         * return the piece that the space hold
+         *
+         * @return the piece (or null) that the space hold
+         */
         public Piece getPiece() {
             return piece;
         }
 
+        /**
+         * let the space hold the given piece
+         *
+         * @param piece the piece to put in the space
+         */
         public void setPiece(Piece piece) {
             this.piece = piece;
         }
 
+        /**
+         * check whether the space contains any piece
+         *
+         * @return true if the space has piece, false otherwise
+         */
         public boolean isOccupied() {
             return piece != null;
         }
 
+        /**
+         * remove the piece that the space hold
+         */
         public void clearPiece() {
             piece = null;
         }
 
+        /**
+         * convert the space to String. If the space contains any piece,
+         * the string representation will be that of the piece; otherwise,
+         * it will be a space (" ")
+         *
+         * @return the string representation of the space
+         */
         @Override
         public String toString() {
             return piece == null ? " " : piece.toString();
