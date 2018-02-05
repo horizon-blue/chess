@@ -1,11 +1,10 @@
 package model;
 
-import controller.Game;
 import model.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -123,21 +122,43 @@ class BoardTest {
     @Test
     @DisplayName("toString()")
     void toStringTest() {
-        Game chessGame = new Game(new Player(), new Player());
-        chessGame.initBoard();
-        String chessBoard = "8 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜\n" +
-                "7 ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟\n" +
+        Board board = new Board();
+        Player player = new Player();
+        board.addPiece(new Queen(player), 3, 5);
+        String chessBoard = "8                \n" +
+                "7                \n" +
                 "6                \n" +
                 "5                \n" +
-                "4                \n" +
+                "4           ♛    \n" +
                 "3                \n" +
-                "2 ♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙\n" +
-                "1 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖\n" +
+                "2                \n" +
+                "1                \n" +
                 "  a b c d e f g h";
         assertEquals(chessBoard,
-                chessGame.board.toString());
+                board.toString());
+    }
+
+    @Test
+    @DisplayName("toString() (with highlighting)")
+    void toStringTestWithHighlight() {
+        Board board = new Board();
+        Player player = new Player();
+        Piece queen = new Queen(player);
+        // highlighting won't affect block content
+        board.addPiece(queen, 3, 5);
+        Set<Position> positions = queen.getAvailablePosition(false);
+        String chessBoard = "8                \n" +
+                "7                \n" +
+                "6                \n" +
+                "5                \n" +
+                "4           ♛    \n" +
+                "3                \n" +
+                "2                \n" +
+                "1                \n" +
+                "  a b c d e f g h";
         assertEquals(chessBoard,
-                chessGame.board.toString(new HashSet<>()));
+                board.toString());
+
     }
 
 }
