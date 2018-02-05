@@ -37,6 +37,11 @@ public class Session {
         do {
             status = game.nextRound();
         } while (status == Game.Status.CONTINUE);
+
+        if (status == Game.Status.BLACK_WIN)
+            ++(game.blackPlayer.score);
+        else
+            ++(game.whitePlayer.score);
     }
 
     public void restart() {

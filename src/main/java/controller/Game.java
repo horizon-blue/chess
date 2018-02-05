@@ -4,7 +4,6 @@ import model.Board;
 import model.Player;
 import model.Position;
 import model.piece.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -12,8 +11,8 @@ import java.util.Set;
 public class Game {
     Board board = new Board();
     private boolean isWhiteRound = true;
-    private Player whitePlayer;
-    private Player blackPlayer;
+    public Player whitePlayer;
+    public Player blackPlayer;
 
     public Game(Player whitePlayer, Player blackPlayer) {
         this.whitePlayer = whitePlayer;
@@ -28,17 +27,19 @@ public class Game {
      * The game ends except for CONTINUE state
      */
     public Status nextRound() {
+        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
         boolean madeMovement = false;
         do {
             // prompt player to select pieces
             Position sourcePos = getPlayerSelection();
-            if (sourcePos == null) // player resign
+            if (sourcePos == null) {    // player resign
+                System.out.println(currentPlayer + " resigned.");
                 return isWhiteRound ? Status.BLACK_WIN : Status.WHITE_WIN;
+            }
             Piece selectPiece = board.getPiece(sourcePos);
             Set<Position> validMovement = selectPiece.getAvailablePosition(isWhiteRound);
             if (validMovement == null || validMovement.size() == 0)
                 continue;
-            System.out.println(StringUtils.join(validMovement, " "));
             Position targetPos = getPlayerSelection(validMovement);
             if (targetPos == null) // cancel selection
                 continue;
@@ -49,11 +50,17 @@ public class Game {
             madeMovement = true;
         } while (!madeMovement);
 
-        // checking checkmate status
+        // checking checkmate and stalemate status
         Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
-        if (board.isCheckMated(otherPlayer))
-            return isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
-
+        if (board.isCheckOrStaleMated(otherPlayer)) {
+            System.out.println(board);
+            if (board.isChecked(otherPlayer)) { // is checkmate
+                System.out.println(currentPlayer + " checkmate.");
+                return isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
+            }
+            System.out.println("Stalemate.");
+            return Status.DRAW;
+        }
         isWhiteRound = !isWhiteRound;
         return Status.CONTINUE;
     }

@@ -183,18 +183,12 @@ public class Board {
         return false;
     }
 
-    public boolean isCheckMated(Player owner) {
-        if (!isChecked(owner)) {
-            return false;
-        }
+    public boolean isCheckOrStaleMated(Player owner) {
         Set<Piece> ownerPieces = owner.isWhite() ? whitePieces : blackPieces;
         for (Piece piece : ownerPieces) {
             Set<Position> possibleMovements = piece.getAvailablePosition(owner.isWhite());
-            if (!possibleMovements.isEmpty()) {
-                System.out.println(piece);
-                System.out.println(StringUtils.join(possibleMovements, " "));
+            if (!possibleMovements.isEmpty())
                 return false;
-            }
         }
         return true;
     }
