@@ -12,12 +12,11 @@ public class King extends Piece {
     }
 
     @Override
-    public ArrayList<Position> getAvailablePosition() {
-        // no available position if piece isn't in its own round
-        if (!isInRound())
-            return null;
-
+    public ArrayList<Position> getAvailablePosition(boolean isWhiteRound) {
         ArrayList<Position> availablePos = new ArrayList<>();
+        // no available position if piece isn't in its own round
+        if (isWhiteRound != isWhite())
+            return null;
 
         // "The king moves one square in any direction."
         for (int row = x - 1; row <= x + 1; ++row) {

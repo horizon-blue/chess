@@ -48,9 +48,6 @@ public class Session {
         return game.isWhite(player);
     }
 
-    public boolean isWhiteRound() {
-        return game.isWhiteRound;
-    }
 
     @Override
     public String toString() {

@@ -6,7 +6,7 @@ import model.piece.*;
 
 public class Game {
     Board board = new Board();
-    public boolean isWhiteRound = true;
+    private boolean isWhiteRound = true;
     private Player whitePlayer;
     private Player blackPlayer;
 

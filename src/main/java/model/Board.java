@@ -43,8 +43,10 @@ public class Board {
     }
 
     public void clearPiece(int row, int col) {
-        if (isValid(row, col))
+        if (isValid(row, col)) {
+            pieces.remove(board[row][col].getPiece());
             board[row][col].clearPiece();
+        }
     }
 
     public void clearPiece(Position pos) {
@@ -54,6 +56,7 @@ public class Board {
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         Piece selected = getPiece(fromRow, fromCol);
         clearPiece(fromRow, fromCol);
+        clearPiece(toRow, toCol);
         setPiece(selected, toRow, toCol);
     }
 
@@ -108,7 +111,7 @@ public class Board {
         // if there is a piece, then it should be in a different color
         return isValid(row, col)
                 && (!isOccupied(row, col) || !piece.sameColor(getPiece(row, col)))
-                && !willbeChecked(piece, row, col);
+                && !willBeChecked(piece, row, col);
     }
 
     /**
@@ -121,7 +124,7 @@ public class Board {
      * @param col   the column position to move
      * @return true if moving the piece to the designated position will result in a checked state, false otherwise
      */
-    public boolean willbeChecked(Piece piece, int row, int col) {
+    public boolean willBeChecked(Piece piece, int row, int col) {
         if (!isValid(row, col))
             return false;
 
@@ -141,64 +144,11 @@ public class Board {
     }
 
     public boolean isChecked(Player owner) {
-        Piece king = owner.king;
-
-        // check for pawn
-        int direction = king.isWhite() ? 1 : -1; // direction of enemy's pawn
-        for (int col = king.y - 1; col <= king.y + 1; ++col) {
-            if (isOccupied(king.x - direction, col)
-                    && getPiece(king.x - direction, col) instanceof Pawn
-                    && !king.sameColor(getPiece(king.x - direction, col)))
+        Position kingPos = new Position(owner.king.x, owner.king.y);
+        for (Piece piece : pieces) {
+            if (piece.getAvailablePosition(!owner.isWhite()).contains(kingPos))
                 return true;
         }
-        // on first move, pawn can goes 2 tiles in front
-        if (!isOccupied(king.x - direction, king.y)
-                && isOccupied(king.x - 2 * direction, king.y)
-                && getPiece(king.x - 2 * direction, king.y) instanceof Pawn
-                && !king.sameColor(getPiece(king.x - 2 * direction, king.y)))
-            return true;
-
-        // check for knight
-        for (int row = king.x - 2; row <= king.x + 2; row += 4) {
-            for (int col = king.y - 1; col <= king.y + 1; col += 2) {
-                if ((isOccupied(row, col)
-                        && getPiece(row, col) instanceof Knight
-                        && !king.sameColor(getPiece(row, col)))
-                        || (isOccupied(col, row)
-                        && getPiece(col, row) instanceof Knight
-                        && !king.sameColor(getPiece(col, row)))
-                        )
-                    return true;
-            }
-        }
-
-        // check file
-        for (int row = king.x - 1; row >= 0; --row) {
-            if (isOccupied(row, king.y)) {
-                Piece targetPiece = getPiece(row, king.y);
-                if (!king.sameColor(targetPiece)
-                        && (targetPiece instanceof Rook
-                        || targetPiece instanceof Queen
-                ))
-                    return true;
-                else
-                    break;
-            }
-        }
-        for (int row = king.x + 1; row < HEIGHT; ++row) {
-            if (isOccupied(row, king.y)) {
-                Piece targetPiece = getPiece(row, king.y);
-                if (!king.sameColor(targetPiece)
-                        && (targetPiece instanceof Rook
-                        || targetPiece instanceof Queen
-                ))
-                    return true;
-                else
-                    break;
-            }
-        }
-
-
         return false;
     }
 

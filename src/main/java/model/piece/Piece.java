@@ -33,19 +33,29 @@ public abstract class Piece {
         return owner.isWhite();
     }
 
-    public abstract ArrayList<Position> getAvailablePosition();
+    public abstract ArrayList<Position> getAvailablePosition(boolean isWhiteRound);
 
-    /**
-     * Check if the piece is in its own round
-     *
-     * @return true if current round is the piece's round, false otherwise
-     */
-    public boolean isInRound() {
-        return owner.isInRound();
-    }
 
     public boolean sameColor(Piece other) {
         return other.isWhite() == isWhite();
+    }
+
+    /**
+     * A protected helper function that check whether the given position is valid, and if so, add
+     * the position to positions ArrayList.
+     *
+     * @param row       row position to check
+     * @param col       column position to check
+     * @param positions if (row, col) is valid, it will be added to positions
+     * @return true if the given position is empty, false otherwise
+     */
+    protected boolean addValidPos(int row, int col, ArrayList<Position> positions) {
+        if (board.isValidMovement(this, row, col))
+            positions.add(new Position(row, col));
+        if (board.isOccupied(row, col))
+            return false;
+        else
+            return true;
     }
 
     @Override

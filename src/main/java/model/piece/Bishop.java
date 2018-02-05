@@ -11,7 +11,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public ArrayList<Position> getAvailablePosition() {
+    public ArrayList<Position> getAvailablePosition(boolean isWhiteRound) {
         return null;
     }
 }

@@ -24,10 +24,6 @@ public class Player {
         return session != null && session.isWhite(this);
     }
 
-    public boolean isInRound() {
-        return session != null && isWhite() == session.isWhiteRound();
-    }
-
 
     @Override
     public String toString() {
