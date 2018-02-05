@@ -5,8 +5,8 @@ import model.Player;
 import model.piece.*;
 
 public class Game {
-    private Board board = new Board();
-    private boolean isWhiteRound = true;
+    Board board = new Board();
+    public boolean isWhiteRound = true;
     private Player whitePlayer;
     private Player blackPlayer;
 
@@ -14,6 +14,15 @@ public class Game {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         board = new Board();
+    }
+
+    public void nextRound() {
+        isWhiteRound = !isWhiteRound;
+        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
+    }
+
+    public boolean isWhite(Player player) {
+        return player == whitePlayer;
     }
 
     /**
@@ -45,10 +54,5 @@ public class Game {
         // pawns
         for (int col = 0; col < 8; ++col)
             board.setPiece(new Pawn(blackPlayer), board.HEIGHT - 2, col);
-    }
-
-    public void nextRound() {
-        isWhiteRound = !isWhiteRound;
-        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
     }
 }

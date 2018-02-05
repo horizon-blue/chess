@@ -1,12 +1,15 @@
 package model;
 
-import model.piece.Piece;
+import model.piece.*;
+
+import java.util.HashSet;
 
 public class Board {
     public final int HEIGHT;
     public final int WIDTH;
 
     private final Space[][] board;
+    private HashSet<Piece> pieces;
 
     public Board() {
         this(8, 8);
@@ -29,6 +32,7 @@ public class Board {
                 piece.board = this;
                 piece.x = row;
                 piece.y = col;
+                pieces.add(piece);
             }
             board[row][col].setPiece(piece);
         }
@@ -57,6 +61,16 @@ public class Board {
         movePiece(from.row, from.col, to.row, to.col);
     }
 
+    public void movePiece(Piece piece, int row, int col) {
+        if (piece.board != this)
+            return;
+        movePiece(piece.x, piece.y, row, col);
+    }
+
+    public void movePiece(Piece piece, Position pos) {
+        movePiece(piece, pos.row, pos.col);
+    }
+
     public Piece getPiece(int row, int col) {
         if (isValid(row, col))
             return board[row][col].getPiece();
@@ -77,7 +91,115 @@ public class Board {
     }
 
     public boolean isOccupied(Position pos) {
-        return isOccupied(pos.row, pos.col)
+        return isOccupied(pos.row, pos.col);
+    }
+
+
+    /**
+     * helper function to check whether a piece can be move to a given position
+     * this method does NOT check whether the movement obey the piece's rule
+     *
+     * @param piece the piece that is in action
+     * @param row   row position on the board
+     * @param col   column position on the board
+     * @return true if the movement is valid, false otherwise
+     */
+    public boolean isValidMovement(Piece piece, int row, int col) {
+        // if there is a piece, then it should be in a different color
+        return isValid(row, col)
+                && (!isOccupied(row, col) || !piece.sameColor(getPiece(row, col)))
+                && !willbeChecked(piece, row, col);
+    }
+
+    /**
+     * Check whether moving the piece to the designated position will result its own king to be
+     * in a checked state (i.e. king is in danger)
+     * this method does NOT check whether the movement obey the piece's rule
+     *
+     * @param piece the piece that is in action
+     * @param row   the row position to move
+     * @param col   the column position to move
+     * @return true if moving the piece to the designated position will result in a checked state, false otherwise
+     */
+    public boolean willbeChecked(Piece piece, int row, int col) {
+        if (!isValid(row, col))
+            return false;
+
+        // temporarily move piece to new location
+        Piece oldPiece = getPiece(row, col);
+        int oldRow = piece.x;
+        int oldCol = piece.y;
+        movePiece(piece, row, col);
+
+        boolean result = isChecked(piece.owner);
+
+        // reset to previous state
+        movePiece(piece, oldRow, oldCol);
+        setPiece(oldPiece, row, col);
+
+        return result;
+    }
+
+    public boolean isChecked(Player owner) {
+        Piece king = owner.king;
+
+        // check for pawn
+        int direction = king.isWhite() ? 1 : -1; // direction of enemy's pawn
+        for (int col = king.y - 1; col <= king.y + 1; ++col) {
+            if (isOccupied(king.x - direction, col)
+                    && getPiece(king.x - direction, col) instanceof Pawn
+                    && !king.sameColor(getPiece(king.x - direction, col)))
+                return true;
+        }
+        // on first move, pawn can goes 2 tiles in front
+        if (!isOccupied(king.x - direction, king.y)
+                && isOccupied(king.x - 2 * direction, king.y)
+                && getPiece(king.x - 2 * direction, king.y) instanceof Pawn
+                && !king.sameColor(getPiece(king.x - 2 * direction, king.y)))
+            return true;
+
+        // check for knight
+        for (int row = king.x - 2; row <= king.x + 2; row += 4) {
+            for (int col = king.y - 1; col <= king.y + 1; col += 2) {
+                if ((isOccupied(row, col)
+                        && getPiece(row, col) instanceof Knight
+                        && !king.sameColor(getPiece(row, col)))
+                        || (isOccupied(col, row)
+                        && getPiece(col, row) instanceof Knight
+                        && !king.sameColor(getPiece(col, row)))
+                        )
+                    return true;
+            }
+        }
+
+        // check file
+        for (int row = king.x - 1; row >= 0; --row) {
+            if (isOccupied(row, king.y)) {
+                Piece targetPiece = getPiece(row, king.y);
+                if (!king.sameColor(targetPiece)
+                        && (targetPiece instanceof Rook
+                        || targetPiece instanceof Queen
+                ))
+                    return true;
+                else
+                    break;
+            }
+        }
+        for (int row = king.x + 1; row < HEIGHT; ++row) {
+            if (isOccupied(row, king.y)) {
+                Piece targetPiece = getPiece(row, king.y);
+                if (!king.sameColor(targetPiece)
+                        && (targetPiece instanceof Rook
+                        || targetPiece instanceof Queen
+                ))
+                    return true;
+                else
+                    break;
+            }
+        }
+
+
+        return false;
     }
 
     @Override

@@ -12,7 +12,7 @@ public abstract class Piece {
     private final String whiteSymbol;
     private final String blackSymbol;
 
-    private final Player owner;
+    public final Player owner;
 
     // relationship to the board
     public Board board;
@@ -21,6 +21,8 @@ public abstract class Piece {
 
 
     Piece(Player owner, String name, String whiteSymbol, String blackSymbol) {
+        if (owner == null)
+            throw new IllegalArgumentException("Owner cannot be null");
         this.owner = owner;
         this.name = name;
         this.whiteSymbol = whiteSymbol;
@@ -28,10 +30,23 @@ public abstract class Piece {
     }
 
     public boolean isWhite() {
-        return owner != null && owner.isWhite();
+        return owner.isWhite();
     }
 
-//    public abstract ArrayList<Position> getAvailablePosition();
+    public abstract ArrayList<Position> getAvailablePosition();
+
+    /**
+     * Check if the piece is in its own round
+     *
+     * @return true if current round is the piece's round, false otherwise
+     */
+    public boolean isInRound() {
+        return owner.isInRound();
+    }
+
+    public boolean sameColor(Piece other) {
+        return other.isWhite() == isWhite();
+    }
 
     @Override
     public String toString() {

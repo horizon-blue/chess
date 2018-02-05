@@ -1,13 +1,15 @@
 package model;
 
 import com.github.javafaker.Faker;
-import controller.Game;
 import controller.Session;
+import model.piece.King;
 
 public class Player {
     public String name;
     public int score;
     public Session session;
+    public King king;
+
 
     public Player() {
         this(new Faker().name().firstName());
@@ -20,6 +22,10 @@ public class Player {
 
     public boolean isWhite() {
         return session != null && session.isWhite(this);
+    }
+
+    public boolean isInRound() {
+        return session != null && isWhite() == session.isWhiteRound();
     }
 
 
