@@ -1,7 +1,6 @@
 package model;
 
 import model.piece.*;
-import org.apache.commons.lang3.StringUtils;
 import utils.printUtils;
 
 
@@ -109,6 +108,16 @@ public class Board {
         setPiece(piece, row, col);
     }
 
+    /**
+     * equivalent to addPiece(piece, pos.row, pos.col)
+     *
+     * @param piece piece to add
+     * @param pos   position for the new piece
+     */
+    public void addPiece(Piece piece, Position pos) {
+        addPiece(piece, pos.row, pos.col);
+    }
+
 
     /**
      * Helper function to update piece's information and board information
@@ -143,14 +152,27 @@ public class Board {
     }
 
     /**
-     * Check whether moving the piece to the designated position will result its own king to be
+     * Equivalent to isValidMovement(piece, pos.row, pos.col)
+     *
+     * @param piece the piece that is in action
+     * @param pos   position on the board
+     * @return true if the movement is valid, false otherwise
+     */
+    public boolean isValidMovement(Piece piece, Position pos) {
+        return isValidMovement(piece, pos.row, pos.col);
+    }
+
+    /**
+     * Check whether moving the piece to the designated position will result its
+     * own king to be
      * in a checked state (i.e. king is in danger)
      * this method does NOT check whether the movement obey the piece's rule
      *
      * @param piece the piece that is in action
      * @param row   the row position to move
      * @param col   the column position to move
-     * @return true if moving the piece to the designated position will result in a checked state, false otherwise
+     * @return true if moving the piece to the designated position will result
+     * in a checked state, false otherwise
      */
     public boolean willBeChecked(Piece piece, int row, int col) {
         if (!isValid(row, col))
@@ -171,6 +193,24 @@ public class Board {
         return result;
     }
 
+    /**
+     * equivalent to willBeChecked(piece, pos.row, pos.col)
+     *
+     * @param piece the piece that is in action
+     * @param pos   position to move
+     * @return true if moving the piece to the designated position will result
+     * in a checked state, false otherwise
+     */
+    public boolean willBeChecked(Piece piece, Position pos) {
+        return willBeChecked(piece, pos.row, pos.col);
+    }
+
+    /**
+     * Decide whether the player is in checked status (king is in danger)
+     *
+     * @param owner the player to check
+     * @return true if the player is in checked status, false otherwise
+     */
     public boolean isChecked(Player owner) {
         if (owner.king == null)
             return false;
@@ -183,6 +223,13 @@ public class Board {
         return false;
     }
 
+    /**
+     * Decide whether the player is in checkmated or is in stalemated status
+     *
+     * @param owner the player to check
+     * @return true if the player is in checkmated or is in stalemated status,
+     * false otherwise
+     */
     public boolean isCheckOrStaleMated(Player owner) {
         Set<Piece> ownerPieces = owner.isWhite ? whitePieces : blackPieces;
         for (Piece piece : ownerPieces) {
@@ -193,6 +240,11 @@ public class Board {
         return true;
     }
 
+    /**
+     * equivalent to toString(null)
+     *
+     * @return the formatted string without any highlight
+     */
     @Override
     public String toString() {
         return toString(null);
