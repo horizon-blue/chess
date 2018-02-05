@@ -55,9 +55,13 @@ public abstract class Piece {
      * @param positions if (row, col) is valid, it will be added to positions
      * @return true if the given position is empty, false otherwise
      */
-    protected boolean addValidPos(int row, int col, Set<Position> positions) {
+    protected boolean addValidPos(int row, int col, Set<Position> positions, boolean isWhiteRound) {
+        boolean isSelfRound = isWhiteRound == this.isWhite();
+
         if (board.isValidMovement(this, row, col))
-            positions.add(new Position(row, col));
+            if (!isSelfRound || !board.willBeChecked(this, row, col))
+                positions.add(new Position(row, col));
+
         if (board.isOccupied(row, col))
             return false;
         else

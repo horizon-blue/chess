@@ -12,7 +12,8 @@ public class Board {
     public final int WIDTH;
 
     private final Space[][] board;
-    private Set<Piece> pieces = new HashSet<>();
+    private Set<Piece> blackPieces = new HashSet<>();
+    private Set<Piece> whitePieces = new HashSet<>();
 
     public Board() {
         this(8, 8);
@@ -34,7 +35,10 @@ public class Board {
             if (piece != null) {
                 piece.board = this;
                 piece.setPos(row, col);
-                pieces.add(piece);
+                if (piece.isWhite())
+                    whitePieces.add(piece);
+                else
+                    blackPieces.add(piece);
             }
             board[row][col].setPiece(piece);
         }
@@ -46,7 +50,13 @@ public class Board {
 
     public void clearPiece(int row, int col) {
         if (isValid(row, col)) {
-            pieces.remove(board[row][col].getPiece());
+            Piece oldPiece = getPiece(row, col);
+            if (oldPiece != null) {
+                if (oldPiece.isWhite())
+                    whitePieces.remove(oldPiece);
+                else
+                    blackPieces.remove(oldPiece);
+            }
             board[row][col].clearPiece();
         }
     }
@@ -91,6 +101,10 @@ public class Board {
         return row >= 0 && col >= 0 && row < HEIGHT && col < WIDTH;
     }
 
+    public boolean isValid(Position pos) {
+        return isValid(pos.row, pos.col);
+    }
+
     public boolean isOccupied(int row, int col) {
         return isValid(row, col) && board[row][col].isOccupied();
     }
@@ -112,8 +126,7 @@ public class Board {
     public boolean isValidMovement(Piece piece, int row, int col) {
         // if there is a piece, then it should be in a different color
         return isValid(row, col)
-                && (!isOccupied(row, col) || !piece.sameColor(getPiece(row, col)))
-                && !willBeChecked(piece, row, col);
+                && (!isOccupied(row, col) || !piece.sameColor(getPiece(row, col)));
     }
 
     /**
@@ -149,8 +162,9 @@ public class Board {
         if (owner.king == null)
             return false;
         Position kingPos = new Position(owner.king.x, owner.king.y);
-        for (Piece piece : pieces) {
-            if (piece.getAvailablePosition(!owner.isWhite()).contains(kingPos))
+        Set<Piece> enemyPieces = owner.isWhite() ? blackPieces : whitePieces;
+        for (Piece piece : enemyPieces) {
+            if (piece.getAvailablePosition(owner.isWhite()).contains(kingPos))
                 return true;
         }
         return false;
@@ -158,7 +172,7 @@ public class Board {
 
     @Override
     public String toString() {
-        return toString(new HashSet<>());
+        return toString(null);
     }
 
     /**
@@ -174,7 +188,7 @@ public class Board {
             boardString.append(row);
             // print each space
             for (int col = 0; col < WIDTH; ++col) {
-                if (positions.contains(new Position(row - 1, col)))
+                if (positions != null && positions.contains(new Position(row - 1, col)))
                     boardString.append(" " +
                             printUtils.ANSI_BLUE_BG +
                             printUtils.ANSI_BOLD +

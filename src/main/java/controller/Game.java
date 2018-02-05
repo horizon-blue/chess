@@ -4,8 +4,8 @@ import model.Board;
 import model.Player;
 import model.Position;
 import model.piece.*;
+import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -29,53 +29,83 @@ public class Game {
      */
     public Status nextRound() {
         Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
-        // prompt player to select pieces
-        Position selected = getPlayerSelection();
-
+        boolean madeMovement = false;
+        do {
+            // prompt player to select pieces
+            Position sourcePos = getPlayerSelection();
+            if (sourcePos == null) // player resign
+                return isWhiteRound ? Status.BLACK_WIN : Status.WHITE_WIN;
+            Piece selectPiece = board.getPiece(sourcePos);
+            Set<Position> validMovement = selectPiece.getAvailablePosition(isWhiteRound);
+            if (validMovement == null || validMovement.size() == 0)
+                continue;
+            System.out.println(StringUtils.join(validMovement, " "));
+            Position targetPos = getPlayerSelection(validMovement);
+            if (targetPos == null) // cancel selection
+                continue;
+            board.movePiece(sourcePos, targetPos);
+            // setting the special property for pawn
+            if (selectPiece instanceof Pawn)
+                ((Pawn) selectPiece).hasMoved = true;
+            madeMovement = true;
+        } while (!madeMovement);
 
         isWhiteRound = !isWhiteRound;
-        return Status.DRAW;
+        return Status.CONTINUE;
     }
 
     /**
      * Get user selection via I/O (might upgrade to GUI in later version)
+     * The returning position is guaranteed to be valid (or null, if user
+     * cancel the input)
      *
-     * @return the row + col position that the user select
+     * @return the position that the user select or null
      */
     public Position getPlayerSelection() {
-        return getPlayerSelection(new HashSet<>());
+        return getPlayerSelection(null);
     }
 
     /**
      * Same as getPlayerSelection(), but highlight the given positions
+     * If highlighted position is not null, then the returned position must
+     * be one of them
      *
      * @param highlightPos positions to be highlighted
-     * @return the row + col position that the user select
+     * @return the position that the user select or null
      */
     public Position getPlayerSelection(Set<Position> highlightPos) {
+        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
         Scanner reader = new Scanner(System.in);
+        System.out.println("Black pieces: " + blackPlayer);
         System.out.println(board.toString(highlightPos));
-        System.out.printf("Please select a position: ");
-        Position selectPos;
+        System.out.println("White pieces: " + whitePlayer);
+        System.out.println("Current round: " + currentPlayer);
+        System.out.printf("Please select a position (press q to cancel): ");
+
+        // keep asking for user input until one valid input is received
         while (true) {
-            String input = reader.nextLine()；
+            String input = reader.nextLine();
             // check if the selection is valid string
             if (input.length() == 2 &&
                     Character.isDigit(input.charAt(0)) &&
                     Character.isLetter(input.charAt(1))) {
-                int row = input.charAt(0) - '0';
-                int col = Character.toLowerCase(input.charAt(0)) - 'a';
-                // check if the selection is valid under the game setting
-                if (board.isValid(row, col) &&
-                        board.isOccupied(row, col) &&
-                        isWhiteRound == board.getPiece(row, col).isWhite()) {
-                    selectPos = new Position(row, col);
-                    break;
+                Position selected = new Position(input.charAt(0) - '1',
+                        Character.toLowerCase(input.charAt(1)) - 'a');
+
+                // check if selected position is one of the highlighted
+                if (highlightPos != null && highlightPos.contains(selected)) {
+                    return selected;
                 }
-            }
+                // check if the selection is valid under the game setting
+                else if (board.isValid(selected) &&
+                        board.isOccupied(selected) &&
+                        board.getPiece(selected).owner == currentPlayer) {
+                    return selected;
+                }
+            } else if (input.length() == 1 && Character.toLowerCase(input.charAt(0)) == 'q')
+                return null;
             System.out.printf("Invalid position, please select again: ");
         }
-        return selectPos;
     }
 
     public boolean isWhite(Player player) {

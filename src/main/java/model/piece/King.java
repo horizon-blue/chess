@@ -15,14 +15,11 @@ public class King extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
-        // no available position if piece isn't in its own round
-        if (isWhiteRound != isWhite())
-            return availablePos;
 
         // "The king moves one square in any direction."
         for (int row = x - 1; row <= x + 1; ++row) {
             for (int col = y - 1; col <= y + 1; ++col) {
-                addValidPos(row, col, availablePos);
+                addValidPos(row, col, availablePos, isWhiteRound);
             }
         }
         return availablePos;

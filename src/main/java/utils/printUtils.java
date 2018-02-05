@@ -7,6 +7,6 @@ public class printUtils {
     public static final String ANSI_BLUE_BG = "\u001B[44m";
 
     // constant for bold font
-    // reference:
-    public static final String ANSI_BOLD = "\\033[0;1m";
+    // reference: https://stackoverflow.com/questions/29109678/java-print-in-bold
+    public static final String ANSI_BOLD = "\u001B[1m";
 }

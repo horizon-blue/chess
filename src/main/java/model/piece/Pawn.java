@@ -7,16 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Pawn extends Piece {
-    public int moveCount = -1;
+    public boolean hasMoved = false;
 
     public Pawn(Player owner) {
         super(owner, "Pawn", "♙", "♟");
-    }
-
-    @Override
-    public void setPos(int row, int col) {
-        super.setPos(row, col);
-        ++moveCount;
     }
 
     @Override
@@ -29,13 +23,13 @@ public class Pawn extends Piece {
         // white pieces move to the larger side, black pieces move to the smaller side
         int direction = isWhite() ? 1 : -1;
         // if 1 tile in front is valid and not occupied (addValidPos does the check)
-        if (addValidPos(x + direction, y, availablePos) && moveCount < 1)
-            addValidPos(x + 2 * direction, y, availablePos);
+        if (addValidPos(x + direction, y, availablePos, isWhiteRound) && !hasMoved)
+            addValidPos(x + 2 * direction, y, availablePos, isWhiteRound);
 
         // check diagonal tiles
         for (int colDist = -1; colDist <= 1; colDist += 2) {
             if (board.isOccupied(x + direction, y + colDist))
-                addValidPos(x + direction, y + colDist, availablePos);
+                addValidPos(x + direction, y + colDist, availablePos, isWhiteRound);
         }
         return availablePos;
     }
