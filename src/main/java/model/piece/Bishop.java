@@ -6,7 +6,15 @@ import model.Position;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Bishop - a subclass of Piece
+ */
 public class Bishop extends Piece {
+    /**
+     * Create a bishop piece for the owner
+     *
+     * @param owner the player who has the bishop piece
+     */
     public Bishop(Player owner) {
         super(owner, "Bishop", "♗", "♝");
     }

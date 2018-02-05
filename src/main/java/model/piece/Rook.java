@@ -6,7 +6,15 @@ import model.Position;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Rook - a subclass of Piece
+ */
 public class Rook extends Piece {
+    /**
+     * Create a rook piece for the owner
+     *
+     * @param owner the player who has the rook piece
+     */
     public Rook(Player owner) {
         super(owner, "Rook", "♖", "♜");
     }

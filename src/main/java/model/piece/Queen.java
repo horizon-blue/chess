@@ -6,7 +6,15 @@ import model.Position;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Queen - a subclass of Piece
+ */
 public class Queen extends Piece {
+    /**
+     * Create a queen piece for the owner
+     *
+     * @param owner the player who has the queen piece
+     */
     public Queen(Player owner) {
         super(owner, "Queen", "♕", "♛");
     }

@@ -6,7 +6,15 @@ import model.Position;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Knight - a subclass of Piece
+ */
 public class Knight extends Piece {
+    /**
+     * Create a knight piece for the owner
+     *
+     * @param owner the player who has the knight piece
+     */
     public Knight(Player owner) {
         super(owner, "Knight", "♘", "♞");
     }

@@ -6,10 +6,18 @@ import model.Position;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Pawn - a subclass of Piece
+ */
 public class Pawn extends Piece {
     public boolean hasMoved = false;
 
     public Pawn(Player owner) {
+        /**
+         * Create a pawn piece for the owner
+         *
+         * @param owner the player who has the pawn piece
+         */
         super(owner, "Pawn", "♙", "♟");
     }
 
