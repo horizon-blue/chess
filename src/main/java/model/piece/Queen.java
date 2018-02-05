@@ -14,8 +14,7 @@ public class Queen extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
-        // no available position if piece isn't in its own round
-        if (isWhiteRound != isWhite())
+        if (board == null)
             return availablePos;
 
         // "The queen combines the power of the rook and bishop and can move any number of

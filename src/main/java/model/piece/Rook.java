@@ -14,8 +14,7 @@ public class Rook extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
-        // no available position if piece isn't in its own round
-        if (isWhiteRound != isWhite())
+        if (board == null)
             return availablePos;
 
         // "The rook can move any number of squares along any rank or file, but may not leap over other pieces."

@@ -14,6 +14,8 @@ public class Knight extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
+        if (board == null)
+            return availablePos;
 
         // "The knight moves to any of the closest squares that are not on the same rank,
         // file, or diagonal, thus the move forms an "L"-shape."

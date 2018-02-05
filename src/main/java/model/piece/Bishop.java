@@ -14,6 +14,8 @@ public class Bishop extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
+        if (board == null)
+            return availablePos;
 
         // "The bishop can move any number of squares diagonally, but may not leap over other pieces"
         // split into separate for loops so that we can break if the path is blocked

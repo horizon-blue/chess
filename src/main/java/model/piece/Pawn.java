@@ -16,8 +16,7 @@ public class Pawn extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
-        // no available position if piece isn't in its own round
-        if (isWhiteRound != isWhite())
+        if (board == null)
             return availablePos;
 
         // white pieces move to the larger side, black pieces move to the smaller side

@@ -1,6 +1,7 @@
 package model;
 
 import model.piece.*;
+import org.apache.commons.lang3.StringUtils;
 import utils.printUtils;
 
 
@@ -30,33 +31,9 @@ public class Board {
 
     }
 
-    public void setPiece(Piece piece, int row, int col) {
-        if (isValid(row, col)) {
-            if (piece != null) {
-                piece.board = this;
-                piece.setPos(row, col);
-                if (piece.isWhite())
-                    whitePieces.add(piece);
-                else
-                    blackPieces.add(piece);
-            }
-            board[row][col].setPiece(piece);
-        }
-    }
-
-    public void setPiece(Piece piece, Position pos) {
-        setPiece(piece, pos.row, pos.col);
-    }
 
     public void clearPiece(int row, int col) {
         if (isValid(row, col)) {
-            Piece oldPiece = getPiece(row, col);
-            if (oldPiece != null) {
-                if (oldPiece.isWhite())
-                    whitePieces.remove(oldPiece);
-                else
-                    blackPieces.remove(oldPiece);
-            }
             board[row][col].clearPiece();
         }
     }
@@ -115,6 +92,42 @@ public class Board {
 
 
     /**
+     * Add piece to the board.
+     *
+     * @param piece piece to add
+     * @param row   row position on the board
+     * @param col   column position on the board
+     */
+    public void addPiece(Piece piece, int row, int col) {
+        if (piece != null) {
+            piece.board = this;
+            if (piece.isWhite())
+                whitePieces.add(piece);
+            else
+                blackPieces.add(piece);
+        }
+        setPiece(piece, row, col);
+    }
+
+
+    /**
+     * Helper function to update piece's information and board information
+     * co-currently
+     *
+     * @param piece piece to be update
+     * @param row   row position on the board
+     * @param col   column position on the board
+     */
+    private void setPiece(Piece piece, int row, int col) {
+        if (isValid(row, col)) {
+            if (piece != null)
+                piece.setPos(row, col);
+            board[row][col].setPiece(piece);
+        }
+    }
+
+
+    /**
      * helper function to check whether a piece can be move to a given position
      * this method does NOT check whether the movement obey the piece's rule
      *
@@ -168,6 +181,22 @@ public class Board {
                 return true;
         }
         return false;
+    }
+
+    public boolean isCheckMated(Player owner) {
+        if (!isChecked(owner)) {
+            return false;
+        }
+        Set<Piece> ownerPieces = owner.isWhite() ? whitePieces : blackPieces;
+        for (Piece piece : ownerPieces) {
+            Set<Position> possibleMovements = piece.getAvailablePosition(owner.isWhite());
+            if (!possibleMovements.isEmpty()) {
+                System.out.println(piece);
+                System.out.println(StringUtils.join(possibleMovements, " "));
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

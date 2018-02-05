@@ -15,6 +15,8 @@ public class King extends Piece {
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
         Set<Position> availablePos = new HashSet<>();
+        if (board == null)
+            return availablePos;
 
         // "The king moves one square in any direction."
         for (int row = x - 1; row <= x + 1; ++row) {

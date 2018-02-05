@@ -28,7 +28,6 @@ public class Game {
      * The game ends except for CONTINUE state
      */
     public Status nextRound() {
-        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
         boolean madeMovement = false;
         do {
             // prompt player to select pieces
@@ -49,6 +48,11 @@ public class Game {
                 ((Pawn) selectPiece).hasMoved = true;
             madeMovement = true;
         } while (!madeMovement);
+
+        // checking checkmate status
+        Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
+        if (board.isCheckMated(otherPlayer))
+            return isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
 
         isWhiteRound = !isWhiteRound;
         return Status.CONTINUE;
@@ -117,30 +121,30 @@ public class Game {
      */
     public void initBoard() {
         // white pieces
-        board.setPiece(new Rook(whitePlayer), 0, 0);
-        board.setPiece(new Knight(whitePlayer), 0, 1);
-        board.setPiece(new Bishop(whitePlayer), 0, 2);
-        board.setPiece(new Queen(whitePlayer), 0, 3);
-        board.setPiece(new King(whitePlayer), 0, 4);
-        board.setPiece(new Bishop(whitePlayer), 0, 5);
-        board.setPiece(new Knight(whitePlayer), 0, 6);
-        board.setPiece(new Rook(whitePlayer), 0, 7);
+        board.addPiece(new Rook(whitePlayer), 0, 0);
+        board.addPiece(new Knight(whitePlayer), 0, 1);
+        board.addPiece(new Bishop(whitePlayer), 0, 2);
+        board.addPiece(new Queen(whitePlayer), 0, 3);
+        board.addPiece(new King(whitePlayer), 0, 4);
+        board.addPiece(new Bishop(whitePlayer), 0, 5);
+        board.addPiece(new Knight(whitePlayer), 0, 6);
+        board.addPiece(new Rook(whitePlayer), 0, 7);
         for (int col = 0; col < 8; ++col)
-            board.setPiece(new Pawn(whitePlayer), 1, col);
+            board.addPiece(new Pawn(whitePlayer), 1, col);
 
         // black pieces
-        board.setPiece(new Rook(blackPlayer), board.HEIGHT - 1, 0);
-        board.setPiece(new Knight(blackPlayer), board.HEIGHT - 1, 1);
-        board.setPiece(new Bishop(blackPlayer), board.HEIGHT - 1, 2);
-        board.setPiece(new Queen(blackPlayer), board.HEIGHT - 1, 3);
-        board.setPiece(new King(blackPlayer), board.HEIGHT - 1, 4);
-        board.setPiece(new Bishop(blackPlayer), board.HEIGHT - 1, 5);
-        board.setPiece(new Knight(blackPlayer), board.HEIGHT - 1, 6);
-        board.setPiece(new Rook(blackPlayer), board.HEIGHT - 1, 7);
+        board.addPiece(new Rook(blackPlayer), board.HEIGHT - 1, 0);
+        board.addPiece(new Knight(blackPlayer), board.HEIGHT - 1, 1);
+        board.addPiece(new Bishop(blackPlayer), board.HEIGHT - 1, 2);
+        board.addPiece(new Queen(blackPlayer), board.HEIGHT - 1, 3);
+        board.addPiece(new King(blackPlayer), board.HEIGHT - 1, 4);
+        board.addPiece(new Bishop(blackPlayer), board.HEIGHT - 1, 5);
+        board.addPiece(new Knight(blackPlayer), board.HEIGHT - 1, 6);
+        board.addPiece(new Rook(blackPlayer), board.HEIGHT - 1, 7);
 
         // pawns
         for (int col = 0; col < 8; ++col)
-            board.setPiece(new Pawn(blackPlayer), board.HEIGHT - 2, col);
+            board.addPiece(new Pawn(blackPlayer), board.HEIGHT - 2, col);
     }
 
     public static enum Status {

@@ -15,7 +15,7 @@ class QueenTest {
         Player player = new Player();
         Board board = new Board(8, 8);
         Piece queen = new Queen(player);
-        board.setPiece(queen, 3, 5);
+        board.addPiece(queen, 3, 5);
 
         Set<Position> positions = queen.getAvailablePosition(true);
         assertTrue(positions.isEmpty());
