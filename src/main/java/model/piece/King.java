@@ -17,7 +17,7 @@ public class King extends Piece {
         Set<Position> availablePos = new HashSet<>();
         // no available position if piece isn't in its own round
         if (isWhiteRound != isWhite())
-            return null;
+            return availablePos;
 
         // "The king moves one square in any direction."
         for (int row = x - 1; row <= x + 1; ++row) {

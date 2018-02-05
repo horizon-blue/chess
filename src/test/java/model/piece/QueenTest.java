@@ -16,7 +16,11 @@ class QueenTest {
         Board board = new Board(8, 8);
         Piece queen = new Queen(player);
         board.setPiece(queen, 3, 5);
-        Set<Position> positions = queen.getAvailablePosition(false);
+        
+        Set<Position> positions = queen.getAvailablePosition(true);
+        assertTrue(positions.isEmpty());
+
+        positions = queen.getAvailablePosition(false);
         // check whether position is the same as expected
         for (int row = 0; row < 8; ++row) {
             if (row != 3)

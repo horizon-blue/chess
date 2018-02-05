@@ -16,7 +16,7 @@ public class Queen extends Piece {
         Set<Position> availablePos = new HashSet<>();
         // no available position if piece isn't in its own round
         if (isWhiteRound != isWhite())
-            return null;
+            return availablePos;
 
         // "The queen combines the power of the rook and bishop and can move any number of
         // squares along rank, file, or diagonal, but it may not leap over other pieces"

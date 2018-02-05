@@ -1,7 +1,7 @@
 package model;
 
 public class Position implements Comparable<Position> {
-    private static final int MAX_POS = 128;
+    private static final int MAX_POS = 512;
 
     public int row;
     public int col;
