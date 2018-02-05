@@ -26,4 +26,9 @@ public class Position implements Comparable<Position> {
         else
             return row - other.row;
     }
+
+    @Override
+    public String toString() {
+        return "( " + row + ", " + col + ")";
+    }
 }

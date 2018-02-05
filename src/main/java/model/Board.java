@@ -9,7 +9,7 @@ public class Board {
     public final int WIDTH;
 
     private final Space[][] board;
-    private HashSet<Piece> pieces;
+    private HashSet<Piece> pieces = new HashSet<>();
 
     public Board() {
         this(8, 8);
