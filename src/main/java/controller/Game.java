@@ -8,13 +8,16 @@ import model.piece.*;
 import java.util.Scanner;
 import java.util.Set;
 
+
 public class Game {
-    Board board = new Board();
+    public Board board = new Board();
     private boolean isWhiteRound = true;
     public Player whitePlayer;
     public Player blackPlayer;
 
     public Game(Player whitePlayer, Player blackPlayer) {
+        whitePlayer.isWhite = true;
+        blackPlayer.isWhite = false;
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         board = new Board();

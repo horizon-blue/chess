@@ -30,7 +30,7 @@ public abstract class Piece {
     }
 
     public boolean isWhite() {
-        return owner.isWhite();
+        return owner.isWhite;
     }
 
     public abstract Set<Position> getAvailablePosition(boolean isWhiteRound);

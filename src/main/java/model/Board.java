@@ -175,18 +175,18 @@ public class Board {
         if (owner.king == null)
             return false;
         Position kingPos = new Position(owner.king.x, owner.king.y);
-        Set<Piece> enemyPieces = owner.isWhite() ? blackPieces : whitePieces;
+        Set<Piece> enemyPieces = owner.isWhite ? blackPieces : whitePieces;
         for (Piece piece : enemyPieces) {
-            if (piece.getAvailablePosition(owner.isWhite()).contains(kingPos))
+            if (piece.getAvailablePosition(owner.isWhite).contains(kingPos))
                 return true;
         }
         return false;
     }
 
     public boolean isCheckOrStaleMated(Player owner) {
-        Set<Piece> ownerPieces = owner.isWhite() ? whitePieces : blackPieces;
+        Set<Piece> ownerPieces = owner.isWhite ? whitePieces : blackPieces;
         for (Piece piece : ownerPieces) {
-            Set<Position> possibleMovements = piece.getAvailablePosition(owner.isWhite());
+            Set<Position> possibleMovements = piece.getAvailablePosition(owner.isWhite);
             if (!possibleMovements.isEmpty())
                 return false;
         }

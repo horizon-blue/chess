@@ -14,9 +14,6 @@ public class Session {
         if (playerA == null || playerB == null)
             throw new IllegalArgumentException("players cannot be null");
 
-        // add player to session
-        playerA.session = this;
-        playerB.session = this;
         this.playerA = playerA;
         this.playerB = playerB;
 

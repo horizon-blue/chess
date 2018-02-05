@@ -7,8 +7,8 @@ import model.piece.King;
 public class Player {
     public String name;
     public int score;
-    public Session session;
     public King king;
+    public boolean isWhite = false;
 
 
     public Player() {
@@ -18,10 +18,6 @@ public class Player {
     public Player(String name) {
         this.name = name;
         score = 0;
-    }
-
-    public boolean isWhite() {
-        return session != null && session.isWhite(this);
     }
 
 
