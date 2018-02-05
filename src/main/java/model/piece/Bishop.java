@@ -3,7 +3,7 @@ package model.piece;
 import model.Player;
 import model.Position;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Bishop extends Piece {
     public Bishop(Player owner) {
@@ -11,7 +11,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public ArrayList<Position> getAvailablePosition(boolean isWhiteRound) {
+    public List<Position> getAvailablePosition(boolean isWhiteRound) {
         return null;
     }
 }

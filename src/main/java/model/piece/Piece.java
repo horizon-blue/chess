@@ -5,6 +5,7 @@ import model.Player;
 import model.Position;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Piece {
     // attributes
@@ -33,7 +34,7 @@ public abstract class Piece {
         return owner.isWhite();
     }
 
-    public abstract ArrayList<Position> getAvailablePosition(boolean isWhiteRound);
+    public abstract List<Position> getAvailablePosition(boolean isWhiteRound);
 
 
     public boolean sameColor(Piece other) {
@@ -49,7 +50,7 @@ public abstract class Piece {
      * @param positions if (row, col) is valid, it will be added to positions
      * @return true if the given position is empty, false otherwise
      */
-    protected boolean addValidPos(int row, int col, ArrayList<Position> positions) {
+    protected boolean addValidPos(int row, int col, List<Position> positions) {
         if (board.isValidMovement(this, row, col))
             positions.add(new Position(row, col));
         if (board.isOccupied(row, col))

@@ -4,6 +4,7 @@ import model.Player;
 import model.Position;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Queen extends Piece {
     public Queen(Player owner) {
@@ -11,8 +12,8 @@ public class Queen extends Piece {
     }
 
     @Override
-    public ArrayList<Position> getAvailablePosition(boolean isWhiteRound) {
-        ArrayList<Position> availablePos = new ArrayList<>();
+    public List<Position> getAvailablePosition(boolean isWhiteRound) {
+        List<Position> availablePos = new ArrayList<>();
         // no available position if piece isn't in its own round
         if (isWhiteRound != isWhite())
             return null;
