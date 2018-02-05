@@ -16,7 +16,7 @@ class QueenTest {
         Board board = new Board(8, 8);
         Piece queen = new Queen(player);
         board.setPiece(queen, 3, 5);
-        
+
         Set<Position> positions = queen.getAvailablePosition(true);
         assertTrue(positions.isEmpty());
 
@@ -28,7 +28,7 @@ class QueenTest {
             else
                 assertFalse(positions.contains(new Position(row, 5)));
         }
-
+        assertEquals(positions.size(), 25);
     }
 
 }

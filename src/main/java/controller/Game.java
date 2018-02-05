@@ -2,7 +2,12 @@ package controller;
 
 import model.Board;
 import model.Player;
+import model.Position;
 import model.piece.*;
+
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Game {
     Board board = new Board();
@@ -16,9 +21,61 @@ public class Game {
         board = new Board();
     }
 
-    public void nextRound() {
-        isWhiteRound = !isWhiteRound;
+    /**
+     * Execute one round of the game.
+     *
+     * @return game status: one of CONTINUE, BLACK_WIN, WHITE_WIN, or DRAW (no player win).
+     * The game ends except for CONTINUE state
+     */
+    public Status nextRound() {
         Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
+        // prompt player to select pieces
+        Position selected = getPlayerSelection();
+
+
+        isWhiteRound = !isWhiteRound;
+        return Status.DRAW;
+    }
+
+    /**
+     * Get user selection via I/O (might upgrade to GUI in later version)
+     *
+     * @return the row + col position that the user select
+     */
+    public Position getPlayerSelection() {
+        return getPlayerSelection(new HashSet<>());
+    }
+
+    /**
+     * Same as getPlayerSelection(), but highlight the given positions
+     *
+     * @param highlightPos positions to be highlighted
+     * @return the row + col position that the user select
+     */
+    public Position getPlayerSelection(Set<Position> highlightPos) {
+        Scanner reader = new Scanner(System.in);
+        System.out.println(board.toString(highlightPos));
+        System.out.printf("Please select a position: ");
+        Position selectPos;
+        while (true) {
+            String input = reader.nextLine()；
+            // check if the selection is valid string
+            if (input.length() == 2 &&
+                    Character.isDigit(input.charAt(0)) &&
+                    Character.isLetter(input.charAt(1))) {
+                int row = input.charAt(0) - '0';
+                int col = Character.toLowerCase(input.charAt(0)) - 'a';
+                // check if the selection is valid under the game setting
+                if (board.isValid(row, col) &&
+                        board.isOccupied(row, col) &&
+                        isWhiteRound == board.getPiece(row, col).isWhite()) {
+                    selectPos = new Position(row, col);
+                    break;
+                }
+            }
+            System.out.printf("Invalid position, please select again: ");
+        }
+        return selectPos;
     }
 
     public boolean isWhite(Player player) {
@@ -54,5 +111,12 @@ public class Game {
         // pawns
         for (int col = 0; col < 8; ++col)
             board.setPiece(new Pawn(blackPlayer), board.HEIGHT - 2, col);
+    }
+
+    public static enum Status {
+        BLACK_WIN,
+        WHITE_WIN,
+        DRAW,
+        CONTINUE
     }
 }

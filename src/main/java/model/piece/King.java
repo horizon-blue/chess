@@ -22,8 +22,7 @@ public class King extends Piece {
         // "The king moves one square in any direction."
         for (int row = x - 1; row <= x + 1; ++row) {
             for (int col = y - 1; col <= y + 1; ++col) {
-                if (board.isValidMovement(this, row, col))
-                    availablePos.add(new Position(row, col));
+                addValidPos(row, col, availablePos);
             }
         }
         return availablePos;

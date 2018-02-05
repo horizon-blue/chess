@@ -3,6 +3,7 @@ package model.piece;
 import model.Player;
 import model.Position;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Knight extends Piece {
@@ -12,6 +13,18 @@ public class Knight extends Piece {
 
     @Override
     public Set<Position> getAvailablePosition(boolean isWhiteRound) {
-        return null;
+        Set<Position> availablePos = new HashSet<>();
+        // no available position if piece isn't in its own round
+        if (isWhiteRound != isWhite())
+            return availablePos;
+        // "The knight moves to any of the closest squares that are not on the same rank,
+        // file, or diagonal, thus the move forms an "L"-shape."
+        for (int height = -2; height <= 2; height += 4) {
+            for (int width = -1; width <= 1; width += 2) {
+                addValidPos(x + height, y + width, availablePos);
+                addValidPos(x + width, y + height, availablePos);
+            }
+        }
+        return availablePos;
     }
 }

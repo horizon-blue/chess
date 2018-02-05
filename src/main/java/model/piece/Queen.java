@@ -34,6 +34,12 @@ public class Queen extends Piece {
         for (int dist = 1; Math.min(board.HEIGHT - dist - x, board.WIDTH - dist - y) > 0
                 && addValidPos(x + dist, y + dist, availablePos); ++dist)
             ;
+        for (int dist = 1; Math.min(x - dist, board.WIDTH - dist - y - 1) >= 0
+                && addValidPos(x - dist, y + dist, availablePos); ++dist)
+            ;
+        for (int dist = 1; Math.min(board.HEIGHT - dist - x - 1, y - dist) >= 0
+                && addValidPos(x + dist, y - dist, availablePos); ++dist)
+            ;
 
         return availablePos;
     }

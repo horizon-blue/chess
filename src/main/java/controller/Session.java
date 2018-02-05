@@ -31,7 +31,12 @@ public class Session {
 
     public void start() {
         ++gameCount;
+        Game.Status status;
 
+        game.initBoard();
+        do {
+            status = game.nextRound();
+        } while (status == Game.Status.CONTINUE);
     }
 
     public void restart() {

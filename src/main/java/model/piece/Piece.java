@@ -40,9 +40,15 @@ public abstract class Piece {
         return other.isWhite() == isWhite();
     }
 
+    public void setPos(int row, int col) {
+        x = row;
+        y = col;
+    }
+
     /**
      * A protected helper function that check whether the given position is valid, and if so, add
-     * the position to positions ArrayList.
+     * the position to positions.
+     * This method WILL modify the positions parameter
      *
      * @param row       row position to check
      * @param col       column position to check

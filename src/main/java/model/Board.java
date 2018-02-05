@@ -1,15 +1,18 @@
 package model;
 
 import model.piece.*;
+import utils.printUtils;
+
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Board {
     public final int HEIGHT;
     public final int WIDTH;
 
     private final Space[][] board;
-    private HashSet<Piece> pieces = new HashSet<>();
+    private Set<Piece> pieces = new HashSet<>();
 
     public Board() {
         this(8, 8);
@@ -30,8 +33,7 @@ public class Board {
         if (isValid(row, col)) {
             if (piece != null) {
                 piece.board = this;
-                piece.x = row;
-                piece.y = col;
+                piece.setPos(row, col);
                 pieces.add(piece);
             }
             board[row][col].setPiece(piece);
@@ -156,22 +158,38 @@ public class Board {
 
     @Override
     public String toString() {
+        return toString(new HashSet<>());
+    }
+
+    /**
+     * Format the chess board into a string with positions highlighted
+     *
+     * @param positions positions to be highlighted
+     * @return a string notation of the chessboard
+     */
+    public String toString(Set<Position> positions) {
         StringBuilder boardString = new StringBuilder();
         for (int row = HEIGHT; row > 0; --row) {
             // print row number
             boardString.append(row);
             // print each space
-            for (Space space : board[row - 1]) {
-                boardString.append(' ');
-                boardString.append(space);
+            for (int col = 0; col < WIDTH; ++col) {
+                if (positions.contains(new Position(row - 1, col)))
+                    boardString.append(" " +
+                            printUtils.ANSI_BLUE_BG +
+                            printUtils.ANSI_BOLD +
+                            board[row - 1][col] +
+                            printUtils.ANSI_RESET
+                    );
+                else
+                    boardString.append(" " + board[row - 1][col]);
             }
             boardString.append('\n');
         }
         // print column number (using alphabet)
-        boardString.append(' ');
+        boardString.append(" ");
         for (int col = 0; col < WIDTH; ++col) {
-            boardString.append(' ');
-            boardString.append((char) (col + 'a'));
+            boardString.append(" " + (char) (col + 'a'));
         }
         return boardString.toString();
     }
