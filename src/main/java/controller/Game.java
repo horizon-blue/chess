@@ -108,12 +108,14 @@ public class Game {
 
                 // check if selected position is one of the highlighted
                 if (highlightPos != null && highlightPos.contains(selected)) {
+                    System.out.println(); // for formatting
                     return selected;
                 }
                 // check if the selection is valid under the game setting
                 else if (board.isValid(selected) &&
                         board.isOccupied(selected) &&
                         board.getPiece(selected).owner == currentPlayer) {
+                    System.out.println(); // for formatting
                     return selected;
                 }
             } else if (input.length() == 1 && Character.toLowerCase(input.charAt(0)) == 'q')
