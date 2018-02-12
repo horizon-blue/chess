@@ -16,7 +16,7 @@ public class Unicorn extends Piece {
      * @param owner the player who has the unicorn piece
      */
     public Unicorn(Player owner) {
-        super(owner, "𝕦", "u");
+        super(owner, "𝕌", "U");
     }
 
     @Override
