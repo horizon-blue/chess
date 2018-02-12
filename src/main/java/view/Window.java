@@ -1,23 +1,18 @@
 package view;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
- * The entire displaying window
+ * The viewer component for the main window
  */
-public class Window implements Runnable {
+public class Window extends JFrame {
     /**
-     * The main frame to display everything
+     * The main frame for display
      */
-    JFrame window;
-
-    @Override
-    public void run() {
-        window = new JFrame("Chess");
-        window.setSize(1024, 512);
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setVisible(true);
-        window.getContentPane().add(new Board(new model.Board()));
+    public Window() {
+        super("Chess");
+        setSize(1024, 800);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 }

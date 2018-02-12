@@ -12,6 +12,7 @@ public class Space extends ImageLabel {
     private static final int HEIGHT = 100;
 
     private final Position position;
+    public Piece piece;
     /**
      * Associate space with image. Receives a parameter that decides the space's
      * color

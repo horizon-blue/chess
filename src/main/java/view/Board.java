@@ -13,7 +13,7 @@ public class Board extends JPanel {
     private final Space[][] spaces;
 
     public Board(model.Board board) {
-        setPreferredSize(new Dimension(1000, 500));
+        setPreferredSize(new Dimension(500, 500));
         // set layout to null to allow absolute positioning
         setLayout(null);
 
@@ -26,6 +26,11 @@ public class Board extends JPanel {
             for (int col = board.WIDTH - 1; col >= 0; --col) {
                 Space space = new Space(new Position(row, col));
                 spaces[row][col] = space;
+                if (board.isOccupied(row, col)) {
+                    Piece piece = new Piece(board.getPiece(row, col));
+                    space.piece = piece;
+                    add(piece);
+                }
                 add(space);
             }
         }

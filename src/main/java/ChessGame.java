@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-import view.Window;
+import controller.Window;
 
 public class ChessGame {
     public static void main(String[] args) {
