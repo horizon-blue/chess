@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+
+\title{Chess Game GUI Testing Manual}
+\author{Xiaoyan Wang (xiaoyan5@illinois.edu)}
+
+\begin{document}
+\maketitle
+
+\section{Game Board}
+
+It is better if we can check the functionality of game board before
+we check how individual pieces interact with each other. My Chess board
+is implemented to support re-sizing - so we could start here.
+
+\subsection{Empty Board}
+
+Here is how the empty board should look like under several different
+sizes:
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.45]{empty-8x8}
+\caption{An empty $8\times 8$ board}
+\end{center}
+\end{figure}
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.45]{empty-4x7}
+\caption{An empty $4\times 7$ board}
+\end{center}
+\end{figure}
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.45]{empty-12x4}
+\caption{An empty $12\times 4$ board}
+\end{center}
+\end{figure}
+
+\subsection{Filled Board}
+
+After initializing the board, you should be able to see pieces appears on
+the GUI. Make sure that the pieces are on the correct positions and
+have the correct Z-Index:
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.45]{full-8x8}
+\caption{An empty $8\times 8$ board}
+\end{center}
+\end{figure}
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.45]{full-6x6}
+\caption{An empty $6\times 6$ board}
+\end{center}
+\end{figure}
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.40]{full-10x10}
+\caption{An empty $10\times 10$ board}
+\end{center}
+\end{figure}
+
+
+
+\end{document}
