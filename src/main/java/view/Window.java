@@ -18,7 +18,6 @@ public class Window implements Runnable {
         window.setSize(1024, 512);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setVisible(true);
-
-        window.getContentPane().add(BorderLayout.CENTER, new Board(new model.Board()));
+        window.getContentPane().add(new Board(new model.Board()));
     }
 }
