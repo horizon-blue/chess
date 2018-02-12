@@ -11,7 +11,6 @@ import java.util.Set;
  */
 public abstract class Piece {
     // attributes
-    public final String name;
     private final String whiteSymbol;
     private final String blackSymbol;
 
@@ -24,17 +23,14 @@ public abstract class Piece {
 
     /**
      * generate a new piece for the owner
-     *
      * @param owner       the player who has this piece
-     * @param name        name (type) of the piece
      * @param whiteSymbol short notation for the piece when it is white
      * @param blackSymbol short notation for the piece when it is black
      */
-    Piece(Player owner, String name, String whiteSymbol, String blackSymbol) {
+    Piece(Player owner, String whiteSymbol, String blackSymbol) {
         if (owner == null)
             throw new IllegalArgumentException("Owner cannot be null");
         this.owner = owner;
-        this.name = name;
         this.whiteSymbol = whiteSymbol;
         this.blackSymbol = blackSymbol;
     }
@@ -80,6 +76,16 @@ public abstract class Piece {
     public void setPos(int row, int col) {
         x = row;
         y = col;
+    }
+
+    /**
+     * A helper function to check whether the piece is currently on board
+     *
+     * @return true if the piece belongs to a board and it is currently on board,
+     * false otherwise
+     */
+    public boolean isOnBoard() {
+        return board != null && board.isValid(x, y);
     }
 
     /**
