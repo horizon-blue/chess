@@ -13,7 +13,7 @@ public class Artillery extends Piece {
     private static final int DIRECTIONS[][] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
     /**
-     * Create a king piece for the owner
+     * Create a Artillery piece for the owner
      *
      * @param owner the player who has the king piece
      */

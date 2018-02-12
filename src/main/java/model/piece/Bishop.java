@@ -18,7 +18,7 @@ public class Bishop extends Piece {
     private static final int DIRECTIONS[][] = {{-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
 
     /**
-     * Create a bishop piece for the owner
+     * Create a Bishop piece for the owner
      *
      * @param owner the player who has the bishop piece
      */

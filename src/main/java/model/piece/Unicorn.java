@@ -18,7 +18,7 @@ public class Unicorn extends Piece {
             {{-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {-2, 1}, {-2, -1}, {2, 1}, {2, -1}};
 
     /**
-     * Create a unicorn piece for the owner
+     * Create a Unicorn piece for the owner
      *
      * @param owner the player who has the unicorn piece
      */

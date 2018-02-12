@@ -18,7 +18,7 @@ public class Rook extends Piece {
     private static final int DIRECTIONS[][] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
     /**
-     * Create a rook piece for the owner
+     * Create a Rook piece for the owner
      *
      * @param owner the player who has the rook piece
      */

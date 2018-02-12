@@ -10,14 +10,18 @@ import java.util.Set;
  * Pawn - a subclass of Piece
  */
 public class Pawn extends Piece {
+    /**
+     * Record whether Pawn has been moved. A Pawn can move two steps forward
+     * in its first movement
+     */
     public boolean hasMoved = false;
 
+    /**
+     * Create a Pawn piece for the owner
+     *
+     * @param owner the player who has the pawn piece
+     */
     public Pawn(Player owner) {
-        /**
-         * Create a pawn piece for the owner
-         *
-         * @param owner the player who has the pawn piece
-         */
         super(owner, "♙", "♟");
     }
 

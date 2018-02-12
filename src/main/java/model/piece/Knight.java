@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class Knight extends Piece {
     /**
-     * Create a knight piece for the owner
+     * Create a Knight piece for the owner
      *
      * @param owner the player who has the knight piece
      */

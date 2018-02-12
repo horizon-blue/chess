@@ -19,7 +19,7 @@ public class Queen extends Piece {
             {{-1, 0}, {0, -1}, {1, 0}, {0, 1}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
 
     /**
-     * Create a queen piece for the owner
+     * Create a Queen piece for the owner
      *
      * @param owner the player who has the queen piece
      */
