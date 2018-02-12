@@ -1,5 +1,7 @@
 package view;
 
+import model.Position;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,11 +21,11 @@ public class Board extends JPanel {
         spaces = new Space[board.WIDTH][board.HEIGHT];
 
         // odd spaces have white color, even spaces have black color
+        // reverse drawing oder so that the board can display correctly
         for (int row = 0; row < board.HEIGHT; ++row) {
-            for (int col = 0; col < board.WIDTH; ++col) {
-                Space space = new Space((row + col) % 2 == 1);
+            for (int col = board.WIDTH - 1; col >= 0; --col) {
+                Space space = new Space(new Position(row, col));
                 spaces[row][col] = space;
-                space.setLocation(50 * row, 50 * col);
                 add(space);
             }
         }
