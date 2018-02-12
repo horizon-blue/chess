@@ -138,8 +138,12 @@ public class Game {
         board.addPiece(new Bishop(whitePlayer), 0, 5);
         board.addPiece(new Knight(whitePlayer), 0, 6);
         board.addPiece(new Rook(whitePlayer), 0, 7);
+        // pawns
         for (int col = 0; col < 8; ++col)
             board.addPiece(new Pawn(whitePlayer), 1, col);
+        // fairy piece
+        board.addPiece(new Unicorn(whitePlayer), 2, 0);
+        board.addPiece(new Artillery(whitePlayer), 2, 7);
 
         // black pieces
         board.addPiece(new Rook(blackPlayer), board.HEIGHT - 1, 0);
@@ -150,10 +154,11 @@ public class Game {
         board.addPiece(new Bishop(blackPlayer), board.HEIGHT - 1, 5);
         board.addPiece(new Knight(blackPlayer), board.HEIGHT - 1, 6);
         board.addPiece(new Rook(blackPlayer), board.HEIGHT - 1, 7);
-
         // pawns
         for (int col = 0; col < 8; ++col)
             board.addPiece(new Pawn(blackPlayer), board.HEIGHT - 2, col);
+        board.addPiece(new Unicorn(blackPlayer), board.HEIGHT - 3, 7);
+        board.addPiece(new Artillery(blackPlayer), board.HEIGHT - 3, 0);
     }
 
     public static enum Status {

@@ -73,17 +73,21 @@ class ArtilleryTest {
         Player blackPlayer = new Player();
         Game game = new Game(player, blackPlayer);
 
-        board.addPiece(artillery, 2, 3);
-        board.addPiece(new Pawn(blackPlayer), 2, 5);
-        board.addPiece(new Queen(blackPlayer), 2, 7);
+        board.addPiece(artillery, 2, 2);
+        board.addPiece(new Pawn(blackPlayer), 2, 4);
+        board.addPiece(new Queen(blackPlayer), 2, 6);
+        board.addPiece(new Bishop(blackPlayer), 2, 7);
 
         Set<Position> positions = artillery.getAvailablePosition(false);
         // artillery can jump over to other piece
-        assertTrue(positions.contains(new Position(2, 7)));
-        assertTrue(positions.contains(new Position(2, 4)));
+        assertTrue(positions.contains(new Position(2, 6)));
+        assertTrue(positions.contains(new Position(2, 3)));
+        assertFalse(positions.contains(new Position(2, 4)));
         assertFalse(positions.contains(new Position(2, 5)));
-        assertFalse(positions.contains(new Position(2, 6)));
-        assertEquals(12, positions.size());
+        // it should only be able to capture first piece beyond the
+        // one it jumps over
+        assertFalse(positions.contains(new Position(2, 7)));
+        assertEquals(11, positions.size());
 
     }
 

@@ -35,8 +35,10 @@ public class Artillery extends Piece {
             for (row += direction[0], col += direction[1];
                  board.isValid(row, col); row += direction[0],
                          col += direction[1]) {
-                if (board.isOccupied(row, col))
+                if (board.isOccupied(row, col)) {
                     addValidPos(row, col, availablePositions, isWhiteRound);
+                    break;
+                }
             }
 
         }
