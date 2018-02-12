@@ -23,7 +23,7 @@ public class Board extends JPanel {
         setLayout(null);
 
         this.board = board;
-        spaces = new Space[board.WIDTH][board.HEIGHT];
+        spaces = new Space[board.HEIGHT][board.WIDTH];
 
         // odd spaces have white color, even spaces have black color
         // reverse drawing oder so that the board can display correctly

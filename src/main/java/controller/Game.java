@@ -15,12 +15,30 @@ public class Game {
     public Player whitePlayer;
     public Player blackPlayer;
 
+    /**
+     * Equivalent to Game(whitePlayer, blackPlayer, 8, 8);
+     *
+     * @param whitePlayer player with white pieces
+     * @param blackPlayer player with black pieces
+     */
     public Game(Player whitePlayer, Player blackPlayer) {
+        this(whitePlayer, blackPlayer, 8, 8);
+    }
+
+    /**
+     * Initialize the game with the two specified players
+     *
+     * @param whitePlayer player with white pieces
+     * @param blackPlayer player with black pieces
+     * @param boardHeight maximum height of the board
+     * @param boardWidth  maximum width of the board
+     */
+    public Game(Player whitePlayer, Player blackPlayer, int boardHeight, int boardWidth) {
         whitePlayer.isWhite = true;
         blackPlayer.isWhite = false;
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
-        board = new Board();
+        board = new Board(boardHeight, boardWidth);
     }
 
     /**
