@@ -32,8 +32,8 @@ class PawnTest {
         Player player = new Player();
         Board board = new Board(8, 8);
         Piece pawn = new Pawn(player);
-        board.addPiece(pawn, 3, 3);
-        ((Pawn) pawn).hasMoved = true;
+        board.addPiece(pawn, 2, 3);
+        board.movePiece(pawn, 3, 3);
 
         Set<Position> positions = pawn.getAvailablePosition(false);
         assertTrue(positions.contains(new Position(2, 3)));

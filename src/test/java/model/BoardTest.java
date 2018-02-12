@@ -43,6 +43,9 @@ class BoardTest {
         assertNull(board.getPiece(from));
         assertNotNull(board.getPiece(to));
         assertEquals(queen, board.getPiece(to));
+        // move piece again
+        board.movePiece(queen, 3, 5);
+        assertEquals(queen, board.getPiece(3, 5));
     }
 
     @Test

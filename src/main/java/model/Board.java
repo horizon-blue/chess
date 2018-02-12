@@ -135,16 +135,13 @@ public class Board {
     }
 
     /**
-     * equivalent to movePieceHelper(piece.x, piece.y, row, col). Have no effect if piece does
-     * not belong to current board
+     * equivalent to movePieceHelper(piece.x, piece.y, row, col).
      *
      * @param piece piece to move
      * @param row   target row position
      * @param col   target column position
      */
     private void movePieceHelper(Piece piece, int row, int col) {
-        if (piece.board != this)
-            return;
         movePieceHelper(piece.x, piece.y, row, col);
     }
 
