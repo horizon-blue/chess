@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * A helper class to display images using JPanel
@@ -16,13 +15,12 @@ public class ImagePanel extends JPanel {
     private Image img;
 
     /**
-     * Load the image resource to the current ImagePanel
+     * Set the background image of current panel to the specified image
      *
-     * @param imgPath the path of image to load
-     * @throws IOException throws exception if image does not exist
+     * @param img the background image to be set to current panel
      */
-    public ImagePanel(String imgPath) throws IOException {
-        img = new ImageIcon(imgPath).getImage();
+    public ImagePanel(Image img) {
+        this.img = img;
     }
 
 

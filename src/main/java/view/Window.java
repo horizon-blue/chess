@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * The entire displaying window
@@ -14,9 +15,10 @@ public class Window implements Runnable {
     @Override
     public void run() {
         window = new JFrame("Chess");
-        window.setSize(650, 400);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setSize(1024, 512);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setVisible(true);
-        
+
+        window.getContentPane().add(BorderLayout.CENTER, new Board(new model.Board()));
     }
 }
