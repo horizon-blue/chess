@@ -3,6 +3,9 @@ package view;
 import model.Position;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * A position on board that holds a piece
@@ -26,5 +29,19 @@ public class Space extends ImageLabel {
                 + ".png")), WIDTH, HEIGHT);
         this.position = position;
         updateLocation(position.row, position.col, 0, 0);
+        // Make tiles appears clickable
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        addClickListener();
+    }
+
+    /**
+     * Register mouse listener to the piece
+     */
+    private void addClickListener() {
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Clicked tile at " + position + ".");
+            }
+        });
     }
 }

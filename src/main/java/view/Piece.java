@@ -30,8 +30,8 @@ public class Piece extends ImageLabel {
         this.piece = piece;
         updateLocation(piece.x, piece.y, 4, -46);
         // Make pieces appears clickable
-        addClickListener();
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        addClickListener();
     }
 
 
