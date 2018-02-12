@@ -33,6 +33,6 @@ public class Queen extends Piece {
         if (!isOnBoard())
             return availablePositions;
 
-        return getAllInDirections(DIRECTIONS, availablePositions, isWhiteRound);
+        return getAllInDirections(DIRECTIONS, isWhiteRound);
     }
 }

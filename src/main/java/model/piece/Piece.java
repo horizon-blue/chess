@@ -4,6 +4,7 @@ import model.Board;
 import model.Player;
 import model.Position;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -118,12 +119,12 @@ public abstract class Piece {
      *
      * @param directions   array of directions (direction[0] corresponds to row, and direction[1]
      *                     correspond to column)
-     * @param positions    the data structure to hold returning positions
      * @param isWhiteRound whether current round is white piece - used to decide whether to verify king's
      *                     checked status
      * @return the set of all valid positions in the direction
      */
-    protected Set<Position> getAllInDirections(int directions[][], Set<Position> positions, boolean isWhiteRound) {
+    protected Set<Position> getAllInDirections(int[][] directions, boolean isWhiteRound) {
+        Set<Position> positions = new HashSet<>();
         for (int direction[] : directions)
             for (int row = x + direction[0], col = y + direction[1];
                  board.isValid(row, col) && addValidPos(row, col, positions, isWhiteRound);
