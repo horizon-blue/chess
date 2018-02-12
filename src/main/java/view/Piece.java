@@ -11,7 +11,13 @@ public class Piece extends ImageLabel {
 
     private final model.piece.Piece piece;
 
+    /**
+     * Return a viewer for piece
+     *
+     * @param piece the piece to display
+     */
     public Piece(model.piece.Piece piece) {
+        // select the piece's image based on its classname
         super(new ImageIcon(model.Board.class.getResource("/pieces/"
                 + piece.getClass().getSimpleName() + "_"
                 + (piece.isWhite() ? "w" : "b")

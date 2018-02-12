@@ -20,6 +20,7 @@ public class Space extends ImageLabel {
      * @param position position of current space
      */
     public Space(Position position) {
+        // odd position has white color, even position has black color
         super(new ImageIcon(model.Board.class.getResource("/pieces/Board_"
                 + ((position.row + position.col) % 2 == 1 ? "w" : "b")
                 + ".png")), WIDTH, HEIGHT);

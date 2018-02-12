@@ -12,6 +12,11 @@ public class Board extends JPanel {
     private final model.Board board;
     private final Space[][] spaces;
 
+    /**
+     * Create a Board viewer to display the content of the board
+     *
+     * @param board the board to display
+     */
     public Board(model.Board board) {
         setPreferredSize(new Dimension(500, 500));
         // set layout to null to allow absolute positioning

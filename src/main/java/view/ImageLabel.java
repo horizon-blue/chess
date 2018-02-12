@@ -3,7 +3,6 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * A helper class to create JLabel with Image
@@ -27,7 +26,7 @@ public class ImageLabel extends JLabel {
     }
 
     /**
-     * Resizes an image using a Graphics2D object backed by a BufferedImage.
+     * Resize an image using a Graphics2D object backed by a BufferedImage.
      * Source: https://stackoverflow.com/questions/11687527/how-to-set-transparent-png-to-jbutton
      *
      * @param srcImg source image to scale
