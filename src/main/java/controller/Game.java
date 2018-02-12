@@ -47,9 +47,6 @@ public class Game {
             if (targetPos == null) // cancel selection
                 continue;
             board.movePiece(sourcePos, targetPos);
-            // setting the special property for pawn
-            if (selectPiece instanceof Pawn)
-                ((Pawn) selectPiece).hasMoved = true;
             madeMovement = true;
         } while (!madeMovement);
 

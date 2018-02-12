@@ -76,10 +76,11 @@ public class Board {
      * @param toCol   new column position of the piece
      */
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
-        Piece selected = getPiece(fromRow, fromCol);
-        clearPiece(fromRow, fromCol);
-        clearPiece(toRow, toCol);
-        setPiece(selected, toRow, toCol);
+        Piece piece = getPiece(fromRow, fromCol);
+        // setting the special property for pawn
+        if (piece instanceof Pawn)
+            ((Pawn) piece).hasMoved = true;
+        movePieceHelper(fromRow, fromCol, toRow, toCol);
     }
 
     /**
@@ -114,6 +115,37 @@ public class Board {
      */
     public void movePiece(Piece piece, Position pos) {
         movePiece(piece, pos.row, pos.col);
+    }
+
+    /**
+     * A private helper that does the actual action of moving a piece
+     * (without record history or set the status of Pawn to moved)
+     * Move the piece from (fromRow, fromCol) to (toRow, toCol).
+     *
+     * @param fromRow original row position of the piece
+     * @param fromCol original column position of the piece
+     * @param toRow   new row position of the piece
+     * @param toCol   new column position of the piece
+     */
+    private void movePieceHelper(int fromRow, int fromCol, int toRow, int toCol) {
+        Piece selected = getPiece(fromRow, fromCol);
+        clearPiece(fromRow, fromCol);
+        clearPiece(toRow, toCol);
+        setPiece(selected, toRow, toCol);
+    }
+
+    /**
+     * equivalent to movePieceHelper(piece.x, piece.y, row, col). Have no effect if piece does
+     * not belong to current board
+     *
+     * @param piece piece to move
+     * @param row   target row position
+     * @param col   target column position
+     */
+    private void movePieceHelper(Piece piece, int row, int col) {
+        if (piece.board != this)
+            return;
+        movePieceHelper(piece.x, piece.y, row, col);
     }
 
     /**
@@ -279,12 +311,12 @@ public class Board {
         Piece oldPiece = getPiece(row, col);
         int oldRow = piece.x;
         int oldCol = piece.y;
-        movePiece(piece, row, col);
+        movePieceHelper(piece, row, col);
 
         boolean result = isChecked(piece.owner);
 
         // reset to previous state
-        movePiece(piece, oldRow, oldCol);
+        movePieceHelper(piece, oldRow, oldCol);
         setPiece(oldPiece, row, col);
 
         return result;
