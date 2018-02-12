@@ -1,5 +1,7 @@
 package view;
 
+import model.Position;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,18 +15,17 @@ public class Board extends JPanel {
     public Board(model.Board board) {
         setPreferredSize(new Dimension(500, 500));
         // set layout to null to allow absolute positioning
-        setLayout(null);
+        setLayout(new BorderLayout());
 
         this.board = board;
         spaces = new Space[board.WIDTH][board.HEIGHT];
 
-        // odd spaces have white color, even spaces have black color
+
         for (int row = 0; row < board.HEIGHT; ++row) {
             for (int col = 0; col < board.WIDTH; ++col) {
-                Space space = new Space((row + col) % 2 == 1);
-                add(space);
-                space.setLocation(row * 100, col * 100);
+                Space space = new Space(new Position(row, col));
                 spaces[row][col] = space;
+                add(space);
             }
         }
     }
