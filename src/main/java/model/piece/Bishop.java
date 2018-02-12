@@ -11,6 +11,13 @@ import java.util.Set;
  */
 public class Bishop extends Piece {
     /**
+     * directions that Bishop can go - either same file or same rank
+     * "The bishop can move any number of squares diagonally, but may not
+     * leap over other pieces"
+     */
+    private static final int DIRECTIONS[][] = {{-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
+
+    /**
      * Create a bishop piece for the owner
      *
      * @param owner the player who has the bishop piece
@@ -25,22 +32,6 @@ public class Bishop extends Piece {
         if (!isOnBoard())
             return availablePositions;
 
-        // "The bishop can move any number of squares diagonally, but may not leap over other pieces"
-        // split into separate for loops so that we can break if the path is blocked
-        // check diagonal tiles
-        for (int dist = 1; Math.min(x - dist, y - dist) >= 0
-                && addValidPos(x - dist, y - dist, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(board.HEIGHT - dist - x, board.WIDTH - dist - y) > 0
-                && addValidPos(x + dist, y + dist, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(x - dist, board.WIDTH - dist - y - 1) >= 0
-                && addValidPos(x - dist, y + dist, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(board.HEIGHT - dist - x - 1, y - dist) >= 0
-                && addValidPos(x + dist, y - dist, availablePositions, isWhiteRound); ++dist)
-            ;
-
-        return availablePositions;
+        return addAllInDirections(DIRECTIONS, availablePositions, isWhiteRound);
     }
 }

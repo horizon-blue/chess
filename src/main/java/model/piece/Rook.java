@@ -11,6 +11,13 @@ import java.util.Set;
  */
 public class Rook extends Piece {
     /**
+     * directions that Rook can go - either same file or same rank
+     * "The rook can move any number of squares along any rank or file,
+     * but may not leap over other pieces."
+     */
+    private static final int DIRECTIONS[][] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+
+    /**
      * Create a rook piece for the owner
      *
      * @param owner the player who has the rook piece
@@ -25,14 +32,6 @@ public class Rook extends Piece {
         if (!isOnBoard())
             return availablePositions;
 
-        // "The rook can move any number of squares along any rank or file, but may not leap over other pieces."
-        // split into separate for loops so that we can break if the path is blocked
-        // check the same file and rank
-        for (int row = x - 1; row >= 0 && addValidPos(row, y, availablePositions, isWhiteRound); --row) ;
-        for (int row = x + 1; row < board.HEIGHT && addValidPos(row, y, availablePositions, isWhiteRound); ++row) ;
-        for (int col = y - 1; col >= 0 && addValidPos(x, col, availablePositions, isWhiteRound); --col) ;
-        for (int col = y + 1; col < board.WIDTH && addValidPos(x, col, availablePositions, isWhiteRound); ++col) ;
-
-        return availablePositions;
+        return addAllInDirections(DIRECTIONS, availablePositions, isWhiteRound);
     }
 }

@@ -8,6 +8,11 @@ import java.util.Set;
 
 public class Artillery extends Piece {
     /**
+     * directions that Artillery can go - diagonal tiles
+     */
+    private static final int DIRECTIONS[][] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+
+    /**
      * Create a king piece for the owner
      *
      * @param owner the player who has the king piece
@@ -21,12 +26,11 @@ public class Artillery extends Piece {
         Set<Position> availablePositions = new HashSet<>();
         if (!isOnBoard())
             return availablePositions;
-        // it can goes vertically or horizontally
-        int directions[][] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-        for (int direction[] : directions) {
+
+        for (int direction[] : DIRECTIONS) {
             int row = x, col = y;
             // artillery cannot directly capture other piece
-            for (row = x + direction[0], col = y + direction[1];
+            for (row += direction[0], col += direction[1];
                  board.isValid(row, col) && !board.isOccupied(row, col)
                          && addValidPos(row, col, availablePositions, isWhiteRound);
                  row += direction[0], col += direction[1])

@@ -96,6 +96,8 @@ public abstract class Piece {
      * @param row       row position to check
      * @param col       column position to check
      * @param positions if (row, col) is valid, it will be added to positions
+     * @param isWhiteRound whether current round is white piece - used to decide whether to verify king's
+     *                     checked status
      * @return true if the given position is empty, false otherwise
      */
     protected boolean addValidPos(int row, int col, Set<Position> positions, boolean isWhiteRound) {
@@ -109,6 +111,25 @@ public abstract class Piece {
             return false;
         else
             return true;
+    }
+
+    /**
+     * Given a array of directions, add all valid positions to the set of positions
+     *
+     * @param directions   array of directions (direction[0] corresponds to row, and direction[1]
+     *                     correspond to column)
+     * @param positions    the data structure to hold returning positions
+     * @param isWhiteRound whether current round is white piece - used to decide whether to verify king's
+     *                     checked status
+     * @return the set of all valid positions in the direction
+     */
+    protected Set<Position> addAllInDirections(int directions[][], Set<Position> positions, boolean isWhiteRound) {
+        for (int direction[] : directions)
+            for (int row = x + direction[0], col = y + direction[1];
+                 board.isValid(row, col) && addValidPos(row, col, positions, isWhiteRound);
+                 row += direction[0], col += direction[1])
+                ;
+        return positions;
     }
 
     /**

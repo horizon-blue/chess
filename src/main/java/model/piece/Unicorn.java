@@ -11,6 +11,13 @@ import java.util.Set;
  */
 public class Unicorn extends Piece {
     /**
+     * directions that Unicorn can go - "a fairy chess piece that can move
+     * any number of steps as a knight in the same direction" -- Wikipedia
+     */
+    private static final int DIRECTIONS[][] =
+            {{-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {-2, 1}, {-2, -1}, {2, 1}, {2, -1}};
+
+    /**
      * Create a unicorn piece for the owner
      *
      * @param owner the player who has the unicorn piece
@@ -25,40 +32,7 @@ public class Unicorn extends Piece {
         if (!isOnBoard())
             return availablePositions;
 
-        // unicorn is "a fairy chess piece that can move any number of
-        // steps as a knight in the same direction" -- Wikipedia
-        // top-left tiles
-        for (int dist = 1; Math.min(x - dist * 1, y - dist * 2) >= 0
-                && addValidPos(x - dist * 1, y - dist * 2, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(x - dist * 2, y - dist * 1) >= 0
-                && addValidPos(x - dist * 2, y - dist * 1, availablePositions, isWhiteRound); ++dist)
-            ;
-        // top-right tiles
-        for (int dist = 1; Math.min(x - dist * 2, board.WIDTH - y - dist * 1 - 1) >= 0
-                && addValidPos(x - dist * 2, y + dist * 1, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(x - dist * 1, board.WIDTH - y - dist * 2 - 1) >= 0
-                && addValidPos(x - dist * 1, y + dist * 2, availablePositions, isWhiteRound); ++dist)
-            ;
-
-        // bottom-left tiles
-        for (int dist = 1; Math.min(board.HEIGHT - x - dist * 2 - 1, y - dist * 1) >= 0
-                && addValidPos(x + dist * 2, y - dist * 1, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(board.HEIGHT - x - dist * 1 - 1, y - dist * 2) >= 0
-                && addValidPos(x + dist * 1, y - dist * 2, availablePositions, isWhiteRound); ++dist)
-            ;
-
-        // bottom-right tiles
-        for (int dist = 1; Math.min(board.HEIGHT - x - dist * 2 - 1, board.WIDTH - y - dist * 1 - 1) >= 0
-                && addValidPos(x + dist * 2, y + dist * 1, availablePositions, isWhiteRound); ++dist)
-            ;
-        for (int dist = 1; Math.min(board.HEIGHT - x - dist * 1 - 1, board.WIDTH - y - dist * 2 - 1) >= 0
-                && addValidPos(x + dist * 1, y + dist * 2, availablePositions, isWhiteRound); ++dist)
-            ;
-
-        return availablePositions;
+        return addAllInDirections(DIRECTIONS, availablePositions, isWhiteRound);
     }
 
 
