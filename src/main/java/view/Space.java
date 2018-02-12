@@ -25,14 +25,6 @@ public class Space extends ImageLabel {
                 + ((position.row + position.col) % 2 == 1 ? "w" : "b")
                 + ".png")), WIDTH, HEIGHT);
         this.position = position;
-        updateLocation();
-    }
-
-    /**
-     * Calculate corresponding location on screen and move to the location
-     */
-    private void updateLocation() {
-        // these number are used to aligned the pixels of the image
-        setLocation(55 * position.row + 37 * position.col, 200 + 38 * position.col - 14 * position.row);
+        updateLocation(position.row, position.col, 0, 0);
     }
 }

@@ -1,6 +1,11 @@
 package view;
 
+import model.Position;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * The viewer class for pieces
@@ -23,14 +28,24 @@ public class Piece extends ImageLabel {
                 + (piece.isWhite() ? "w" : "b")
                 + ".png")), WIDTH, HEIGHT);
         this.piece = piece;
-        updateLocation();
+        updateLocation(piece.x, piece.y, 4, -46);
+        // Make pieces appears clickable
+        addClickListener();
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
+
     /**
-     * Calculate corresponding location on screen and move to the location
+     * Register mouse listener to the piece
      */
-    private void updateLocation() {
-        // these number are used to aligned the pixels of the image
-        setLocation(4 + 55 * piece.x + 37 * piece.y, 200 + 38 * piece.y - 14 * piece.x - 46);
+    private void addClickListener() {
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Clicked " + piece.getClass().getSimpleName()
+                        + " at " + new Position(piece.x, piece.y) + ".");
+            }
+        });
     }
+
+
 }

@@ -42,4 +42,17 @@ public class ImageLabel extends JLabel {
         g2.dispose();
         return resizedImg;
     }
+
+    /**
+     * Convert board coordinates to actual pixel position
+     *
+     * @param row       row index on the board
+     * @param col       column index on the board
+     * @param offsetRow row pixel offset
+     * @param offsetCol column pixel offset
+     */
+    protected void updateLocation(int row, int col, int offsetRow, int offsetCol) {
+        // these number are used to aligned the pixels of the image
+        setLocation(offsetRow + 55 * row + 37 * col, 200 + 38 * col - 14 * row + offsetCol);
+    }
 }
