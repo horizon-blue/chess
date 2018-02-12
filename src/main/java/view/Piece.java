@@ -25,6 +25,6 @@ public class Piece extends ImageLabel {
      */
     private void updateLocation() {
         // these number are used to aligned the pixels of the image
-        setLocation(4 + 55 * piece.x + 37 * piece.y, 38 * piece.y - 14 * piece.x - 46);
+        setLocation(4 + 55 * piece.x + 37 * piece.y, 200 + 38 * piece.y - 14 * piece.x - 46);
     }
 }

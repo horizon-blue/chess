@@ -32,6 +32,6 @@ public class Space extends ImageLabel {
      */
     private void updateLocation() {
         // these number are used to aligned the pixels of the image
-        setLocation(55 * position.row + 37 * position.col, 38 * position.col - 14 * position.row);
+        setLocation(55 * position.row + 37 * position.col, 200 + 38 * position.col - 14 * position.row);
     }
 }
