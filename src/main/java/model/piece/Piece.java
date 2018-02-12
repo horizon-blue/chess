@@ -123,7 +123,7 @@ public abstract class Piece {
      *                     checked status
      * @return the set of all valid positions in the direction
      */
-    protected Set<Position> addAllInDirections(int directions[][], Set<Position> positions, boolean isWhiteRound) {
+    protected Set<Position> getAllInDirections(int directions[][], Set<Position> positions, boolean isWhiteRound) {
         for (int direction[] : directions)
             for (int row = x + direction[0], col = y + direction[1];
                  board.isValid(row, col) && addValidPos(row, col, positions, isWhiteRound);

@@ -32,6 +32,6 @@ public class Rook extends Piece {
         if (!isOnBoard())
             return availablePositions;
 
-        return addAllInDirections(DIRECTIONS, availablePositions, isWhiteRound);
+        return getAllInDirections(DIRECTIONS, availablePositions, isWhiteRound);
     }
 }
