@@ -3,6 +3,7 @@ package model.piece;
 import model.Board;
 import model.Player;
 import model.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +12,20 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KingTest {
+    Player player;
+    Piece king;
+    Board board;
+
+    @BeforeEach
+    void beforeEach() {
+        player = new Player();
+        board = new Board();
+        king = new King(player);
+    }
+
     @Test
     @DisplayName("getAvailablePosition() (valid positions)")
     void getAvailablePositionValid() {
-        Player player = new Player();
-        Board board = new Board(8, 8);
-        Piece king = new King(player);
         board.addPiece(king, 6, 5);
 
         Set<Position> positions = king.getAvailablePosition(false);
@@ -30,10 +39,7 @@ class KingTest {
     @Test
     @DisplayName("getAvailablePosition() (invalid positions)")
     void getAvailablePositionInvalid() {
-        Player player = new Player();
-        Board board = new Board(9, 9);
-        Piece king = new King(player);
-        board.addPiece(king, 8, 4);
+        board.addPiece(king, 7, 4);
 
         Set<Position> positions = king.getAvailablePosition(false);
         // check invalid positions
@@ -46,8 +52,6 @@ class KingTest {
     @Test
     @DisplayName("getAvailablePosition() (no board)")
     void getAvailablePositionNoBoard() {
-        Piece king = new King(new Player());
-
         Set<Position> positions = king.getAvailablePosition(false);
         // check whether position is the same as expected
         // check rank and tile

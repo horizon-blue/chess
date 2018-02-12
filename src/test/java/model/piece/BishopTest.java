@@ -3,6 +3,7 @@ package model.piece;
 import model.Board;
 import model.Player;
 import model.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +12,20 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BishopTest {
+    Player player;
+    Piece bishop;
+    Board board;
+
+    @BeforeEach
+    void beforeEach() {
+        player = new Player();
+        board = new Board();
+        bishop = new Bishop(player);
+    }
+
     @Test
     @DisplayName("getAvailablePosition() (valid positions)")
     void getAvailablePositionValid() {
-        Player player = new Player();
-        Board board = new Board(8, 8);
-        Piece bishop = new Bishop(player);
         board.addPiece(bishop, 3, 5);
 
         Set<Position> positions = bishop.getAvailablePosition(false);
@@ -32,9 +41,6 @@ class BishopTest {
     @Test
     @DisplayName("getAvailablePosition() (invalid positions)")
     void getAvailablePositionInvalid() {
-        Player player = new Player();
-        Board board = new Board(9, 9);
-        Piece bishop = new Bishop(player);
         board.addPiece(bishop, 4, 4);
 
         Set<Position> positions = bishop.getAvailablePosition(false);
@@ -48,15 +54,13 @@ class BishopTest {
         assertFalse(positions.contains(new Position(6, 9)));
         assertFalse(positions.contains(new Position(9, 3)));
         assertFalse(positions.contains(new Position(9, 7)));
-        assertEquals(16, positions.size());
+        assertEquals(13, positions.size());
 
     }
 
     @Test
     @DisplayName("getAvailablePosition() (no board)")
     void getAvailablePositionNoBoard() {
-        Piece bishop = new Bishop(new Player());
-
         Set<Position> positions = bishop.getAvailablePosition(false);
         // check whether position is the same as expected
         // check rank and tile

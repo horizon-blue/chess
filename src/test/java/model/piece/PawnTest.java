@@ -4,6 +4,7 @@ import controller.Game;
 import model.Board;
 import model.Player;
 import model.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +13,20 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PawnTest {
+    Player player;
+    Piece pawn;
+    Board board;
+
+    @BeforeEach
+    void beforeEach() {
+        player = new Player();
+        board = new Board();
+        pawn = new Pawn(player);
+    }
+
     @Test
     @DisplayName("getAvailablePosition() (valid positions)")
     void getAvailablePositionValid() {
-        Player player = new Player();
-        Board board = new Board(8, 8);
-        Piece pawn = new Pawn(player);
         board.addPiece(pawn, 6, 5);
 
         Set<Position> positions = pawn.getAvailablePosition(false);
@@ -29,9 +38,6 @@ class PawnTest {
     @Test
     @DisplayName("getAvailablePosition() (second move)")
     void getAvailablePositionSecondMove() {
-        Player player = new Player();
-        Board board = new Board(8, 8);
-        Piece pawn = new Pawn(player);
         board.addPiece(pawn, 2, 3);
         board.movePiece(pawn, 3, 3);
 
@@ -45,17 +51,14 @@ class PawnTest {
     @Test
     @DisplayName("getAvailablePosition() (invalid positions)")
     void getAvailablePositionInvalid() {
-        Player player = new Player();
-        Board board = new Board(9, 9);
-        Piece pawn = new Pawn(player);
-        board.addPiece(pawn, 8, 4);
+        board.addPiece(pawn, 7, 4);
 
         Set<Position> positions = pawn.getAvailablePosition(false);
         // check invalid positions
-        assertFalse(positions.contains(new Position(8, 4)));
+        assertFalse(positions.contains(new Position(7, 4)));
         assertFalse(positions.contains(new Position(0, 0)));
-        assertFalse(positions.contains(new Position(7, 3)));
-        assertFalse(positions.contains(new Position(7, 5)));
+        assertFalse(positions.contains(new Position(6, 3)));
+        assertFalse(positions.contains(new Position(6, 5)));
         assertEquals(2, positions.size());
 
     }
@@ -63,8 +66,6 @@ class PawnTest {
     @Test
     @DisplayName("getAvailablePosition() (no board)")
     void getAvailablePositionNoBoard() {
-        Piece pawn = new Pawn(new Player());
-
         Set<Position> positions = pawn.getAvailablePosition(false);
         // check whether position is the same as expected
         // check rank and tile
