@@ -11,8 +11,8 @@ import java.awt.event.MouseEvent;
  * The viewer class for pieces
  */
 public class Piece extends ImageLabel {
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 100;
+    private static final int WIDTH = 75;
+    private static final int HEIGHT = 75;
 
     private final model.piece.Piece piece;
 
@@ -28,7 +28,7 @@ public class Piece extends ImageLabel {
                 + (piece.isWhite() ? "w" : "b")
                 + ".png")), WIDTH, HEIGHT);
         this.piece = piece;
-        updateLocation(piece.x, piece.y, 4, -46);
+        updateLocation(piece.x, piece.y, 15, -26);
         // Make pieces appears clickable
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addClickListener();
