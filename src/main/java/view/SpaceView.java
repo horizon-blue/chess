@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 /**
  * A position on board that holds a piece
  */
-public class SpaceView extends ImageLabel {
+public class SpaceView extends ImagePanel {
     private static final int WIDTH = 100;
     private static final int HEIGHT = 100;
 
@@ -26,7 +26,7 @@ public class SpaceView extends ImageLabel {
         // odd position has white color, even position has black color
         super(new ImageIcon(model.Board.class.getResource("/pieces/Board_"
                 + ((position.row + position.col) % 2 == 1 ? "w" : "b")
-                + ".png")), WIDTH, HEIGHT);
+                + ".png")).getImage(), WIDTH, HEIGHT);
         this.position = position;
         updateLocation(position.row, position.col, 0, 0);
         // Make tiles appears clickable

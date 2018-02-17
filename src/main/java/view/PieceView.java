@@ -26,7 +26,7 @@ public class PieceView extends ImageLabel {
         super(new ImageIcon(model.Board.class.getResource("/pieces/"
                 + piece.getClass().getSimpleName() + "_"
                 + (piece.isWhite() ? "w" : "b")
-                + ".png")), WIDTH, HEIGHT);
+                + ".png")).getImage(), WIDTH, HEIGHT);
         this.piece = piece;
         updateLocation(piece.x, piece.y, 15, -26);
         // Make pieces appears clickable
