@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Board - the model for chess board, which has method for
+ * BoardView - the model for chess board, which has method for
  * piece movements, end-game status check, etc.
  */
 public class Board {

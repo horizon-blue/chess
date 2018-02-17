@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 /**
  * The viewer class for pieces
  */
-public class Piece extends ImageLabel {
+public class PieceView extends ImageLabel {
     private static final int WIDTH = 75;
     private static final int HEIGHT = 75;
 
@@ -21,7 +21,7 @@ public class Piece extends ImageLabel {
      *
      * @param piece the piece to display
      */
-    public Piece(model.piece.Piece piece) {
+    public PieceView(model.piece.Piece piece) {
         // select the piece's image based on its classname
         super(new ImageIcon(model.Board.class.getResource("/pieces/"
                 + piece.getClass().getSimpleName() + "_"

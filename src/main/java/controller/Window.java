@@ -1,8 +1,7 @@
 package controller;
 
 import model.*;
-
-import java.awt.*;
+import view.BoardView;
 
 /**
  * The entire displaying window
@@ -24,6 +23,6 @@ public class Window implements Runnable {
         Game game = new Game(whitePlayer, blackPlayer);
         game.initBoard();
         // check whether the board displayed correctly
-        window.add(new view.Board(game.board));
+        window.add(new BoardView(game.board));
     }
 }
