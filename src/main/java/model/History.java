@@ -1,6 +1,5 @@
 package model;
 
-import controller.Game;
 import model.piece.Pawn;
 import model.piece.Piece;
 

@@ -13,4 +13,11 @@ class PlayerTest {
         assertEquals(player.toString(), "foo");
     }
 
+    @Test
+    @DisplayName("construct with color")
+    void constructWiithCOlor() {
+        Player player = new Player("foo", false);
+        assertFalse(player.isWhite);
+    }
+
 }
