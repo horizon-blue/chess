@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 /**
  * A position on board that holds a piece
  */
-public class SpaceView extends ImagePanel {
+public class SpaceView extends ImageButton {
     private static final int WIDTH = 100;
     private static final int HEIGHT = 100;
 
