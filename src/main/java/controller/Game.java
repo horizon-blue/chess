@@ -129,6 +129,7 @@ public class Game implements Runnable {
             isWhiteRound = !isWhiteRound;
             game.statusBar.switchRound();
             status = Status.BEFORE_SELECT;
+            setCheckStatus();
         }
     }
 
@@ -168,6 +169,17 @@ public class Game implements Runnable {
         this.isWhiteRound = isWhiteRound;
         game.statusBar.setRound(isWhiteRound);
         status = Status.BEFORE_SELECT;
+        setCheckStatus();
+    }
+
+    /**
+     * A helper function to warn player if he or she is under
+     * checked (king is in danger)
+     */
+    private void setCheckStatus() {
+        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
+        if (board.isChecked(currentPlayer))
+            game.statusBar.setStatus(currentPlayer + " is under checked.");
     }
 
     /**
@@ -198,6 +210,9 @@ public class Game implements Runnable {
      * The player in current round forfeit the game
      */
     private void forfeit() {
+        // cannot forfeit after game end
+        if (status != Status.BEFORE_SELECT && status != Status.AFTER_SELECT)
+            return;
         Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
         status = isWhiteRound ? Status.BLACK_WIN : Status.WHITE_WIN;
         ++otherPlayer.score;
