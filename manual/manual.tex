@@ -29,7 +29,7 @@ is implemented to support re-sizing - so we could start here.
 
 \subsection{Initial Screen}
 
-After launching the game, this should be the first screen you see.
+After launching the game, Figure~\ref{init_empty} should be the first screen you see.
 \img{0.7}{init_empty}{Initial Screen}
 
 \noindent Explanation:
@@ -52,12 +52,12 @@ For the purpose of the game, you can enter the name of white player, black playe
 \subsubsection{Randomly Generated Names}
 
 To see the randomly generated names, leave the initial screen empty as in Figure~\ref{init_empty}. Press \B{Launch}. You should be able to see the names of two players randomly generated for you.
-\img{0.5}{random_name}{Random Names for Player}
+\img{0.45}{random_name}{Random Names for Player}
 
 \subsubsection{User Specified Names}
 Player could also manually enter their names in the initial screen, as shows in Figure~\ref{init_names} and the game window should looks like Figure~\ref{specified_name}:
 \img{0.7}{init_names}{Initial Screen with Name}
-\img{0.5}{specified_name}{Specified Names for Player}
+\img{0.45}{specified_name}{Specified Names for Player}
 
 % -------------------------------------
 \subsection{Game Board}
@@ -65,12 +65,12 @@ You can change the board size in the initial screen
 
 \subsection{Default Board Size}
 Without changing any initial setting and press \B{Launch} while everything remains as in Figure~\ref{init_empty}. You should see a $8\times8$ board like this:
-\img{0.5}{board_default_size}{A Board with Default $8\times8$ Size}
+\img{0.45}{board_default_size}{A Board with Default $8\times8$ Size}
 
 \subsection{Custom Board Size}
 You can also change the board size in the initial screen by setting \B{Board Width} and \B{Board Height} according to needs, as in
 \img{0.7}{init_board_size}{Initial Screen with Specified Size}
-\img{0.5}{board_specified_size}{Board with Specified Size}
+\img{0.45}{board_specified_size}{Board with Specified Size}
 
 % -------------------------------------
 \subsection{Custom Pieces}
@@ -82,9 +82,42 @@ Launching the game as in Figure~\ref{init_empty}, you will see a game with custo
 \subsection{Without Custom Pieces}
 To launch a game without custom pieces, select \B{No} in the initial screen, as in Figure~\ref{init_no_custom} and Figure~\ref{board_no_custom}.
 \img{0.7}{init_no_custom}{Initial Screen with no Custom Pieces}
-\img{0.5}{board_no_custom}{Board with no Custom Pieces}
+\img{0.45}{board_no_custom}{Board with no Custom Pieces}
 
 
 % =====================================
+\section{Game Loop}
+
+In the following part, we will use $8\times8$ board without special pieces. The board with special pieces should have very similar results.
+
+% -------------------------------------
+\subsection{Piece Selection}
+In the following part, we we will look at the GUI for piece selection. We assume that the current round is white, but the black round should be very similar.
+
+\subsubsection{Hover Effect}
+The pieces should glow when the mouse is over it, as shown in Figure~\ref{board_hover}
+\img{0.4}{board_hover}{Piece with Mouse Over Effect}
+
+% -------------------------------------
+\subsubsection{Valid Selection}
+Selecting a valid piece will shows all available movements for that piece. The selected piece will also shows a outer glow, as in Figure~\ref{board_select_piece}
+\img{0.4}{board_select_piece}{Selected Valid Piece}
+
+
+% -------------------------------------
+\subsubsection{No Valid Movements}
+If currently selected piece have no valid movement, then a warning will be displayed at the status bar, as in Figure~\ref{board_no_movement}
+\img{0.4}{board_no_movement}{No Valid Movement for the Piece}
+
+% -------------------------------------
+\subsubsection{Invalid Selection}
+If current selection is invalid, then a warning will be displayed at the status bar, as in Figure~\ref{board_invalid_selection}
+\img{0.4}{board_invalid_selection}{Invalid Selection}
+
+
+
+% \subsubsection{Status Bar}
+% Initially, the scores for both players should be $0$, and the current round should have the name of player that hold white pieces. As game proceeds (or under undo/redo), the name under current round should display the name of current player.
+
 
 \end{document}
