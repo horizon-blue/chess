@@ -18,7 +18,6 @@ public class BoardView extends JPanel {
      * @param board the board to display
      */
     public BoardView(model.Board board) {
-        setPreferredSize(new Dimension(500, 500));
         // set layout to null to allow absolute positioning
         setLayout(null);
 

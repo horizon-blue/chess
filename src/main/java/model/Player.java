@@ -16,7 +16,7 @@ public class Player {
      * generate a player with random name
      */
     public Player() {
-        this(new Faker().name().firstName());
+        this(null);
     }
 
     /**
@@ -25,7 +25,10 @@ public class Player {
      * @param name name of the player
      */
     public Player(String name) {
-        this.name = name;
+        if (name == null || name.equals(""))
+            this.name = new Faker().name().firstName();
+        else
+            this.name = name;
         score = 0;
     }
 

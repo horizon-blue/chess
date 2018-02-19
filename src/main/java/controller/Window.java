@@ -38,15 +38,13 @@ public class Window implements Runnable {
      */
     private void initGame() {
         InitialWindow initForm = new InitialWindow();
-        initForm.onSubmit(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                whitePlayer = new Player(initForm.getWhitePlayerName());
-                blackPlayer = new Player(initForm.getBlackPlayerName());
-                board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
-                initForm.dispose();
-                window = new view.Window();
-            }
+        initForm.onSubmit(e -> {
+            whitePlayer = new Player(initForm.getWhitePlayerName());
+            blackPlayer = new Player(initForm.getBlackPlayerName());
+            board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
+            initForm.dispose();
+            window = new view.Window(board);
+            window.statusBar.setPlayer(whitePlayer, blackPlayer);
         });
 
     }

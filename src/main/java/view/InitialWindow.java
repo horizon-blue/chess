@@ -57,9 +57,9 @@ public class InitialWindow extends JFrame {
         form.add(whitePlayerName);
         form.add(new JLabel("Black Player: "));
         form.add(blackPlayerName);
-        form.add(new JLabel("Border Width: "));
+        form.add(new JLabel("Board Width: "));
         form.add(boardWidth);
-        form.add(new JLabel("Border Height: "));
+        form.add(new JLabel("Board Height: "));
         form.add(boardHeight);
     }
 
