@@ -1,6 +1,6 @@
 package model.piece;
 
-import controller.Game;
+import controller.GameLegacy;
 import model.Board;
 import model.Player;
 import model.Position;
@@ -79,7 +79,7 @@ class PawnTest {
     void getAvailablePositionWithEnemy() {
         Player blackPlayer = new Player();
         Player whitePlayer = new Player();
-        Game game = new Game(whitePlayer, blackPlayer);
+        GameLegacy game = new GameLegacy(whitePlayer, blackPlayer);
         Piece pawn = new Pawn(whitePlayer);
         Piece rook = new Rook(blackPlayer);
         // pawn shouldn't be able to move diagonally without enemy piece

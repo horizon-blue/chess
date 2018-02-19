@@ -1,6 +1,6 @@
 package model;
 
-import controller.Window;
+import controller.Game;
 import model.piece.Piece;
 
 /**
@@ -50,7 +50,7 @@ public class History {
         // reset current round to the same color as the piece
         if (board.game != null) {
             board.game.isWhiteRound = board.getPiece(from).isWhite();
-            board.game.status = Window.Status.BEFORE_SELECT;
+            board.game.status = Game.Status.BEFORE_SELECT;
         }
     }
 

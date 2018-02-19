@@ -1,154 +1,170 @@
 package controller;
 
 import model.Board;
+import model.History;
 import model.Player;
 import model.Position;
-import model.piece.*;
+import model.piece.Piece;
+import view.GameView;
+import view.InitialWindow;
+import view.PieceView;
+import view.SpaceView;
 
-import java.util.Scanner;
+import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The entire displaying game
+ */
+public class Game implements Runnable {
+    /**
+     * The main frame to display everything
+     */
+    GameView game;
 
-public class Game {
-    public Board board = new Board();
+    /**
+     * Game related information
+     */
+    public Board board;
     public boolean isWhiteRound = true;
     public Player whitePlayer;
     public Player blackPlayer;
+    boolean hasSpecialPieces = true;
 
     /**
-     * Equivalent to Game(whitePlayer, blackPlayer, 8, 8);
-     *
-     * @param whitePlayer player with white pieces
-     * @param blackPlayer player with black pieces
+     * Codes that are used internally for GUI testing
      */
-    public Game(Player whitePlayer, Player blackPlayer) {
-        this(whitePlayer, blackPlayer, 8, 8);
+    @Override
+    public void run() {
+        initGame();
     }
 
     /**
-     * Initialize the game with the two specified players
-     *
-     * @param whitePlayer player with white pieces
-     * @param blackPlayer player with black pieces
-     * @param boardHeight maximum height of the board
-     * @param boardWidth  maximum width of the board
+     * gather important information before game
      */
-    public Game(Player whitePlayer, Player blackPlayer, int boardHeight, int boardWidth) {
-        whitePlayer.isWhite = true;
-        blackPlayer.isWhite = false;
-        this.whitePlayer = whitePlayer;
-        this.blackPlayer = blackPlayer;
-        board = new Board(boardHeight, boardWidth);
+    private void initGame() {
+        InitialWindow initForm = new InitialWindow();
+        initForm.onSubmit(e -> {
+            whitePlayer = new Player(initForm.getWhitePlayerName(), true);
+            blackPlayer = new Player(initForm.getBlackPlayerName(), false);
+            board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
+            board.game = this;
+            hasSpecialPieces = initForm.hasSpecialPieces();
+            initForm.dispose();
+            startGame();
+        });
+
     }
 
-    /**
-     * Execute one round of the game.
-     *
-     * @return game status: one of CONTINUE, BLACK_WIN, WHITE_WIN, or DRAW (no player win).
-     * The game ends except for CONTINUE state
-     */
-    public Status nextRound() {
-        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
-        boolean madeMovement = false;
-        do {
-            // prompt player to select pieces
-            Position sourcePos = getPlayerSelection();
-            if (sourcePos == null) {    // player resign
-                System.out.println(currentPlayer + " resigned.");
-                return isWhiteRound ? Status.BLACK_WIN : Status.WHITE_WIN;
+    public Status status;
+    Piece selected;
+    Set<Position> movements = new HashSet<>();
+
+
+    private void startGame() {
+        board.init(whitePlayer, blackPlayer, hasSpecialPieces);
+        game = new GameView(board, whitePlayer, blackPlayer);
+        status = Status.BEFORE_SELECT;
+        // set pieces movement rules
+        game.board.onPressPieces(e -> {
+            switch (status) {
+                case BEFORE_SELECT:
+                case AFTER_SELECT:
+                    game.statusBar.clearStatus();
+                    game.board.removeHighlightPositions();
+                    Piece piece = ((PieceView) e.getSource()).piece;
+                    if (piece.isWhite() == isWhiteRound) {
+                        selected = piece;
+                        movements = piece.getAvailablePosition(isWhiteRound);
+                        if (movements.isEmpty())
+                            game.statusBar.setStatus("No available movement");
+                        else {
+                            status = Status.AFTER_SELECT;
+                            game.board.highlightPositions(movements);
+                        }
+                        break;
+                    } else {
+                        Position selectedPos = new Position(piece.x, piece.y);
+                        if (status == Status.AFTER_SELECT &&
+                                movements.contains(selectedPos)) {
+                            moveTo(selectedPos);
+                            break;
+                        }
+                    }
+                    game.statusBar.setStatus("Invalid selection");
             }
-            Piece selectPiece = board.getPiece(sourcePos);
-            Set<Position> validMovement = selectPiece.getAvailablePosition(isWhiteRound);
-            if (validMovement == null || validMovement.size() == 0)
-                continue;
-            Position targetPos = getPlayerSelection(validMovement);
-            if (targetPos == null) // cancel selection
-                continue;
-            board.movePiece(sourcePos, targetPos);
-            madeMovement = true;
-        } while (!madeMovement);
+        });
+        // set tile movement rules
+        game.board.onPressTiles(e -> {
+            game.statusBar.clearStatus();
+            SpaceView tile = (SpaceView) e.getSource();
+            switch (status) {
+                case AFTER_SELECT:
+                    if (movements.contains(tile.position)) {
+                        moveTo(tile.position);
+                        break;
+                    }
+                    game.statusBar.setStatus("Invalid selection");
 
-        // checking checkmate and stalemate status
+            }
+        });
+
+    }
+
+    /**
+     * A private helper to move the selected piece to target position
+     *
+     * @param to the position to move to
+     */
+    private void moveTo(Position to) {
+        game.board.removeHighlightPositions();
+        // there is a capture
+        if (board.isOccupied(to))
+            board.getPiece(to).view.removeSelf();
+        board.movePiece(selected, to);
+
+        if (!isGameEnd()) {
+            // go over to next round
+            isWhiteRound = !isWhiteRound;
+            game.statusBar.switchRound();
+            status = Status.BEFORE_SELECT;
+        }
+    }
+
+    /**
+     * A helper function to check whether current game ends
+     *
+     * @return true if the game ends, false otherwise
+     */
+    private boolean isGameEnd() {
         Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
-        if (board.isCheckOrStaleMated(otherPlayer)) {
-            System.out.println(board);
-            if (board.isChecked(otherPlayer)) { // is checkmate
-                System.out.println(currentPlayer + " checkmate.");
-                return isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
-            }
-            System.out.println("Stalemate.");
-            return Status.DRAW;
-        }
-        isWhiteRound = !isWhiteRound;
-        return Status.CONTINUE;
-    }
-
-    /**
-     * Get user selection via I/O (might upgrade to GUI in later version)
-     * The returning position is guaranteed to be valid (or null, if user
-     * cancel the input)
-     *
-     * @return the position that the user select or null
-     */
-    public Position getPlayerSelection() {
-        return getPlayerSelection(null);
-    }
-
-    /**
-     * Same as getPlayerSelection(), but highlight the given positions
-     * If highlighted position is not null, then the returned position must
-     * be one of them
-     *
-     * @param highlightPos positions to be highlighted
-     * @return the position that the user select or null
-     */
-    public Position getPlayerSelection(Set<Position> highlightPos) {
         Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
-        Scanner reader = new Scanner(System.in);
-        System.out.println("Black pieces: " + blackPlayer);
-        System.out.println(board.toString(highlightPos));
-        System.out.println("White pieces: " + whitePlayer);
-        System.out.println("Current round: " + currentPlayer);
-        System.out.printf("Please select a position (press q to cancel): ");
 
-        // keep asking for user input until one valid input is received
-        while (true) {
-            String input = reader.nextLine();
-            // check if the selection is valid string
-            if (input.length() == 2 &&
-                    Character.isDigit(input.charAt(0)) &&
-                    Character.isLetter(input.charAt(1))) {
-                Position selected = new Position(input.charAt(0) - '1',
-                        Character.toLowerCase(input.charAt(1)) - 'a');
-
-                // check if selected position is one of the highlighted
-                if (highlightPos != null && highlightPos.contains(selected)) {
-                    System.out.println(); // for formatting
-                    return selected;
-                }
-                // check if the selection is valid under the game setting
-                else if (board.isValid(selected) &&
-                        board.isOccupied(selected) &&
-                        board.getPiece(selected).owner == currentPlayer) {
-                    System.out.println(); // for formatting
-                    return selected;
-                }
-            } else if (input.length() == 1 && Character.toLowerCase(input.charAt(0)) == 'q')
-                return null;
-            System.out.printf("Invalid position, please select again: ");
+        if (board.isCheckOrStaleMated(otherPlayer)) {
+            if (board.isChecked(otherPlayer)) { // is checkmate
+                game.statusBar.setStatus(currentPlayer + " checkmate.");
+                status = isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
+                ++currentPlayer.score;
+            } else {
+                status = Status.DRAW;
+                ++currentPlayer.score;
+                ++otherPlayer.score;
+                // update score
+                game.statusBar.setStatus("Stalemate.");
+            }
+            game.statusBar.updateScore();
+            return true;
         }
-    }
-
-    public boolean isWhite(Player player) {
-        return player == whitePlayer;
+        return false;
     }
 
 
-
-    public static enum Status {
+    public enum Status {
+        BEFORE_SELECT,
+        AFTER_SELECT,
         BLACK_WIN,
         WHITE_WIN,
         DRAW,
-        CONTINUE
     }
+
 }

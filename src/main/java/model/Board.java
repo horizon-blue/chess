@@ -1,6 +1,6 @@
 package model;
 
-import controller.Window;
+import controller.Game;
 import model.piece.*;
 import utils.printUtils;
 import view.BoardView;
@@ -28,7 +28,7 @@ public class Board {
      * related to the view
      */
     public BoardView view;
-    public Window game;
+    public Game game;
     List<History> history = new ArrayList<>();
 
     /**

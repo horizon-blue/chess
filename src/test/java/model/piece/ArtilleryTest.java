@@ -1,6 +1,6 @@
 package model.piece;
 
-import controller.Game;
+import controller.GameLegacy;
 import model.Board;
 import model.Player;
 import model.Position;
@@ -71,7 +71,7 @@ class ArtilleryTest {
     @DisplayName("getAvailablePosition() (jump over piece)")
     void getAvailablePositionJumpOver() {
         Player blackPlayer = new Player();
-        Game game = new Game(player, blackPlayer);
+        GameLegacy game = new GameLegacy(player, blackPlayer);
 
         board.addPiece(artillery, 2, 2);
         board.addPiece(new Pawn(blackPlayer), 2, 4);

@@ -1,9 +1,9 @@
 import javax.swing.*;
 
-import controller.Window;
+import controller.Game;
 
 public class ChessGame {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Window());
+        SwingUtilities.invokeLater(new Game());
     }
 }
