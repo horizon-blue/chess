@@ -50,6 +50,13 @@ public class BoardView extends JPanel {
                 add(space);
             }
         }
+
+        // add spaces (so that they are in the correct order)
+        for (int row = 0; row < board.HEIGHT; ++row) {
+            for (int col = board.WIDTH - 1; col >= 0; --col) {
+                add(spaces[row][col]);
+            }
+        }
     }
 
     /**

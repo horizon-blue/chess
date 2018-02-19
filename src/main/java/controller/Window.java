@@ -11,6 +11,7 @@ import view.PieceView;
 import view.SpaceView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,7 +57,7 @@ public class Window implements Runnable {
 
     private Status status;
     Piece selected;
-    Set<Position> movements;
+    Set<Position> movements = new HashSet<Position>();
     List<History> history = new ArrayList<>();
 
     private void startGame() {
@@ -78,6 +79,13 @@ public class Window implements Runnable {
                         else
                             status = Status.AFTER_SELECT;
                         break;
+                    } else {
+                        Position selectedPos = new Position(piece.x, piece.y);
+                        if (status == Status.AFTER_SELECT &&
+                                movements.contains(selectedPos)) {
+                            moveTo(selectedPos);
+                            break;
+                        }
                     }
                 default:
                     game.statusBar.setStatus("Invalid selection");
@@ -90,13 +98,56 @@ public class Window implements Runnable {
             switch (status) {
                 case AFTER_SELECT:
                     if (movements.contains(tile.position)) {
-                        board.movePiece(selected, tile.position);
-                        selected.view.updateLocation();
+                        moveTo(tile.position);
                     }
 
             }
         });
 
+    }
+
+    /**
+     * A private helper to move the selected piece to target position
+     *
+     * @param to the position to move to
+     */
+    private void moveTo(Position to) {
+        // there is a capture
+        if (board.isOccupied(to))
+            board.getPiece(to).view.removeSelf();
+        board.movePiece(selected, to);
+
+        if (!isGameEnd()) {
+            // go over to next round
+            isWhiteRound = !isWhiteRound;
+            game.statusBar.switchRound();
+            status = Status.BEFORE_SELECT;
+        }
+    }
+
+    /**
+     * A helper function to check whether current game ends
+     *
+     * @return
+     */
+    private boolean isGameEnd() {
+        Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
+        Player currentPlayer = isWhiteRound ? whitePlayer : blackPlayer;
+
+        if (board.isCheckOrStaleMated(otherPlayer)) {
+            if (board.isChecked(otherPlayer)) { // is checkmate
+                game.statusBar.setStatus(currentPlayer + " checkmate.");
+                status = isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
+                ++currentPlayer.score;
+            } else {
+                game.statusBar.setStatus("Stalemate.");
+                status = Status.DRAW;
+                ++currentPlayer.score;
+                ++otherPlayer.score;
+            }
+            return true;
+        }
+        return false;
     }
 
 

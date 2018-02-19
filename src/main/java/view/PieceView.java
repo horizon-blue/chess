@@ -52,6 +52,12 @@ public class PieceView extends ImageButton {
         return new ImageIcon(model.Board.class.getResource(filename)).getImage();
     }
 
+    /**
+     * Remove the piece itself from the board
+     */
+    public void removeSelf() {
+        getParent().remove(this);
+    }
 
 
 }

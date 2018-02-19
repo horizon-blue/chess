@@ -87,6 +87,8 @@ public class Board {
         if (piece instanceof Pawn)
             ((Pawn) piece).hasMoved = true;
         movePieceHelper(fromRow, fromCol, toRow, toCol);
+        if (piece.view != null)
+            piece.view.updateLocation();
     }
 
     /**
