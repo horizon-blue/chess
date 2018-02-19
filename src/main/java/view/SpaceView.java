@@ -27,6 +27,9 @@ public class SpaceView extends ImageButton {
                 + ".png")).getImage(), WIDTH, HEIGHT);
         this.position = position;
         updateLocation(position.row, position.col, 0, 0);
+        setSelectedIcon(new ImageIcon(model.Board.class.getResource("/pieces/Board_"
+                + ((position.row + position.col) % 2 == 1 ? "w" : "b") + "_selected"
+                + ".png")).getImage());
     }
 
 }

@@ -80,4 +80,24 @@ public class BoardView extends JPanel {
             for (SpaceView space : spaceRow)
                 space.addActionListener(e);
     }
+
+    /**
+     * Highlight the given set of positions
+     *
+     * @param positions the positions to highlight
+     */
+    public void highlightPositions(Set<Position> positions) {
+        for (Position position : positions) {
+            spaces[position.row][position.col].toggleSelected(true);
+        }
+    }
+
+    /**
+     * Remove all position highlights
+     */
+    public void removeHighlightPositions() {
+        for (SpaceView[] spaceRow : spaces)
+            for (SpaceView space : spaceRow)
+                space.toggleSelected(false);
+    }
 }

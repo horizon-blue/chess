@@ -8,7 +8,17 @@ import java.awt.image.BufferedImage;
  * A helper class to create JButton with Image
  */
 public class ImageButton extends JButton {
+    /**
+     * image used to determine whether cursor is on the button
+     */
     private final BufferedImage ICON;
+
+    /**
+     * Icons for special needs
+     */
+    private ImageIcon defaultIcon;
+    private ImageIcon selectedIcon;
+
     private final int WIDTH;
     private final int HEIGHT;
 
@@ -29,6 +39,8 @@ public class ImageButton extends JButton {
         setIcon(icon);
         setDisabledIcon(icon);
 
+        defaultIcon = icon;
+
         // general setting for ImageButton display
         setPreferredSize(new Dimension(width, height));
         setSize(getPreferredSize());
@@ -42,6 +54,29 @@ public class ImageButton extends JButton {
     public ImageButton(Image image, Image rolloverImage, int width, int height) {
         this(image, width, height);
         setRolloverIcon(new ImageIcon(ViewUtils.getScaledImage(rolloverImage, width, height)));
+    }
+
+    /**
+     * set the selected icon for the button
+     *
+     * @param image the image to be set as selected icon
+     */
+    public void setSelectedIcon(Image image) {
+        selectedIcon = new ImageIcon(ViewUtils.getScaledImage(image, WIDTH, HEIGHT));
+    }
+
+    /**
+     * toggle whether to use selected icon
+     *
+     * @param isSelected true if currently selected, false otherwise
+     */
+    public void toggleSelected(boolean isSelected) {
+        if (selectedIcon == null)
+            return;
+        if (isSelected)
+            setIcon(selectedIcon);
+        else
+            setIcon(defaultIcon);
     }
 
     /**

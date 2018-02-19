@@ -67,6 +67,7 @@ public class Window implements Runnable {
         // set pieces movement rules
         game.board.onPressPieces(e -> {
             game.statusBar.clearStatus();
+            game.board.removeHighlightPositions();
             Piece piece = ((PieceView) e.getSource()).piece;
             switch (status) {
                 case BEFORE_SELECT:
@@ -76,8 +77,10 @@ public class Window implements Runnable {
                         movements = piece.getAvailablePosition(isWhiteRound);
                         if (movements.isEmpty())
                             game.statusBar.setStatus("No available movement");
-                        else
+                        else {
                             status = Status.AFTER_SELECT;
+                            game.board.highlightPositions(movements);
+                        }
                         break;
                     } else {
                         Position selectedPos = new Position(piece.x, piece.y);
@@ -112,6 +115,7 @@ public class Window implements Runnable {
      * @param to the position to move to
      */
     private void moveTo(Position to) {
+        game.board.removeHighlightPositions();
         // there is a capture
         if (board.isOccupied(to))
             board.getPiece(to).view.removeSelf();
