@@ -1,6 +1,6 @@
 package model;
 
-import controller.Game;
+import controller.Window;
 import model.piece.Piece;
 
 /**
@@ -8,7 +8,7 @@ import model.piece.Piece;
  * by the players
  */
 public class History {
-    final Game game;
+    final Board board;
     final Position from;
     final Position to;
     final Piece target;
@@ -17,24 +17,24 @@ public class History {
      * Creating a new history for current movement. Equivalent to
      * History(board, from, to, piece, null)
      *
-     * @param game the game where the history happened
+     * @param board the board where the history happened
      * @param from the location where the piece came from
      * @param to   the location where the piece go to
      */
-    public History(Game game, Position from, Position to) {
-        this(game, from, to, null);
+    public History(Board board, Position from, Position to) {
+        this(board, from, to, null);
     }
 
     /**
      * Creating a new history for current movement.
      *
-     * @param game   the game where the history happened
+     * @param board   the board where the history happened
      * @param from   the location where the piece came from
      * @param to     the location where the piece go to
      * @param target optional - the piece being captured
      */
-    public History(Game game, Position from, Position to, Piece target) {
-        this.game = game;
+    public History(Board board, Position from, Position to, Piece target) {
+        this.board = board;
         this.from = from;
         this.to = to;
         this.target = target;
@@ -44,11 +44,14 @@ public class History {
      * Undo the current history
      */
     public void undo() {
-        game.board.movePiece(to, from);
+        board.movePieceHelper(to.row, to.col, from.row, from.col);
         if (target != null)
-            game.board.addPiece(target, to);
+            board.addPiece(target, to);
         // reset current round to the same color as the piece
-        game.isWhiteRound = game.board.getPiece(from).isWhite();
+        if (board.game != null) {
+            board.game.isWhiteRound = board.getPiece(from).isWhite();
+            board.game.status = Window.Status.BEFORE_SELECT;
+        }
     }
 
 }

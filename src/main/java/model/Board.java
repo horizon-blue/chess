@@ -1,11 +1,14 @@
 package model;
 
+import controller.Window;
 import model.piece.*;
 import utils.printUtils;
 import view.BoardView;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,6 +28,8 @@ public class Board {
      * related to the view
      */
     public BoardView view;
+    public Window game;
+    List<History> history = new ArrayList<>();
 
     /**
      * generate a board of default size (8 x 8)
@@ -86,6 +91,8 @@ public class Board {
         // setting the special property for pawn
         if (piece instanceof Pawn)
             ((Pawn) piece).hasMoved = true;
+        // add new history
+        history.add(new History(this, new Position(fromRow, fromCol), new Position(toRow, toCol), getPiece(toRow, toCol)));
         movePieceHelper(fromRow, fromCol, toRow, toCol);
         if (piece.view != null)
             piece.view.updateLocation();
@@ -126,7 +133,7 @@ public class Board {
     }
 
     /**
-     * A private helper that does the actual action of moving a piece
+     * A helper that does the actual action of moving a piece
      * (without record history or set the status of Pawn to moved)
      * Move the piece from (fromRow, fromCol) to (toRow, toCol).
      *
@@ -135,7 +142,7 @@ public class Board {
      * @param toRow   new row position of the piece
      * @param toCol   new column position of the piece
      */
-    private void movePieceHelper(int fromRow, int fromCol, int toRow, int toCol) {
+    public void movePieceHelper(int fromRow, int fromCol, int toRow, int toCol) {
         Piece selected = getPiece(fromRow, fromCol);
         clearPiece(fromRow, fromCol);
         clearPiece(toRow, toCol);

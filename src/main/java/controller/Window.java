@@ -50,6 +50,7 @@ public class Window implements Runnable {
             whitePlayer = new Player(initForm.getWhitePlayerName(), true);
             blackPlayer = new Player(initForm.getBlackPlayerName(), false);
             board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
+            board.game = this;
             hasSpecialPieces = initForm.hasSpecialPieces();
             initForm.dispose();
             startGame();
@@ -57,10 +58,10 @@ public class Window implements Runnable {
 
     }
 
-    private Status status;
+    public Status status;
     Piece selected;
-    Set<Position> movements = new HashSet<Position>();
-    List<History> history = new ArrayList<>();
+    Set<Position> movements = new HashSet<>();
+
 
     private void startGame() {
         board.init(whitePlayer, blackPlayer, hasSpecialPieces);
