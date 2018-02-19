@@ -422,8 +422,9 @@ public class Board {
      *
      * @param whitePlayer the player to hold white pieces
      * @param blackPlayer the player to hold black pieces
+     * @param hasSpecialPieces whether to include special pieces or not
      */
-    public void init(Player whitePlayer, Player blackPlayer) {
+    public void init(Player whitePlayer, Player blackPlayer, boolean hasSpecialPieces) {
         // white pieces
         addPiece(new Rook(whitePlayer), 0, 0);
         addPiece(new Knight(whitePlayer), 0, 1);
@@ -436,9 +437,12 @@ public class Board {
         // pawns
         for (int col = 0; col < 8; ++col)
             addPiece(new Pawn(whitePlayer), 1, col);
-        // fairy piece
-        addPiece(new Unicorn(whitePlayer), 2, 0);
-        addPiece(new Artillery(whitePlayer), 2, 7);
+        if (hasSpecialPieces) {
+            // fairy piece
+            addPiece(new Unicorn(whitePlayer), 2, 0);
+            addPiece(new Artillery(whitePlayer), 2, 7);
+        }
+
 
         // black pieces
         addPiece(new Rook(blackPlayer), HEIGHT - 1, 0);
@@ -452,8 +456,21 @@ public class Board {
         // pawns
         for (int col = 0; col < 8; ++col)
             addPiece(new Pawn(blackPlayer), HEIGHT - 2, col);
-        addPiece(new Unicorn(blackPlayer), HEIGHT - 3, 7);
-        addPiece(new Artillery(blackPlayer), HEIGHT - 3, 0);
+        if (hasSpecialPieces) {
+            addPiece(new Unicorn(blackPlayer), HEIGHT - 3, 7);
+            addPiece(new Artillery(blackPlayer), HEIGHT - 3, 0);
+        }
+    }
+
+    /**
+     * Initialize the game board for the given players. equivalent to
+     * init(whitePlayer, blackPlayer, true)
+     *
+     * @param whitePlayer the player to hold white pieces
+     * @param blackPlayer the player to hold black pieces
+     */
+    public void init(Player whitePlayer, Player blackPlayer) {
+        init(whitePlayer, blackPlayer, true);
     }
 
     /**

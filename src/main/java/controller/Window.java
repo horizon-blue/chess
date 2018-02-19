@@ -31,6 +31,7 @@ public class Window implements Runnable {
     public boolean isWhiteRound = true;
     public Player whitePlayer;
     public Player blackPlayer;
+    boolean hasSpecialPieces = true;
 
     /**
      * Codes that are used internally for GUI testing
@@ -49,6 +50,7 @@ public class Window implements Runnable {
             whitePlayer = new Player(initForm.getWhitePlayerName(), true);
             blackPlayer = new Player(initForm.getBlackPlayerName(), false);
             board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
+            hasSpecialPieces = initForm.hasSpecialPieces();
             initForm.dispose();
             startGame();
         });
@@ -61,7 +63,7 @@ public class Window implements Runnable {
     List<History> history = new ArrayList<>();
 
     private void startGame() {
-        board.init(whitePlayer, blackPlayer);
+        board.init(whitePlayer, blackPlayer, hasSpecialPieces);
         game = new GameView(board, whitePlayer, blackPlayer);
         status = Status.BEFORE_SELECT;
         // set pieces movement rules
@@ -133,7 +135,7 @@ public class Window implements Runnable {
     /**
      * A helper function to check whether current game ends
      *
-     * @return
+     * @return true if the game ends, false otherwise
      */
     private boolean isGameEnd() {
         Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
@@ -145,10 +147,12 @@ public class Window implements Runnable {
                 status = isWhiteRound ? Status.WHITE_WIN : Status.BLACK_WIN;
                 ++currentPlayer.score;
             } else {
-                game.statusBar.setStatus("Stalemate.");
                 status = Status.DRAW;
                 ++currentPlayer.score;
                 ++otherPlayer.score;
+                // update score
+                game.statusBar.setStatus("Stalemate.");
+                game.statusBar.updateScore();
             }
             return true;
         }

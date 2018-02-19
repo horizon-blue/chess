@@ -18,6 +18,7 @@ public class InitialWindow extends JFrame {
     private JSpinner boardWidth;
     private JSpinner boardHeight;
     private JButton submit;
+    private JRadioButton hasSpecialPieces;
 
     /**
      * Creates the new initial window
@@ -45,7 +46,7 @@ public class InitialWindow extends JFrame {
     private void initForm() {
         form = new JPanel();
         form.setBorder(new EmptyBorder(10, 10, 10, 10));
-        form.setLayout(new GridLayout(4, 2));
+        form.setLayout(new GridLayout(5, 2));
         whitePlayerName = new JTextField();
         blackPlayerName = new JTextField();
         boardWidth = new JSpinner();
@@ -61,6 +62,18 @@ public class InitialWindow extends JFrame {
         form.add(boardWidth);
         form.add(new JLabel("Board Height: "));
         form.add(boardHeight);
+
+        hasSpecialPieces = new JRadioButton("Yes", true);
+        JRadioButton noButton = new JRadioButton("No", false);
+        ButtonGroup bgroup = new ButtonGroup();
+        bgroup.add(hasSpecialPieces);
+        bgroup.add(noButton);
+        JPanel specialPieces = new JPanel(new GridLayout(0, 2));
+        form.add(new JLabel("Special Pieces?"));
+        specialPieces.add(hasSpecialPieces);
+        specialPieces.add(noButton);
+        form.add(specialPieces);
+
     }
 
     /**
@@ -106,6 +119,10 @@ public class InitialWindow extends JFrame {
      */
     public int getBoardHeight() {
         return (int) boardHeight.getValue();
+    }
+
+    public boolean hasSpecialPieces() {
+        return hasSpecialPieces.isSelected();
     }
 
 }

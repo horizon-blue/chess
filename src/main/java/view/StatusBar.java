@@ -9,6 +9,8 @@ import java.awt.*;
 public class StatusBar extends JPanel {
     public JLabel status = new JLabel();
     private JLabel round;
+    private JLabel blackScore;
+    private JLabel whiteScore;
 
     private Player whitePlayer;
     private Player blackPlayer;
@@ -31,13 +33,16 @@ public class StatusBar extends JPanel {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
 
-        add(new JLabel("White: " + whitePlayer.name));
+        add(new JLabel("White: " + whitePlayer));
         add(status);
-        add(new JLabel("Black: " + blackPlayer.name));
-        add(new JLabel("Score: " + whitePlayer.score));
-        round = new JLabel("Round: " + whitePlayer.name);
+
+        add(new JLabel("Black: " + blackPlayer));
+        whiteScore = new JLabel("Score: " + whitePlayer.score);
+        add(whiteScore);
+        round = new JLabel("Round: " + whitePlayer);
         add(round);
-        add(new JLabel("Score: " + blackPlayer.score));
+        blackScore = new JLabel("Score: " + blackPlayer.score);
+        add(blackScore);
     }
 
     /**
@@ -47,7 +52,15 @@ public class StatusBar extends JPanel {
      */
     public void setRound(boolean isWhiteRound) {
         this.isWhiteRound = isWhiteRound;
-        round.setText("Round: " + (isWhiteRound ? whitePlayer.name : blackPlayer.name));
+        round.setText("Round: " + (isWhiteRound ? whitePlayer : blackPlayer));
+    }
+
+    /**
+     * Update the score
+     */
+    public void updateScore() {
+        whiteScore.setText("Score: " + whitePlayer.score);
+        blackScore.setText("Score: " + blackPlayer.score);
     }
 
     /**
