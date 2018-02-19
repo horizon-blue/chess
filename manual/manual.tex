@@ -98,21 +98,49 @@ In the following part, we we will look at the GUI for piece selection. We assume
 The pieces should glow when the mouse is over it, as shown in Figure~\ref{board_hover}
 \img{0.4}{board_hover}{Piece with Mouse Over Effect}
 
-% -------------------------------------
+
 \subsubsection{Valid Selection}
 Selecting a valid piece will shows all available movements for that piece. The selected piece will also shows a outer glow, as in Figure~\ref{board_select_piece}
 \img{0.4}{board_select_piece}{Selected Valid Piece}
 
 
-% -------------------------------------
+
 \subsubsection{No Valid Movements}
 If currently selected piece have no valid movement, then a warning will be displayed at the status bar, as in Figure~\ref{board_no_movement}
 \img{0.4}{board_no_movement}{No Valid Movement for the Piece}
 
-% -------------------------------------
+
 \subsubsection{Invalid Selection}
 If current selection is invalid, then a warning will be displayed at the status bar, as in Figure~\ref{board_invalid_selection}
 \img{0.4}{board_invalid_selection}{Invalid Selection}
+
+\subsection{Select Movement}
+After selecting a movement, the piece should be moved to the specific location, as in Figure~\ref{board_select_movement} and Figure~\ref{board_after_movement}
+\img{0.4}{board_select_movement}{Select Movement}
+\img{0.4}{board_after_movement}{The Game After Movement}
+
+
+% -------------------------------------
+\subsection{Undo / Redo}
+
+At any time, if a player wants to undo/redo the previous movement, he or she can use the menu bar to undo/redo the actions.
+
+\subsubsection{Undo}
+Undoing an action appears as in Figure~\ref{board_undo} and Figure~\ref{board_after_undo}. Previous captured piece will be restored.
+\img{0.4}{board_undo}{Select Undo}
+\img{0.4}{board_after_undo}{The Game After Undo}
+
+\subsubsection{Redo}
+Redoing an action appears as in Figure~\ref{board_redo} and Figure~\ref{board_after_redo}. It will replay the last undo action
+\img{0.4}{board_redo}{Select Redo}
+\img{0.4}{board_after_redo}{The Game After Redo}
+
+% -------------------------------------
+\subsection{Restart}
+Restarts can be triggered by selecting the menu item, as in Figure~\ref{board_newgame} and Figure~\ref{board_after_newgame}. The Scores should remain the same, but the players should be switched.
+\img{0.4}{board_newgame}{Select New Game}
+\img{0.4}{board_after_newgame}{The Game After New Game}
+
 
 
 
