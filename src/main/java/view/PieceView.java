@@ -23,6 +23,7 @@ public class PieceView extends ImageButton {
         // select the piece's image based on its classname
         super(getIcon(piece, false), getIcon(piece, true), WIDTH, HEIGHT);
         this.piece = piece;
+        setSelectedIcon(getIcon(piece, true));
         updateLocation();
     }
 

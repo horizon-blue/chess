@@ -69,11 +69,16 @@ public class Game implements Runnable {
             switch (status) {
                 case BEFORE_SELECT:
                 case AFTER_SELECT:
+
                     game.statusBar.clearStatus();
                     game.board.removeHighlightPositions();
+
                     Piece piece = ((PieceView) e.getSource()).piece;
                     if (piece.isWhite() == isWhiteRound) {
+                        if (selected != null)
+                            selected.view.toggleSelected(false);
                         selected = piece;
+                        selected.view.toggleSelected(true);
                         movements = piece.getAvailablePosition(isWhiteRound);
                         if (movements.isEmpty())
                             game.statusBar.setStatus("No available movement");
@@ -123,6 +128,11 @@ public class Game implements Runnable {
     private void moveTo(Position to) {
         game.board.removeHighlightPositions();
         board.movePiece(selected, to);
+        // clear previous render
+        if (selected != null)
+            selected.view.toggleSelected(false);
+        selected = null;
+
 
         if (!isGameEnd()) {
             // go over to next round
@@ -220,6 +230,10 @@ public class Game implements Runnable {
         // update GUI
         game.statusBar.updateScore();
         game.statusBar.setStatus(otherPlayer + " wins.");
+    }
+
+    private void selectPiece(Position position) {
+
     }
 
 
