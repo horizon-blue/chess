@@ -1,68 +1,90 @@
 \documentclass[12pt]{article}
 \usepackage[letterpaper, margin=1in]{geometry}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \graphicspath{ {img/} }
 
 \title{Chess Game GUI Testing Manual}
 \author{Xiaoyan Wang (xiaoyan5@illinois.edu)}
 
+\newcommand{\img}[3]{
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=#1]{#2}
+\caption{#3}\label{#2}
+\end{center}
+\end{figure}
+}
+
+\newcommand{\B}[1]{\textbf{#1}}
+
 \begin{document}
 \maketitle
 
-\section{Game Board}
+\section{Initialization}
 
 It is better if we can check the functionality of game board before
 we check how individual pieces interact with each other. My Chess board
 is implemented to support re-sizing - so we could start here.
 
-\subsection{Empty Board}
+\subsection{Initial Screen}
 
-Here is how the empty board should look like under several different
-sizes:
+After launching the game, this should be the first screen you see.
+\img{0.7}{init_empty}{Initial Screen}
 
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[scale=0.45]{empty-8x8}
-\caption{An empty $8\times 8$ board}
-\end{center}
-\end{figure}
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[scale=0.45]{empty-4x7}
-\caption{An empty $4\times 7$ board}
-\end{center}
-\end{figure}
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[scale=0.45]{empty-12x4}
-\caption{An empty $12\times 4$ board}
-\end{center}
-\end{figure}
+\noindent Explanation:
+\begin{itemize}
+    \item \B{White Player}: the name of player that hold white pieces
+    \item \B{Black Player}: the name of player that hold black pieces
+    \item \B{Board Height}: the maximum height of the board
+    \item \B{Board Width}: the maximum width of the board
+    \item \B{Special Pieces?}: whether to include special pieces in the game
+\end{itemize}
 
-\subsection{Filled Board}
-
-After initializing the board, you should be able to see pieces appears on
-the GUI. Make sure that the pieces are on the correct positions and
-have the correct Z-Index:
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[scale=0.45]{full-8x8}
-\caption{A full $8\times 8$ board}
-\end{center}
-\end{figure}
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[scale=0.45]{full-6x6}
-\caption{A full $6\times 6$ board}
-\end{center}
-\end{figure}
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[scale=0.40]{full-10x10}
-\caption{A full $10\times 10$ board}
-\end{center}
-\end{figure}
+To submit you selection, you will need to press the \B{Launch} button.
 
 
+% -------------------------------------
+\subsection{Player Names}
+
+For the purpose of the game, you can enter the name of white player, black player, both, or neither. If name is left empty, the game will automatically generates one for the player using \href{https://github.com/DiUS/java-faker}{java-faker}.
+
+\subsubsection{Randomly Generated Names}
+
+To see the randomly generated names, leave the initial screen empty as in Figure~\ref{init_empty}. Press \B{Launch}. You should be able to see the names of two players randomly generated for you.
+\img{0.5}{random_name}{Random Names for Player}
+
+\subsubsection{User Specified Names}
+Player could also manually enter their names in the initial screen, as shows in Figure~\ref{init_names} and the game window should looks like Figure~\ref{specified_name}:
+\img{0.7}{init_names}{Initial Screen with Name}
+\img{0.5}{specified_name}{Specified Names for Player}
+
+% -------------------------------------
+\subsection{Game Board}
+You can change the board size in the initial screen
+
+\subsection{Default Board Size}
+Without changing any initial setting and press \B{Launch} while everything remains as in Figure~\ref{init_empty}. You should see a $8\times8$ board like this:
+\img{0.5}{board_default_size}{A Board with Default $8\times8$ Size}
+
+\subsection{Custom Board Size}
+You can also change the board size in the initial screen by setting \B{Board Width} and \B{Board Height} according to needs, as in
+\img{0.7}{init_board_size}{Initial Screen with Specified Size}
+\img{0.5}{board_specified_size}{Board with Specified Size}
+
+% -------------------------------------
+\subsection{Custom Pieces}
+You can also decide whether to include the two custom pieces \B{Artillery} and \B{Unicorn} in the chess game.
+
+\subsubsection{With Custom Pieces}
+Launching the game as in Figure~\ref{init_empty}, you will see a game with custom pieces, as in Figure~\ref{board_default_size}.
+
+\subsection{Without Custom Pieces}
+To launch a game without custom pieces, select \B{No} in the initial screen, as in Figure~\ref{init_no_custom} and Figure~\ref{board_no_custom}.
+\img{0.7}{init_no_custom}{Initial Screen with no Custom Pieces}
+\img{0.5}{board_no_custom}{Board with no Custom Pieces}
+
+
+% =====================================
 
 \end{document}

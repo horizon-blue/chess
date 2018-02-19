@@ -19,10 +19,9 @@ public class GameView extends JFrame {
      */
     public GameView(Board board, Player whitePlayer, Player blackPlayer) {
         super("Chess");
-        setSize(95 * board.WIDTH, 75 * board.HEIGHT + 50);
+        setSize(95 * board.HEIGHT, 75 * board.WIDTH + 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        setResizable(false);
         // center the screen
         setLocationRelativeTo(null);
 
