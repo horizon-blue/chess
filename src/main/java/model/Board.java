@@ -67,6 +67,17 @@ public class Board {
     }
 
     /**
+     * Redo previous undo using command pattern. Rewrite the history
+     */
+    public void redo() {
+        if (future.empty())
+            return;
+        History stepForward = future.peek();
+        movePiece(stepForward.from, stepForward.to);
+        game.setRound(!getPiece(stepForward.to).isWhite());
+    }
+
+    /**
      * remove the piece from board at given (row, col) position
      * have no effect if no piece is presented in (row, col) or
      * (row, col) is invalid for the board
@@ -119,9 +130,16 @@ public class Board {
             if (piece instanceof Pawn)
                 ++((Pawn) piece).moveCount;
             // add new history
-            past.push(new History(this, new Position(fromRow, fromCol), new Position(toRow, toCol), target));
-            // remove future events
-            future.clear();
+            History current = new History(this, new Position(fromRow, fromCol),
+                    new Position(toRow, toCol), target);
+            // if current movement is same as the latest future movement,
+            // then the path to future have not changed
+            if (!future.empty() && current.equals(future.peek()))
+                future.pop();
+            else
+                future.clear();
+            past.push(current);
+
         }
         // remove future events, if any
         movePieceHelper(fromRow, fromCol, toRow, toCol);

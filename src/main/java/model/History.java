@@ -59,4 +59,20 @@ public class History {
         }
     }
 
+    /**
+     * Check whether two histories are equals.
+     *
+     * @param obj the other history to compare
+     * @return true if they have same source and target
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof History))
+            return false;
+        if (obj == this)
+            return true;
+        History other = (History) obj;
+        return other.from.equals(from) && other.to.equals(to);
+    }
+
 }

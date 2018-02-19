@@ -111,6 +111,9 @@ public class Game implements Runnable {
         game.menu.onPressUndo(e -> {
             board.undo();
         });
+        game.menu.onPressRedo(e -> {
+            board.redo();
+        });
 
     }
 
