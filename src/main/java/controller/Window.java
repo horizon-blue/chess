@@ -1,11 +1,17 @@
 package controller;
 
 import model.Board;
+import model.History;
 import model.Player;
+import model.Position;
 import model.piece.Piece;
 import view.GameView;
 import view.InitialWindow;
+import view.PieceView;
+import view.SpaceView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,34 +49,64 @@ public class Window implements Runnable {
             blackPlayer = new Player(initForm.getBlackPlayerName(), false);
             board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
             initForm.dispose();
-            board.init(whitePlayer, blackPlayer);
-            game = new GameView(board, whitePlayer, blackPlayer);
             startGame();
         });
 
     }
 
+    private Status status;
+    Piece selected;
+    Set<Position> movements;
+    List<History> history = new ArrayList<>();
+
     private void startGame() {
+        board.init(whitePlayer, blackPlayer);
+        game = new GameView(board, whitePlayer, blackPlayer);
+        status = Status.BEFORE_SELECT;
+        // set pieces movement rules
+        game.board.onPressPieces(e -> {
+            game.statusBar.clearStatus();
+            Piece piece = ((PieceView) e.getSource()).piece;
+            switch (status) {
+                case BEFORE_SELECT:
+                case AFTER_SELECT:
+                    if (piece.isWhite() == isWhiteRound) {
+                        selected = piece;
+                        movements = piece.getAvailablePosition(isWhiteRound);
+                        if (movements.isEmpty())
+                            game.statusBar.setStatus("No available movement");
+                        else
+                            status = Status.AFTER_SELECT;
+                        break;
+                    }
+                default:
+                    game.statusBar.setStatus("Invalid selection");
+            }
+        });
+        // set tile movement rules
+        game.board.onPressTiles(e -> {
+            game.statusBar.clearStatus();
+            SpaceView tile = (SpaceView) e.getSource();
+            switch (status) {
+                case AFTER_SELECT:
+                    if (movements.contains(tile.position)) {
+                        board.movePiece(selected, tile.position);
+                        selected.view.updateLocation();
+                    }
 
-        getPieceSelection();
+            }
+        });
+
     }
 
-    /**
-     * Get a piece selection of current round
-     *
-     * @return a piece of color for current round
-     */
-    public Piece getPieceSelection() {
-        Set<Piece> potentialPieces = isWhiteRound ? board.whitePieces : board.blackPieces;
-        Set<Piece> otherPieces = isWhiteRound ? board.blackPieces : board.whitePieces;
-        game.board.toggleSpace(false);
-        game.board.togglePieces(otherPieces, false);
 
-        Piece selected;
-        for (Piece piece : potentialPieces) {
-        }
-        return null;
+    public enum Status {
+        BEFORE_SELECT,
+        AFTER_SELECT,
+        CHECKMATE,
+        BLACK_WIN,
+        WHITE_WIN,
+        DRAW,
     }
-
 
 }

@@ -2,6 +2,7 @@ package model;
 
 import model.piece.*;
 import utils.printUtils;
+import view.BoardView;
 
 
 import java.util.HashSet;
@@ -19,6 +20,11 @@ public class Board {
     // sets of all black/white pieces that have appeared on the board once
     public Set<Piece> blackPieces = new HashSet<>();
     public Set<Piece> whitePieces = new HashSet<>();
+
+    /**
+     * related to the view
+     */
+    public BoardView view;
 
     /**
      * generate a board of default size (8 x 8)

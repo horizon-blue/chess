@@ -15,7 +15,7 @@ public class PieceView extends ImageButton {
     private static final int WIDTH = 75;
     private static final int HEIGHT = 75;
 
-    private final model.piece.Piece piece;
+    public final model.piece.Piece piece;
 
     /**
      * Return a viewer for piece
@@ -26,6 +26,13 @@ public class PieceView extends ImageButton {
         // select the piece's image based on its classname
         super(getIcon(piece, false), getIcon(piece, true), WIDTH, HEIGHT);
         this.piece = piece;
+        updateLocation();
+    }
+
+    /**
+     * Helper function to update the view's location according to piece's
+     */
+    public void updateLocation() {
         updateLocation(piece.x, piece.y, 15, -26);
     }
 

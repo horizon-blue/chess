@@ -12,7 +12,7 @@ public class SpaceView extends ImageButton {
     private static final int WIDTH = 100;
     private static final int HEIGHT = 100;
 
-    private final Position position;
+    public final Position position;
     public PieceView piece;
     /**
      * Associate space with image. Receives a parameter that decides the space's

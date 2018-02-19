@@ -6,6 +6,7 @@ import model.piece.Piece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Set;
 
 /**
@@ -52,20 +53,24 @@ public class BoardView extends JPanel {
     }
 
     /**
-     * A helper function to disable/enable all spaces
+     * A helper function to add the action listener to all pieces
+     * @param e the action listener to add
      */
-    public void toggleSpace(boolean state) {
+    public void onPressPieces(ActionListener e) {
         for (SpaceView[] spaceRow : spaces)
             for (SpaceView space : spaceRow)
-                space.setEnabled(state);
+                if (space.piece != null)
+                    space.piece.addActionListener(e);
     }
 
     /**
-     * A helper function to disable/enable all pieces
+     * A helper function to add the action listener to all tiles
+     *
+     * @param e the action listener to add
      */
-    public void togglePieces(Set<Piece> pieces, boolean state) {
-        for (Piece piece : pieces)
-            if (piece.view != null)
-                piece.view.setEnabled(state);
+    public void onPressTiles(ActionListener e) {
+        for (SpaceView[] spaceRow : spaces)
+            for (SpaceView space : spaceRow)
+                space.addActionListener(e);
     }
 }

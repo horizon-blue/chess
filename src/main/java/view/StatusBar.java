@@ -57,4 +57,20 @@ public class StatusBar extends JPanel {
         setRound(!isWhiteRound);
     }
 
+    /**
+     * Set the status to given text
+     *
+     * @param text the status to change
+     */
+    public void setStatus(String text) {
+        status.setText(text);
+    }
+
+    /**
+     * Clear the current status
+     */
+    public void clearStatus() {
+        setStatus("");
+    }
+
 }

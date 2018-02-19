@@ -32,8 +32,8 @@ public class GameView extends JFrame {
         add(this.statusBar, BorderLayout.NORTH);
 
         this.board = new BoardView(board);
+        board.view = this.board;
         add(this.board);
     }
-
 
 }
