@@ -74,7 +74,8 @@ public class Board {
             return;
         History stepForward = future.peek();
         movePiece(stepForward.from, stepForward.to);
-        game.setRound(!getPiece(stepForward.to).isWhite());
+        if (game != null)
+            game.setRound(!getPiece(stepForward.to).isWhite());
     }
 
     /**

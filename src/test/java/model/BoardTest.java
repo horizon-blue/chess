@@ -1,6 +1,7 @@
 package model;
 
 import model.piece.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,10 +10,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
+    Board board;
+    Player player;
+
+    @BeforeEach
+    void beforeEach() {
+        board = new Board();
+        player = new Player();
+    }
+
     @Test
     void addPiece() {
-        Board board = new Board();
-        Player player = new Player();
         Position pos = new Position(3, 5);
         board.addPiece(new Pawn(player), pos);
         assertNotNull(board.getPiece(pos));
@@ -20,8 +28,6 @@ class BoardTest {
 
     @Test
     void clearPiece() {
-        Board board = new Board();
-        Player player = new Player();
         Position pos = new Position(2, 1);
         board.addPiece(new Pawn(player), pos);
         assertNotNull(board.getPiece(pos));
@@ -32,8 +38,6 @@ class BoardTest {
 
     @Test
     void movePiece() {
-        Board board = new Board();
-        Player player = new Player();
         Position from = new Position(2, 1);
         Position to = new Position(5, 1);
         Piece queen = new Queen(player);
@@ -53,7 +57,6 @@ class BoardTest {
     void movePieceOtherBoard() {
         Board boardA = new Board();
         Board boardB = new Board();
-        Player player = new Player();
         Piece king = new King(player);
         Position from = new Position(2, 1);
         Position to = new Position(5, 1);
@@ -66,8 +69,6 @@ class BoardTest {
 
     @Test
     void getPiece() {
-        Board board = new Board();
-        Player player = new Player();
         Position posA = new Position(2, 1);
         Position posB = new Position(-3, 6);
         Piece queen = new Queen(player);
@@ -91,8 +92,6 @@ class BoardTest {
 
     @Test
     void isOccupied() {
-        Board board = new Board();
-        Player player = new Player();
         Position pos = new Position(3, 5);
         board.addPiece(new Pawn(player), pos);
         assertTrue(board.isOccupied(pos));
@@ -101,8 +100,6 @@ class BoardTest {
 
     @Test
     void isValidMovement() {
-        Board board = new Board();
-        Player player = new Player();
         Piece queen = new Queen(player);
         board.addPiece(queen, 3, 5);
         board.addPiece(new King(player), 1, 5);
@@ -115,7 +112,6 @@ class BoardTest {
         Player whitePlayer = new Player();
         Player blackPlayer = new Player();
         whitePlayer.isWhite = true;
-        Board board = new Board();
         board.addPiece(new King(whitePlayer), 4, 5);
         board.addPiece(new King(blackPlayer), 4, 7);
         board.addPiece(new Rook(whitePlayer), 1, 7);
@@ -131,7 +127,6 @@ class BoardTest {
         Player whitePlayer = new Player();
         Player blackPlayer = new Player();
         whitePlayer.isWhite = true;
-        Board board = new Board();
         board.addPiece(new King(whitePlayer), 4, 5);
         board.addPiece(new King(blackPlayer), 4, 7);
         assertFalse(board.willBeChecked(whitePlayer.king, new Position(8, 8)));
@@ -142,7 +137,6 @@ class BoardTest {
         Player whitePlayer = new Player();
         Player blackPlayer = new Player();
         whitePlayer.isWhite = true;
-        Board board = new Board();
         board.addPiece(new King(whitePlayer), 4, 5);
         board.addPiece(new King(blackPlayer), 4, 7);
         board.addPiece(new Rook(whitePlayer), 1, 7);
@@ -155,7 +149,6 @@ class BoardTest {
         Player whitePlayer = new Player();
         Player blackPlayer = new Player();
         whitePlayer.isWhite = true;
-        Board board = new Board();
         board.addPiece(new King(whitePlayer), 4, 5);
         board.addPiece(new King(blackPlayer), 4, 7);
         board.addPiece(new Rook(whitePlayer), 1, 7);
@@ -169,7 +162,6 @@ class BoardTest {
         Player whitePlayer = new Player();
         Player blackPlayer = new Player();
         whitePlayer.isWhite = true;
-        Board board = new Board();
         board.addPiece(new King(whitePlayer), 6, 5);
         board.addPiece(new King(blackPlayer), 7, 7);
         board.addPiece(new Queen(whitePlayer), 5, 6);
@@ -184,7 +176,6 @@ class BoardTest {
         Player whitePlayer = new Player();
         Player blackPlayer = new Player();
         whitePlayer.isWhite = true;
-        Board board = new Board();
         board.addPiece(new King(whitePlayer), 6, 5);
         board.addPiece(new King(blackPlayer), 7, 7);
 
@@ -196,8 +187,6 @@ class BoardTest {
     @Test
     @DisplayName("toString()")
     void toStringTest() {
-        Board board = new Board();
-        Player player = new Player();
         Piece queen = new Queen(player);
         // highlighting won't affect block content
         board.addPiece(queen, 3, 5);
@@ -218,8 +207,6 @@ class BoardTest {
     @Test
     @DisplayName("toString() (colored)")
     void toStringTestColored() {
-        Board board = new Board();
-        Player player = new Player();
         Piece queen = new Queen(player);
         // highlighting won't affect block content
         board.addPiece(queen, 3, 5);
@@ -237,6 +224,77 @@ class BoardTest {
         assertEquals(chessBoard,
                 board.toString(positions));
 
+    }
+
+    @Test
+    @DisplayName("init() (with special pieces)")
+    void init() {
+        Player wPlayer = new Player("", true);
+        Player bPlayer = player;
+        board.init(wPlayer, bPlayer);
+
+        assertTrue(board.getPiece(0, 0) instanceof Rook);
+        assertTrue(board.getPiece(board.HEIGHT - 1, 0) instanceof Rook);
+        assertTrue(board.getPiece(board.HEIGHT - 3, 0) instanceof Artillery);
+        assertEquals(board.getPiece(1, 1).owner, wPlayer);
+        assertNull(board.getPiece(board.HEIGHT - 3, 1));
+        assertNull(board.getPiece(2, 1));
+    }
+
+    @Test
+    @DisplayName("init() (no special pieces)")
+    void initSpecial() {
+        Player wPlayer = new Player("", true);
+        Player bPlayer = player;
+        board.init(wPlayer, bPlayer, false);
+
+        assertTrue(board.getPiece(0, 1) instanceof Knight);
+        assertTrue(board.getPiece(board.HEIGHT - 1, 0) instanceof Rook);
+        assertNull(board.getPiece(board.HEIGHT - 3, 0));
+        assertEquals(board.getPiece(1, 1).owner, wPlayer);
+        assertNull(board.getPiece(board.HEIGHT - 3, 1));
+        assertNull(board.getPiece(2, 1));
+    }
+
+    @Test
+    void undo() {
+        Queen queen = new Queen(player);
+        Pawn pawn = new Pawn(player);
+        board.addPiece(pawn, 1, 1);
+        board.addPiece(queen, 0, 0);
+        board.movePiece(queen, 1, 1);
+        assertEquals(board.getPiece(1, 1), queen);
+
+        board.undo();
+
+        assertEquals(board.getPiece(1, 1), pawn);
+        assertEquals(board.getPiece(0, 0), queen);
+    }
+
+    @Test
+    void redo() {
+        Queen queen = new Queen(player);
+        Pawn pawn = new Pawn(player);
+        board.addPiece(pawn, 1, 1);
+        board.addPiece(queen, 0, 0);
+        board.movePiece(queen, 1, 1);
+        assertEquals(board.getPiece(1, 1), queen);
+
+        board.undo();
+        board.redo();
+
+        assertEquals(board.getPiece(1, 1), queen);
+    }
+
+    @Test
+    void undoRedoEmpty() {
+        Queen queen = new Queen(player);
+        board.addPiece(queen, 1, 1);
+        assertEquals(board.getPiece(1, 1), queen);
+        board.undo();
+        assertEquals(board.getPiece(1, 1), queen);
+        board.redo();
+        assertEquals(board.getPiece(1, 1), queen);
     }
 
 }
