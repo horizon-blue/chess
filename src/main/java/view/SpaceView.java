@@ -29,8 +29,6 @@ public class SpaceView extends ImagePanel {
                 + ".png")).getImage(), WIDTH, HEIGHT);
         this.position = position;
         updateLocation(position.row, position.col, 0, 0);
-        // Make tiles appears clickable
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addClickListener();
     }
 
