@@ -142,10 +142,17 @@ Restarts can be triggered by selecting the menu item, as in Figure~\ref{board_ne
 \img{0.4}{board_after_newgame}{The Game After New Game}
 
 
+% =====================================
+\section{Game Ending Status}
 
+\subsection{Checkmate}
+If the game reaches the checkmate status, the statusbar will display a message showing that which player wins, and the score for that player will be increment. After that, no movement should be allowed, as in Figure~\ref{board_checkmate}
+\img{0.4}{board_checkmate}{Board For Checkmate}
 
-% \subsubsection{Status Bar}
-% Initially, the scores for both players should be $0$, and the current round should have the name of player that hold white pieces. As game proceeds (or under undo/redo), the name under current round should display the name of current player.
+\subsection{Forfeit}
+If any player forfeit in its own turn, the game ends immediately, and the status bar will display a message showing that the other player wins. The score for other player will be incremented, as in Figure~\ref{board_forfeit} and Figure~\ref{board_after_forfeit}
+\img{0.4}{board_forfeit}{Selecting Forfeit}
+\img{0.4}{board_after_forfeit}{Board After Forfeit}
 
 
 \end{document}
