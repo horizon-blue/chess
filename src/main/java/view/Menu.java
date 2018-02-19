@@ -15,6 +15,8 @@ public class Menu extends JMenuBar {
     private JMenuItem undo = new JMenuItem("Undo");
     private JMenuItem redo = new JMenuItem("Redo");
 
+    private JMenuItem forfeit = new JMenuItem("Forfeit");
+
 
     /**
      * Creates a new menu for chess game
@@ -26,6 +28,9 @@ public class Menu extends JMenuBar {
         add(progressMenu);
         progressMenu.add(undo);
         progressMenu.add(redo);
+        progressMenu.addSeparator();
+        progressMenu.add(forfeit);
+
     }
 
     /**
@@ -53,5 +58,14 @@ public class Menu extends JMenuBar {
      */
     public void onPressNewGame(ActionListener e) {
         newGame.addActionListener(e);
+    }
+
+    /**
+     * Listener to trigger when pressing forfeit button
+     *
+     * @param e the listener to trigger
+     */
+    public void onPressForfeit(ActionListener e) {
+        forfeit.addActionListener(e);
     }
 }

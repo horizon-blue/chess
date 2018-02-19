@@ -95,10 +95,10 @@ public class Game implements Runnable {
         });
         // set tile movement rules
         game.board.onPressTiles(e -> {
-            game.statusBar.clearStatus();
             SpaceView tile = (SpaceView) e.getSource();
             switch (status) {
                 case AFTER_SELECT:
+                    game.statusBar.clearStatus();
                     if (movements.contains(tile.position)) {
                         moveTo(tile.position);
                         break;
@@ -108,15 +108,10 @@ public class Game implements Runnable {
             }
         });
         // menu items for game control
-        game.menu.onPressUndo(e -> {
-            board.undo();
-        });
-        game.menu.onPressRedo(e -> {
-            board.redo();
-        });
-        game.menu.onPressNewGame(e -> {
-            restart();
-        });
+        game.menu.onPressUndo(e -> board.undo());
+        game.menu.onPressRedo(e -> board.redo());
+        game.menu.onPressNewGame(e -> restart());
+        game.menu.onPressForfeit(e -> forfeit());
 
     }
 
@@ -179,7 +174,7 @@ public class Game implements Runnable {
      * Restart a new game, players with black and white pieces are
      * switched
      */
-    public void restart() {
+    private void restart() {
         Player prevBlackPlayer = blackPlayer;
         blackPlayer = whitePlayer;
         whitePlayer = prevBlackPlayer;
@@ -197,6 +192,19 @@ public class Game implements Runnable {
         game.redrawBoard(board);
         startGame();
 
+    }
+
+    /**
+     * The player in current round forfeit the game
+     */
+    private void forfeit() {
+        Player otherPlayer = isWhiteRound ? blackPlayer : whitePlayer;
+        status = isWhiteRound ? Status.BLACK_WIN : Status.WHITE_WIN;
+        ++otherPlayer.score;
+
+        // update GUI
+        game.statusBar.updateScore();
+        game.statusBar.setStatus(otherPlayer + " wins.");
     }
 
 

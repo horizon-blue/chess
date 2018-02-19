@@ -1,12 +1,9 @@
 package view;
 
-import model.Position;
 import model.piece.Piece;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * The viewer class for pieces
