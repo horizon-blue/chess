@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Game {
     public Board board = new Board();
-    private boolean isWhiteRound = true;
+    public boolean isWhiteRound = true;
     public Player whitePlayer;
     public Player blackPlayer;
 
