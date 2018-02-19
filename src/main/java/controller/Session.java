@@ -30,7 +30,6 @@ public class Session {
         ++gameCount;
         Game.Status status;
 
-        game.initBoard();
         do {
             status = game.nextRound();
         } while (status == Game.Status.CONTINUE);

@@ -410,6 +410,45 @@ public class Board {
     }
 
     /**
+     * Initialize the game board for the given players
+     *
+     * @param blackPlayer the player to hold black pieces
+     * @param whitePlayer the player to hold white pieces
+     */
+    public void init(Player blackPlayer, Player whitePlayer) {
+        // white pieces
+        addPiece(new Rook(whitePlayer), 0, 0);
+        addPiece(new Knight(whitePlayer), 0, 1);
+        addPiece(new Bishop(whitePlayer), 0, 2);
+        addPiece(new Queen(whitePlayer), 0, 3);
+        addPiece(new King(whitePlayer), 0, 4);
+        addPiece(new Bishop(whitePlayer), 0, 5);
+        addPiece(new Knight(whitePlayer), 0, 6);
+        addPiece(new Rook(whitePlayer), 0, 7);
+        // pawns
+        for (int col = 0; col < 8; ++col)
+            addPiece(new Pawn(whitePlayer), 1, col);
+        // fairy piece
+        addPiece(new Unicorn(whitePlayer), 2, 0);
+        addPiece(new Artillery(whitePlayer), 2, 7);
+
+        // black pieces
+        addPiece(new Rook(blackPlayer), HEIGHT - 1, 0);
+        addPiece(new Knight(blackPlayer), HEIGHT - 1, 1);
+        addPiece(new Bishop(blackPlayer), HEIGHT - 1, 2);
+        addPiece(new Queen(blackPlayer), HEIGHT - 1, 3);
+        addPiece(new King(blackPlayer), HEIGHT - 1, 4);
+        addPiece(new Bishop(blackPlayer), HEIGHT - 1, 5);
+        addPiece(new Knight(blackPlayer), HEIGHT - 1, 6);
+        addPiece(new Rook(blackPlayer), HEIGHT - 1, 7);
+        // pawns
+        for (int col = 0; col < 8; ++col)
+            addPiece(new Pawn(blackPlayer), HEIGHT - 2, col);
+        addPiece(new Unicorn(blackPlayer), HEIGHT - 3, 7);
+        addPiece(new Artillery(blackPlayer), HEIGHT - 3, 0);
+    }
+
+    /**
      * Space - A inner class to store pieces
      */
     private class Space {

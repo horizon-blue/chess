@@ -2,6 +2,7 @@ package controller;
 
 import model.Board;
 import model.Player;
+import model.piece.*;
 import view.InitialWindow;
 
 import javax.swing.*;
@@ -39,13 +40,15 @@ public class Window implements Runnable {
     private void initGame() {
         InitialWindow initForm = new InitialWindow();
         initForm.onSubmit(e -> {
-            whitePlayer = new Player(initForm.getWhitePlayerName());
-            blackPlayer = new Player(initForm.getBlackPlayerName());
+            whitePlayer = new Player(initForm.getWhitePlayerName(), true);
+            blackPlayer = new Player(initForm.getBlackPlayerName(), false);
             board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
+            board.init(blackPlayer, whitePlayer);
             initForm.dispose();
-            window = new view.Window(board);
-            window.statusBar.setPlayer(whitePlayer, blackPlayer);
+            window = new view.Window(board, whitePlayer, blackPlayer);
         });
 
     }
+
+
 }

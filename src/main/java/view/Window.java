@@ -1,6 +1,7 @@
 package view;
 
 import model.Board;
+import model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +15,9 @@ public class Window extends JFrame {
     /**
      * The main frame for display
      */
-    public Window(Board board) {
+    public Window(Board board, Player whitePlayer, Player blackPlayer) {
         super("Chess");
-        setSize(95 * board.WIDTH, 75 * board.HEIGHT);
+        setSize(95 * board.WIDTH, 75 * board.HEIGHT + 30);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -25,7 +26,7 @@ public class Window extends JFrame {
 
         setLayout(new BorderLayout());
 
-        statusBar = new StatusBar();
+        statusBar = new StatusBar(whitePlayer, blackPlayer);
         add(this.statusBar, BorderLayout.NORTH);
 
         this.board = new BoardView(board);

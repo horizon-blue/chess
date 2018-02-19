@@ -33,6 +33,17 @@ public class Player {
     }
 
     /**
+     * Generate a player with given name and color
+     *
+     * @param name    name of the player
+     * @param isWhite color of the player
+     */
+    public Player(String name, boolean isWhite) {
+        this(name);
+        this.isWhite = isWhite;
+    }
+
+    /**
      * convert player to string. this method returns the player's
      * name
      *
