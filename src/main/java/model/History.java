@@ -1,6 +1,7 @@
 package model;
 
 import controller.Game;
+import model.piece.Pawn;
 import model.piece.Piece;
 
 /**
@@ -44,13 +45,17 @@ public class History {
      * Undo the current history
      */
     public void undo() {
-        board.movePieceHelper(to.row, to.col, from.row, from.col);
+        board.movePiece(to.row, to.col, from.row, from.col, false);
+        Piece piece = board.getPiece(from);
+        // reset pawn moving status
+        if (piece instanceof Pawn) {
+            --((Pawn) piece).moveCount;
+        }
         if (target != null)
             board.addPiece(target, to);
         // reset current round to the same color as the piece
         if (board.game != null) {
-            board.game.isWhiteRound = board.getPiece(from).isWhite();
-            board.game.status = Game.Status.BEFORE_SELECT;
+            board.game.setRound(piece.isWhite());
         }
     }
 

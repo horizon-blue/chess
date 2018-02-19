@@ -6,10 +6,9 @@ import utils.printUtils;
 import view.BoardView;
 
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * BoardView - the model for chess board, which has method for
@@ -29,7 +28,8 @@ public class Board {
      */
     public BoardView view;
     public Game game;
-    List<History> history = new ArrayList<>();
+    public Stack<History> past = new Stack<>();
+    public Stack<History> future = new Stack<>();
 
     /**
      * generate a board of default size (8 x 8)
@@ -56,6 +56,17 @@ public class Board {
     }
 
     /**
+     * Undo previous step using command pattern
+     */
+    public void undo() {
+        if (past.empty())
+            return;
+        History stepBack = past.pop();
+        stepBack.undo();
+        future.push(stepBack);
+    }
+
+    /**
      * remove the piece from board at given (row, col) position
      * have no effect if no piece is presented in (row, col) or
      * (row, col) is invalid for the board
@@ -79,7 +90,8 @@ public class Board {
     }
 
     /**
-     * Move the piece from (fromRow, fromCol) to (toRow, toCol).
+     * Move the piece from (fromRow, fromCol) to (toRow, toCol), creating history
+     * equivalent to movePiece(fromRow, fromCol, toRow, toCol, true)
      *
      * @param fromRow original row position of the piece
      * @param fromCol original column position of the piece
@@ -87,13 +99,31 @@ public class Board {
      * @param toCol   new column position of the piece
      */
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
+        movePiece(fromRow, fromCol, toRow, toCol, true);
+    }
+
+    /**
+     * Move the piece from (fromRow, fromCol) to (toRow, toCol).
+     *
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
+     * @param isRecorded
+     */
+    public void movePiece(int fromRow, int fromCol, int toRow, int toCol, boolean isRecorded) {
         Piece piece = getPiece(fromRow, fromCol);
-        // setting the special property for pawn
-        if (piece instanceof Pawn)
-            ((Pawn) piece).hasMoved = true;
         Piece target = getPiece(toRow, toCol);
-        // add new history
-        history.add(new History(this, new Position(fromRow, fromCol), new Position(toRow, toCol), target));
+        if (isRecorded) {
+            // setting the special property for pawn
+            if (piece instanceof Pawn)
+                ++((Pawn) piece).moveCount;
+            // add new history
+            past.push(new History(this, new Position(fromRow, fromCol), new Position(toRow, toCol), target));
+            // remove future events
+            future.clear();
+        }
+        // remove future events, if any
         movePieceHelper(fromRow, fromCol, toRow, toCol);
         if (piece.view != null)
             piece.view.updateLocation();

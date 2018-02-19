@@ -1,7 +1,6 @@
 package controller;
 
 import model.Board;
-import model.History;
 import model.Player;
 import model.Position;
 import model.piece.Piece;
@@ -108,6 +107,10 @@ public class Game implements Runnable {
 
             }
         });
+        // menu items for game control
+        game.menu.onPressUndo(e -> {
+            board.undo();
+        });
 
     }
 
@@ -153,6 +156,17 @@ public class Game implements Runnable {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Helper function to set the game's round
+     *
+     * @param isWhiteRound true if current round is white, false otherwise
+     */
+    public void setRound(boolean isWhiteRound) {
+        this.isWhiteRound = isWhiteRound;
+        game.statusBar.setRound(isWhiteRound);
+        status = Status.BEFORE_SELECT;
     }
 
 

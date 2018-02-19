@@ -14,7 +14,7 @@ public class Pawn extends Piece {
      * Record whether Pawn has been moved. A Pawn can move two steps forward
      * in its first movement
      */
-    public boolean hasMoved = false;
+    public int moveCount = 0;
 
     /**
      * Create a Pawn piece for the owner
@@ -34,7 +34,7 @@ public class Pawn extends Piece {
         // white pieces move to the larger side, black pieces move to the smaller side
         int direction = isWhite() ? 1 : -1;
         // if 1 tile in front is valid and not occupied (addValidPos does the check)
-        if (addValidPos(x + direction, y, availablePositions, isWhiteRound) && !hasMoved)
+        if (addValidPos(x + direction, y, availablePositions, isWhiteRound) && moveCount == 0)
             addValidPos(x + 2 * direction, y, availablePositions, isWhiteRound);
 
         // check diagonal tiles
