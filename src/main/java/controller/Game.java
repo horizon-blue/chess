@@ -31,7 +31,7 @@ public class Game implements Runnable {
     boolean hasSpecialPieces = true;
 
     /**
-     * Codes that are used internally for GUI testing
+     * run a new game
      */
     @Override
     public void run() {
@@ -50,6 +50,8 @@ public class Game implements Runnable {
             board.game = this;
             hasSpecialPieces = initForm.hasSpecialPieces();
             initForm.dispose();
+            board.init(whitePlayer, blackPlayer, hasSpecialPieces);
+            game = new GameView(board, whitePlayer, blackPlayer);
             startGame();
         });
 
@@ -61,8 +63,6 @@ public class Game implements Runnable {
 
 
     private void startGame() {
-        board.init(whitePlayer, blackPlayer, hasSpecialPieces);
-        game = new GameView(board, whitePlayer, blackPlayer);
         status = Status.BEFORE_SELECT;
         // set pieces movement rules
         game.board.onPressPieces(e -> {
@@ -113,6 +113,9 @@ public class Game implements Runnable {
         });
         game.menu.onPressRedo(e -> {
             board.redo();
+        });
+        game.menu.onPressNewGame(e -> {
+            restart();
         });
 
     }
@@ -170,6 +173,30 @@ public class Game implements Runnable {
         this.isWhiteRound = isWhiteRound;
         game.statusBar.setRound(isWhiteRound);
         status = Status.BEFORE_SELECT;
+    }
+
+    /**
+     * Restart a new game, players with black and white pieces are
+     * switched
+     */
+    public void restart() {
+        Player prevBlackPlayer = blackPlayer;
+        blackPlayer = whitePlayer;
+        whitePlayer = prevBlackPlayer;
+        blackPlayer.isWhite = false;
+        whitePlayer.isWhite = true;
+
+        isWhiteRound = true;
+
+        // re-creates a new board
+        board = new Board(board.HEIGHT, board.WIDTH);
+        board.init(whitePlayer, blackPlayer, hasSpecialPieces);
+
+        // re-draw GUI
+        game.redrawStatusBar(whitePlayer, blackPlayer);
+        game.redrawBoard(board);
+        startGame();
+
     }
 
 

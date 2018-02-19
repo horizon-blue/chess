@@ -13,6 +13,7 @@ public class GameView extends JFrame {
     public BoardView board;
     public StatusBar statusBar;
     public Menu menu;
+    private JPanel mainPanel;
     /**
      * The main frame for display
      */
@@ -30,7 +31,7 @@ public class GameView extends JFrame {
         menu = new Menu();
         add(menu, BorderLayout.NORTH);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
 
         statusBar = new StatusBar(whitePlayer, blackPlayer);
         mainPanel.add(this.statusBar, BorderLayout.NORTH);
@@ -40,6 +41,34 @@ public class GameView extends JFrame {
         mainPanel.add(this.board);
 
         add(mainPanel);
+    }
+
+    /**
+     * Redraw a new board
+     *
+     * @param board the board to draw
+     */
+    public void redrawBoard(Board board) {
+        mainPanel.remove(this.board);
+        this.board = new BoardView(board);
+        board.view = this.board;
+        mainPanel.add(this.board);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    /**
+     * Redraw a new status bar
+     *
+     * @param whitePlayer the white player to be draw
+     * @param blackPlayer the black player to be draw
+     */
+    public void redrawStatusBar(Player whitePlayer, Player blackPlayer) {
+        mainPanel.remove(this.statusBar);
+        statusBar = new StatusBar(whitePlayer, blackPlayer);
+        mainPanel.add(this.statusBar, BorderLayout.NORTH);
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
 }
