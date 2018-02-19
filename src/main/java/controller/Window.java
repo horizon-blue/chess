@@ -66,12 +66,12 @@ public class Window implements Runnable {
         status = Status.BEFORE_SELECT;
         // set pieces movement rules
         game.board.onPressPieces(e -> {
-            game.statusBar.clearStatus();
-            game.board.removeHighlightPositions();
-            Piece piece = ((PieceView) e.getSource()).piece;
             switch (status) {
                 case BEFORE_SELECT:
                 case AFTER_SELECT:
+                    game.statusBar.clearStatus();
+                    game.board.removeHighlightPositions();
+                    Piece piece = ((PieceView) e.getSource()).piece;
                     if (piece.isWhite() == isWhiteRound) {
                         selected = piece;
                         movements = piece.getAvailablePosition(isWhiteRound);
@@ -90,7 +90,6 @@ public class Window implements Runnable {
                             break;
                         }
                     }
-                default:
                     game.statusBar.setStatus("Invalid selection");
             }
         });
@@ -102,7 +101,9 @@ public class Window implements Runnable {
                 case AFTER_SELECT:
                     if (movements.contains(tile.position)) {
                         moveTo(tile.position);
+                        break;
                     }
+                    game.statusBar.setStatus("Invalid selection");
 
             }
         });
