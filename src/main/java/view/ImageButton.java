@@ -25,7 +25,9 @@ public class ImageButton extends JButton {
         WIDTH = width;
         HEIGHT = height;
 
-        setIcon(new ImageIcon(ICON));
+        ImageIcon icon = new ImageIcon(ICON);
+        setIcon(icon);
+        setDisabledIcon(icon);
 
         // general setting for ImageButton display
         setPreferredSize(new Dimension(width, height));

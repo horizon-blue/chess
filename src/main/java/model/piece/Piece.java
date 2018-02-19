@@ -3,6 +3,7 @@ package model.piece;
 import model.Board;
 import model.Player;
 import model.Position;
+import view.PieceView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,9 @@ public abstract class Piece {
     public Board board;
     public int x;
     public int y;
+
+    // relationship to the view
+    public PieceView view;
 
     /**
      * generate a new piece for the owner

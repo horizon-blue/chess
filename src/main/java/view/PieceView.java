@@ -27,7 +27,6 @@ public class PieceView extends ImageButton {
         super(getIcon(piece, false), getIcon(piece, true), WIDTH, HEIGHT);
         this.piece = piece;
         updateLocation(piece.x, piece.y, 15, -26);
-        addClickListener();
     }
 
     /**
@@ -46,18 +45,6 @@ public class PieceView extends ImageButton {
         return new ImageIcon(model.Board.class.getResource(filename)).getImage();
     }
 
-
-    /**
-     * Register mouse listener to the piece
-     */
-    private void addClickListener() {
-        addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Clicked " + piece.getClass().getSimpleName()
-                        + " at " + new Position(piece.x, piece.y) + ".");
-            }
-        });
-    }
 
 
 }

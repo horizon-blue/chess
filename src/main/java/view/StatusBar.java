@@ -24,6 +24,9 @@ public class StatusBar extends JPanel {
     StatusBar(Player whitePlayer, Player blackPlayer) {
         setLayout(new GridLayout(2, 3));
         setBorder(new EmptyBorder(0, 10, 0, 10));
+        Dimension d = getPreferredSize();
+        d.height = HEIGHT;
+        setSize(d);
 
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;

@@ -2,20 +2,22 @@ package view;
 
 import model.Board;
 import model.Player;
+import model.piece.Piece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
 /**
  * The viewer component for the main window
  */
-public class Window extends JFrame {
+public class GameView extends JFrame {
     public BoardView board;
     public StatusBar statusBar;
     /**
      * The main frame for display
      */
-    public Window(Board board, Player whitePlayer, Player blackPlayer) {
+    public GameView(Board board, Player whitePlayer, Player blackPlayer) {
         super("Chess");
         setSize(95 * board.WIDTH, 75 * board.HEIGHT + 30);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -32,5 +34,6 @@ public class Window extends JFrame {
         this.board = new BoardView(board);
         add(this.board);
     }
+
 
 }

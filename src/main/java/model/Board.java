@@ -17,8 +17,8 @@ public class Board {
 
     private final Space[][] board;
     // sets of all black/white pieces that have appeared on the board once
-    private Set<Piece> blackPieces = new HashSet<>();
-    private Set<Piece> whitePieces = new HashSet<>();
+    public Set<Piece> blackPieces = new HashSet<>();
+    public Set<Piece> whitePieces = new HashSet<>();
 
     /**
      * generate a board of default size (8 x 8)
@@ -412,10 +412,10 @@ public class Board {
     /**
      * Initialize the game board for the given players
      *
-     * @param blackPlayer the player to hold black pieces
      * @param whitePlayer the player to hold white pieces
+     * @param blackPlayer the player to hold black pieces
      */
-    public void init(Player blackPlayer, Player whitePlayer) {
+    public void init(Player whitePlayer, Player blackPlayer) {
         // white pieces
         addPiece(new Rook(whitePlayer), 0, 0);
         addPiece(new Knight(whitePlayer), 0, 1);

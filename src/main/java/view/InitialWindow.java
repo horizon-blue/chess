@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * The Initial Window used to create users and board size
+ * The Initial GameView used to create users and board size
  */
 public class InitialWindow extends JFrame {
     /**

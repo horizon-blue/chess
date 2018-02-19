@@ -2,21 +2,20 @@ package controller;
 
 import model.Board;
 import model.Player;
-import model.piece.*;
+import model.piece.Piece;
+import view.GameView;
 import view.InitialWindow;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Set;
 
 /**
- * The entire displaying window
+ * The entire displaying game
  */
 public class Window implements Runnable {
     /**
      * The main frame to display everything
      */
-    view.Window window;
+    GameView game;
 
     /**
      * Game related information
@@ -43,11 +42,34 @@ public class Window implements Runnable {
             whitePlayer = new Player(initForm.getWhitePlayerName(), true);
             blackPlayer = new Player(initForm.getBlackPlayerName(), false);
             board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
-            board.init(blackPlayer, whitePlayer);
             initForm.dispose();
-            window = new view.Window(board, whitePlayer, blackPlayer);
+            board.init(whitePlayer, blackPlayer);
+            game = new GameView(board, whitePlayer, blackPlayer);
+            startGame();
         });
 
+    }
+
+    private void startGame() {
+
+        getPieceSelection();
+    }
+
+    /**
+     * Get a piece selection of current round
+     *
+     * @return a piece of color for current round
+     */
+    public Piece getPieceSelection() {
+        Set<Piece> potentialPieces = isWhiteRound ? board.whitePieces : board.blackPieces;
+        Set<Piece> otherPieces = isWhiteRound ? board.blackPieces : board.whitePieces;
+        game.board.toggleSpace(false);
+        game.board.togglePieces(otherPieces, false);
+
+        Piece selected;
+        for (Piece piece : potentialPieces) {
+        }
+        return null;
     }
 
 
