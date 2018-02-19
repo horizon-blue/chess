@@ -56,7 +56,15 @@ public class PieceView extends ImageButton {
      * Remove the piece itself from the board
      */
     public void removeSelf() {
-        getParent().remove(this);
+        setVisible(false);
+    }
+
+    /**
+     * Add self back to the board
+     */
+    public void addSelf() {
+        setVisible(true);
+        updateLocation();
     }
 
 

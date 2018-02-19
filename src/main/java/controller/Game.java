@@ -118,9 +118,6 @@ public class Game implements Runnable {
      */
     private void moveTo(Position to) {
         game.board.removeHighlightPositions();
-        // there is a capture
-        if (board.isOccupied(to))
-            board.getPiece(to).view.removeSelf();
         board.movePiece(selected, to);
 
         if (!isGameEnd()) {

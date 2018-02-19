@@ -91,11 +91,14 @@ public class Board {
         // setting the special property for pawn
         if (piece instanceof Pawn)
             ((Pawn) piece).hasMoved = true;
+        Piece target = getPiece(toRow, toCol);
         // add new history
-        history.add(new History(this, new Position(fromRow, fromCol), new Position(toRow, toCol), getPiece(toRow, toCol)));
+        history.add(new History(this, new Position(fromRow, fromCol), new Position(toRow, toCol), target));
         movePieceHelper(fromRow, fromCol, toRow, toCol);
         if (piece.view != null)
             piece.view.updateLocation();
+        if (target != null && target.view != null)
+            target.view.removeSelf();
     }
 
     /**
@@ -247,6 +250,8 @@ public class Board {
                 blackPieces.add(piece);
         }
         setPiece(piece, row, col);
+        if (piece.view != null)
+            piece.view.addSelf();
     }
 
     /**
