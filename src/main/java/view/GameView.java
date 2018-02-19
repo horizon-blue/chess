@@ -14,12 +14,13 @@ import java.util.Set;
 public class GameView extends JFrame {
     public BoardView board;
     public StatusBar statusBar;
+    public Menu menu;
     /**
      * The main frame for display
      */
     public GameView(Board board, Player whitePlayer, Player blackPlayer) {
         super("Chess");
-        setSize(95 * board.WIDTH, 75 * board.HEIGHT + 30);
+        setSize(95 * board.WIDTH, 75 * board.HEIGHT + 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -28,12 +29,19 @@ public class GameView extends JFrame {
 
         setLayout(new BorderLayout());
 
+        menu = new Menu();
+        add(menu, BorderLayout.NORTH);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
         statusBar = new StatusBar(whitePlayer, blackPlayer);
-        add(this.statusBar, BorderLayout.NORTH);
+        mainPanel.add(this.statusBar, BorderLayout.NORTH);
 
         this.board = new BoardView(board);
         board.view = this.board;
-        add(this.board);
+        mainPanel.add(this.board);
+
+        add(mainPanel);
     }
 
 }
