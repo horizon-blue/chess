@@ -1,8 +1,12 @@
 package controller;
 
-import model.*;
-import view.BoardView;
+import model.Board;
+import model.Player;
 import view.InitialWindow;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * The entire displaying window
@@ -14,18 +18,36 @@ public class Window implements Runnable {
     view.Window window;
 
     /**
+     * Game related information
+     */
+    public Board board;
+    public boolean isWhiteRound = true;
+    public Player whitePlayer;
+    public Player blackPlayer;
+
+    /**
      * Codes that are used internally for GUI testing
      */
     @Override
     public void run() {
-        new InitialWindow();
-//        window = new view.Window();
-//        Player whitePlayer = new Player();
-//        Player blackPlayer = new Player();
-//        Game game = new Game(whitePlayer, blackPlayer);
-//        game.initBoard();
-//        // check whether the board displayed correctly
-//        window.add(new BoardView(game.board));
-//        window.setResizable(false);
+        initGame();
+    }
+
+    /**
+     * gather important information before game
+     */
+    private void initGame() {
+        InitialWindow initForm = new InitialWindow();
+        initForm.onSubmit(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                whitePlayer = new Player(initForm.getWhitePlayerName());
+                blackPlayer = new Player(initForm.getBlackPlayerName());
+                board = new Board(initForm.getBoardWidth(), initForm.getBoardHeight());
+                initForm.dispose();
+                window = new view.Window();
+            }
+        });
+
     }
 }

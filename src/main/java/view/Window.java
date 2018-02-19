@@ -14,6 +14,7 @@ public class Window extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        setResizable(false);
         // center the screen
         setLocationRelativeTo(null);
     }

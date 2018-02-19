@@ -13,8 +13,8 @@ public class InitialWindow extends JFrame {
      * The form to ask for user input
      */
     private JPanel form;
-    private JTextField playerAName;
-    private JTextField playerBName;
+    private JTextField whitePlayerName;
+    private JTextField blackPlayerName;
     private JSpinner boardWidth;
     private JSpinner boardHeight;
     private JButton submit;
@@ -46,17 +46,17 @@ public class InitialWindow extends JFrame {
         form = new JPanel();
         form.setBorder(new EmptyBorder(10, 10, 10, 10));
         form.setLayout(new GridLayout(4, 2));
-        playerAName = new JTextField();
-        playerBName = new JTextField();
+        whitePlayerName = new JTextField();
+        blackPlayerName = new JTextField();
         boardWidth = new JSpinner();
         boardWidth.setValue(8);
         boardHeight = new JSpinner();
         boardHeight.setValue(8);
 
-        form.add(new JLabel("Player 1: "));
-        form.add(playerAName);
-        form.add(new JLabel("Player 2: "));
-        form.add(playerBName);
+        form.add(new JLabel("White Player: "));
+        form.add(whitePlayerName);
+        form.add(new JLabel("Black Player: "));
+        form.add(blackPlayerName);
         form.add(new JLabel("Border Width: "));
         form.add(boardWidth);
         form.add(new JLabel("Border Height: "));
@@ -73,21 +73,21 @@ public class InitialWindow extends JFrame {
     }
 
     /**
-     * Get the name of player A in the form
+     * Get the name of white player in the form
      *
-     * @return the name of player A
+     * @return the name of white player
      */
-    public String getPlayerAName() {
-        return playerAName.getText();
+    public String getWhitePlayerName() {
+        return whitePlayerName.getText();
     }
 
     /**
-     * Get the name of player B in the form
+     * Get the name of black player in the form
      *
-     * @return the name of player B
+     * @return the name of black player
      */
-    public String getPlayerBName() {
-        return playerBName.getText();
+    public String getBlackPlayerName() {
+        return blackPlayerName.getText();
     }
 
     /**
