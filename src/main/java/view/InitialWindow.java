@@ -95,7 +95,7 @@ public class InitialWindow extends JFrame {
      *
      * @return the width of the board
      */
-    public int getWidth() {
+    public int getBoardWidth() {
         return (int) boardWidth.getValue();
     }
 
@@ -104,7 +104,7 @@ public class InitialWindow extends JFrame {
      *
      * @return the height of the board
      */
-    public int getHeight() {
+    public int getBoardHeight() {
         return (int) boardHeight.getValue();
     }
 
