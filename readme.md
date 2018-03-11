@@ -16,6 +16,6 @@ The documentation should be generated at `doc/html/index.html`
 
 ## Screenshot
 
-![Initial Game Board](./screenshot.png)
+![Initial Game Board](./screenshot.jpg)
 
 For details on how the game should look like, see [the GUI manual](./manual/manual.pdf)
